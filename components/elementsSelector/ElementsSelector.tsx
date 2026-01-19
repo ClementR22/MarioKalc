@@ -9,6 +9,7 @@ import {
   MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER,
   PADDING_PANNEL_PAGINATED,
 } from "@/utils/designTokens";
+import { vw } from "../styles/theme";
 
 interface ElementsSelectorProps {
   elements: ElementData[];
@@ -16,13 +17,12 @@ interface ElementsSelectorProps {
   onSelectElement: (category: Category, classId: number) => void;
 }
 
-const { width: screenWidth } = Dimensions.get("window");
 const NUM_COLUMNS = 4;
 export const ELEMENTS_PER_PAGE = 12;
 const NUM_LINES = ELEMENTS_PER_PAGE / NUM_COLUMNS;
 
 const PADDING_ELEMENTS_GRID = PADDING_PANNEL_PAGINATED;
-const ELEMENTS_GRID_WIDTH = screenWidth - MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER * 2;
+const ELEMENTS_GRID_WIDTH = vw - MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER * 2;
 
 const ITEM_WIDTH =
   (ELEMENTS_GRID_WIDTH - PADDING_ELEMENTS_GRID * 2 - GAP_ELEMENTS_GRID * (NUM_COLUMNS - 1)) / NUM_COLUMNS;

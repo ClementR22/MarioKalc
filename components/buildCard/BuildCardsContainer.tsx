@@ -1,5 +1,5 @@
 import React, { forwardRef, memo, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
-import { Dimensions, LayoutChangeEvent, StyleSheet, View } from "react-native";
+import { LayoutChangeEvent, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import BuildCard from "./BuildCard";
 import useThemeStore from "@/stores/useThemeStore";
@@ -14,6 +14,7 @@ import useBuildsListStore from "@/stores/useBuildsListStore";
 import ButtonAddBuild from "../managingBuildsButton/ButtonAddBuild";
 import { useScrollClamp } from "@/hooks/useScrollClamp";
 import BuildCardSkeleton from "./skeleton/BuildCardSkeleton";
+import { vw } from "../styles/theme";
 
 interface BuildWithColor extends Build {
   color: string;
@@ -56,7 +57,7 @@ const BuildCardsContainer = forwardRef<BuildCardsContainerHandles, BuildCardsCon
         scrollToStart: () => scrollViewRef.current?.scrollTo({ x: 0, animated: true }),
         scrollToEnd: () => scrollViewRef.current?.scrollToEnd({ animated: true }),
       }),
-      []
+      [],
     );
 
     // ========== CALLBACKS ==========
@@ -69,8 +70,7 @@ const BuildCardsContainer = forwardRef<BuildCardsContainerHandles, BuildCardsCon
     const scrollToBuildCard = useCallback((id: string) => {
       const layout = buildCardLayouts.current.get(id);
       if (scrollViewRef.current && layout) {
-        const screenWidth = Dimensions.get("window").width;
-        const scrollX = layout.x - screenWidth / 2 + layout.width / 2;
+        const scrollX = layout.x - vw / 2 + layout.width / 2;
         scrollViewRef.current.scrollTo({ x: scrollX, animated: true });
       }
     }, []);
@@ -103,7 +103,7 @@ const BuildCardsContainer = forwardRef<BuildCardsContainerHandles, BuildCardsCon
 
     const buildCardSkeletons = useMemo(
       () => Array.from({ length: resultsNumber }).map((_, index) => <BuildCardSkeleton key={index} />),
-      [resultsNumber]
+      [resultsNumber],
     );
 
     const buildCards = useMemo(() => {
@@ -125,7 +125,7 @@ const BuildCardsContainer = forwardRef<BuildCardsContainerHandles, BuildCardsCon
         cards.push(
           <View key="buttonAddBuildWrapper" style={styles.addBuildWrapper}>
             <ButtonAddBuild scrollRef={scrollViewRef} />
-          </View>
+          </View>,
         );
       }
 
@@ -154,7 +154,7 @@ const BuildCardsContainer = forwardRef<BuildCardsContainerHandles, BuildCardsCon
         </View>
       </ScrollView>
     );
-  }
+  },
 );
 
 const styles = StyleSheet.create({

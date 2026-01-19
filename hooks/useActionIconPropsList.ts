@@ -24,7 +24,7 @@ export function useActionIconPropsList(
   screenName: ScreenName,
   isInLoadBuildModal: boolean,
   buildDataId: string,
-  isSaved?: boolean
+  isSaved?: boolean,
 ): ActionIconProps[] {
   const { buildsDataMap, categories } = useGameData();
 
@@ -99,7 +99,6 @@ export function useActionIconPropsList(
 
   const handleRemovePress = useCallback(() => {
     removeBuild(buildDataId, source);
-    setScrollRequest(source, buildDataId); // permet de refresh le scroll de la scrollview
     showToast("toast:buildHasBeenDeleted", "success");
   }, [source, buildDataId, removeBuild, setScrollRequest]);
 
