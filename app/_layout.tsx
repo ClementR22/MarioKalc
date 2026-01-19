@@ -269,8 +269,8 @@ export default function TabLayout() {
             <LoadBuildModal />
             <UpdateAvailableModal />
             <WelcomeModal />
-            <Toast config={toastConfig} bottomOffset={59} swipeable={false} />
           </BottomSheetModalProvider>
+          <Toast config={toastConfig} bottomOffset={59} swipeable={false} />
         </GestureHandlerRootView>
       </MenuProvider>
     </SafeAreaProvider>

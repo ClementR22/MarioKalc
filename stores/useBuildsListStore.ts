@@ -243,9 +243,9 @@ const useBuildsListStore = create<BuildsListStoreState>((set, get) => ({
     // (on est dans le comparateur)
     if (deck.get(formerBuildDataId)?.isSaved) {
       // l'instance du build devient indépendante donc on donne un nom à ce nouveau build
-      let nameM = `${name} ${t("text:modified")}`;
-      const isNameFree = useDeckStore.getState().checkNameFree(nameM);
-      const newName = isNameFree ? nameM : useGenerateUniqueName(nameM);
+      let newName = `${name.trim() ? name : newBuildDataId} ${t("text:modified")}`;
+      const isNameFree = useDeckStore.getState().checkNameFree(newName);
+      newName = isNameFree ? newName : useGenerateUniqueName(newName);
 
       useDeckStore.getState().setBuildName(newBuildDataId, newName);
     }

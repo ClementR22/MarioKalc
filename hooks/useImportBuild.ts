@@ -17,9 +17,7 @@ export const useImportBuild = (screenName: ScreenName) => {
     try {
       const clipboardContent = await Clipboard.getStringAsync();
       importBuild(clipboardContent, screenName, buildsDataMap);
-
       showToast(screenName === "search" ? "toast:statsImported" : "toast:buildImported", "success");
-
       modalContext && modalContext.close();
     } catch (e) {
       if (e instanceof BuildAlreadyExistsError) {
