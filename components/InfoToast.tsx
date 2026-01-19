@@ -7,9 +7,10 @@ import useThemeStore from "@/stores/useThemeStore";
 
 interface InfoToastProps {
   text1: string;
+  isError?: boolean;
 }
 
-const InfoToast = ({ text1 }: InfoToastProps) => {
+const InfoToast = ({ text1, isError = false }: InfoToastProps) => {
   const theme = useThemeStore((state) => state.theme);
 
   const insets = useSafeAreaInsets();
@@ -17,8 +18,13 @@ const InfoToast = ({ text1 }: InfoToastProps) => {
 
   // pas de traduction ici, déjà fait dans showToast.ts
   return (
-    <View style={[styles.toast, { backgroundColor: theme.toast_background_color, marginBottom: bottomOffset }]}>
-      <Text role="body" size="medium" color="white" namespace="not">
+    <View
+      style={[
+        styles.toast,
+        { backgroundColor: isError ? theme.error : theme.toast_background_color, marginBottom: bottomOffset },
+      ]}
+    >
+      <Text role="body" size="medium" color={isError ? theme.on_error : "white"} namespace="not">
         {text1}
       </Text>
     </View>

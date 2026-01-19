@@ -11,14 +11,14 @@ class ToastManager {
     this.show = this.show.bind(this);
   }
 
-  show(text1: string, visibilityTime?: VisibilityTime): void {
+  show(text1: string, visibilityTime?: VisibilityTime, isError?: boolean): void {
     // Masquer le toast actuel avant d'en afficher un nouveau
     Toast.hide();
 
     // Petit délai pour permettre l'animation de fermeture
     setTimeout(() => {
       Toast.show({
-        type: "info",
+        type: isError ? "error" : "info",
         text1,
         position: "bottom",
         visibilityTime: visibilityTime || 2000,

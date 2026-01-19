@@ -12,11 +12,13 @@ function showToast(messageKey: string, type?: ToastType, visibilityTime?: Visibi
   }
   const finalMessage = prefix + translateParts(messageKey);
 
+  let isError = false;
   if (type === "error" || type === "importError") {
     visibilityTime = 4000;
+    isError = true;
   }
 
-  ToastManager.show(finalMessage, visibilityTime);
+  ToastManager.show(finalMessage, visibilityTime, isError);
 }
 
 export default showToast;
