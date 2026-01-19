@@ -35,10 +35,10 @@ interface BuildsActionsStoreState {
   }) => void;
   loadToSearch: (
     params: { source?: ScreenName; buildDataId?: string; build?: Build },
-    buildsDataMap: Map<string, BuildData>
+    buildsDataMap: Map<string, BuildData>,
   ) => void;
   loadToDisplay: (params: { source: ScreenName; buildDataId: string }) => void;
-  loadBuildsSaved: (gameProps?: Game) => Promise<void>;
+  loadBuildsSaved: () => Promise<void>;
   saveBuild: (source: ScreenName, buildDataId: string) => Promise<void>;
   unSaveBuild: (buildDataId: string) => Promise<void>;
   exportBuild: (screenName: ScreenName, buildDataId: string) => void;
@@ -70,12 +70,7 @@ const useBuildsActionsStore = create<BuildsActionsStoreState>((set, get) => ({
     if (providedName) {
       name = providedName;
     } else {
-      const name_ = useDeckStore.getState().deck.get(build.buildDataId)?.name;
-      name = name_;
-    }
-
-    if (!name) {
-      throw new Error("buildNameRequiredForLoading");
+      name = useDeckStore.getState().deck.get(build.buildDataId)?.name;
     }
 
     const buildsListTarget = useBuildsListStore.getState().getBuildsList(target).buildsList;
@@ -86,6 +81,7 @@ const useBuildsActionsStore = create<BuildsActionsStoreState>((set, get) => ({
 
     if (sameBuild) {
       const sameBuildName = useDeckStore.getState().deck.get(sameBuild.buildDataId).name;
+      name = sameBuildName || build.buildDataId;
       throw new BuildAlreadyExistsError(target, providedName && sameBuildName);
       // la 2e props buildName est donnée seulement si providedName est défini càd
       // seulement si on est dans le cas d'une importation
@@ -134,10 +130,8 @@ const useBuildsActionsStore = create<BuildsActionsStoreState>((set, get) => ({
     useGeneralStore.getState().setShouldScrollToTop();
   },
 
-  loadBuildsSaved: async (gameProps) => {
-    const game = gameProps || useGameStore.getState().game;
-
-    const buildsPersistant = await useBuildsPersistenceStore.getState().fetchBuildsSaved(game);
+  loadBuildsSaved: async () => {
+    const buildsPersistant = await useBuildsPersistenceStore.getState().fetchBuildsSaved();
     const buildsListSaved: Build[] = buildsPersistant.map((buildPersistant) => ({
       buildDataId: buildPersistant.buildDataId,
     }));
@@ -155,13 +149,9 @@ const useBuildsActionsStore = create<BuildsActionsStoreState>((set, get) => ({
     const build = useBuildsListStore.getState().getBuild(source, buildDataId);
 
     const name = useDeckStore.getState().deck.get(buildDataId)?.name;
-    if (!name) {
-      throw new Error("buildNameRequiredForSaving");
-    }
 
     get().loadBuildCard({ build: build, target: "save" });
-    const game = useGameStore.getState().game;
-    await useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, name, game);
+    await useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, name);
     useDeckStore.getState().saveBuild(build.buildDataId);
   },
 
@@ -172,10 +162,6 @@ const useBuildsActionsStore = create<BuildsActionsStoreState>((set, get) => ({
   exportBuild: (screenName, buildDataId) => {
     const build = useBuildsListStore.getState().getBuild(screenName, buildDataId);
     const name = useDeckStore.getState().deck.get(build.buildDataId)?.name;
-
-    if (!name) {
-      throw new Error("buildNameRequiredForSharing");
-    }
 
     const json = JSON.stringify({ name: name, buildDataId: build.buildDataId });
     Clipboard.setStringAsync(json + "\n" + t("text:tutoImportation"));
@@ -207,8 +193,8 @@ const useBuildsActionsStore = create<BuildsActionsStoreState>((set, get) => ({
       numberOfCategoriesBuildImported === numberOfCategoriesMKW
         ? "MKW"
         : numberOfCategoriesBuildImported === numberOfCategoriesMK8D
-        ? "MK8D"
-        : null;
+          ? "MK8D"
+          : null;
     const gameCurrent = useGameStore.getState().game;
     if (gameTarget != gameCurrent) {
       throw new WrongGameBuildImportedError(gameTarget);
@@ -226,8 +212,7 @@ const useBuildsActionsStore = create<BuildsActionsStoreState>((set, get) => ({
       useDeckStore.getState().setBuildName(buildDataId, newName);
 
       if (screenName === "save") {
-        const game = useGameStore.getState().game;
-        useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, newName, game);
+        useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, newName);
       }
     }
   },

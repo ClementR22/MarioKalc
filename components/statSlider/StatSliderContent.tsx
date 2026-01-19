@@ -7,12 +7,7 @@ import useStatsStore from "@/stores/useStatsStore";
 import { getStatSliderBorderColor } from "@/utils/getStatSliderBorderColor";
 import useThemeStore from "@/stores/useThemeStore";
 import { StatName } from "@/types";
-import {
-  BORDER_RADIUS_INF,
-  BORDER_RADIUS_STAT_GAUGE_CONTAINER,
-  BUTTON_SIZE,
-  buttonPressed,
-} from "@/utils/designTokens";
+import { BORDER_RADIUS_INF, BORDER_RADIUS_STAT_GAUGE_CONTAINER, BUTTON_SIZE } from "@/utils/designTokens";
 import { box_shadow_z1 } from "../styles/shadow";
 import Text from "@/primitiveComponents/Text";
 import useGameStore from "@/stores/useGameStore";
@@ -64,7 +59,7 @@ const StatSliderContent = ({
       }
       setIsScrollEnable(true);
     },
-    [updateStatValue, name, setIsScrollEnable, value]
+    [updateStatValue, name, setIsScrollEnable, value],
   );
 
   useEffect(() => {
@@ -80,7 +75,7 @@ const StatSliderContent = ({
         <View style={[styles.thumb, { backgroundColor: theme.primary }]} />
       </View>
     ),
-    [styles, theme]
+    [styles, theme],
   );
 
   return (

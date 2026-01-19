@@ -11,7 +11,7 @@ import { sortElements } from "@/utils/sortElements";
 import useBuildsPersistenceStore from "./useBuildsPersistenceStore";
 import useDeckStore from "./useDeckStore";
 import { deleteAllSavedBuildsInMemory } from "@/utils/asyncStorageOperations";
-import { BuildAlreadyExistsError, NameAlreadyExistsError } from "@/errors/errors";
+import { BuildAlreadyExistsError, NameAlreadyExistsError, NameInvalidError } from "@/errors/errors";
 import { t } from "i18next";
 import { useGenerateUniqueName } from "@/hooks/useGenerateUniqueName";
 import { BuildData } from "@/types";
@@ -45,17 +45,17 @@ interface BuildsListStoreState {
   setBuildsListFound: (newBuildsList: Build[]) => void;
   setBuildsListDisplayed: (newBuildsList: Build[]) => void;
   setBuildsListSaved: (newBuildsList: Build[]) => void;
-  deleteAllSavedBuilds: (game: Game) => Promise<void>;
+  deleteAllSavedBuilds: () => Promise<void>;
   setBuildEditedDataId: (buildDataId: string) => void;
   addBuildInDisplay: (buildDataId: string) => void;
   removeBuild: (buildDataId: string, screenName: ScreenName) => Promise<void>;
-  renameBuild: (newName: string, screenName: ScreenName, buildDataId: string, isSaved: boolean, game: Game) => void;
-  updateBuildsList: (pressedClassIds: Record<string, number>, screenName: ScreenName, game: Game) => void;
+  renameBuild: (newName: string, screenName: ScreenName, buildDataId: string, isSaved: boolean) => void;
+  updateBuildsList: (pressedClassIds: Record<string, number>, screenName: ScreenName) => void;
   sortBuildsList: (
     screenName: ScreenName,
     sortNumber: number,
     buildsDataMap: Map<string, BuildData>,
-    statNames: StatName[]
+    statNames: StatName[],
   ) => void;
   findSameBuildInScreen: (params: {
     buildDataId: string;
@@ -131,14 +131,14 @@ const useBuildsListStore = create<BuildsListStoreState>((set, get) => ({
 
   setBuildsListSaved: (newBuildsList) => set({ buildsListSaved: newBuildsList }),
 
-  deleteAllSavedBuilds: async (game) => {
+  deleteAllSavedBuilds: async () => {
     const unSaveBuild = useDeckStore.getState().unSaveBuild;
     const buildsListSaved = useBuildsListStore.getState().buildsListSaved;
     buildsListSaved.forEach((build) => unSaveBuild(build.buildDataId));
 
     useBuildsListStore.getState().setBuildsListSaved([]);
 
-    await deleteAllSavedBuildsInMemory(game);
+    await deleteAllSavedBuildsInMemory();
   },
 
   setBuildEditedDataId: (buildDataId) => {
@@ -167,35 +167,42 @@ const useBuildsListStore = create<BuildsListStoreState>((set, get) => ({
     set({ [buildsListName]: newList });
     if (screenName === "save") {
       await useBuildsPersistenceStore.getState().removeBuildInMemory(buildDataId);
+
       // mise à jour de la props isSaved dans useDeckStore
       useDeckStore.getState().unSaveBuild(buildDataId);
     }
   },
 
-  renameBuild: (newName, screenName, buildDataId, isSaved, game) => {
+  renameBuild: (newName, screenName, buildDataId, isSaved) => {
     const build = get().getBuild(screenName, buildDataId);
 
     // si le nouveau nom est vide
     if (!newName.trim()) {
-      useDeckStore.getState().removeBuildName(buildDataId); // on retire le nom de useDeckStore
-      newName = undefined;
-      return;
+      newName = "";
     }
 
-    // pour la suite, newName est censé être non vide
-    const isNameFree = useDeckStore.getState().checkNameFree(newName);
-    if (!isNameFree) {
-      throw new NameAlreadyExistsError(newName);
+    if (newName != "") {
+      // interdit les noms du type 5-2, 4-1-6, etc.
+      const forbiddenBuildNameRegex = /^\d+(?:-\d+)+$/;
+
+      if (forbiddenBuildNameRegex.test(newName)) {
+        throw new NameInvalidError(newName);
+      }
+
+      const isNameFree = useDeckStore.getState().checkNameFree(newName);
+      if (!isNameFree) {
+        throw new NameAlreadyExistsError(newName);
+      }
     }
 
     if (isSaved) {
-      useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, newName, game);
+      useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, newName);
     }
 
     useDeckStore.getState().setBuildName(build.buildDataId, newName);
   },
 
-  updateBuildsList: (selectedClassIdsByCategory, screenName, game) => {
+  updateBuildsList: (selectedClassIdsByCategory, screenName) => {
     const { buildsList, buildsListName } = get().getBuildsList(screenName);
     const deck = useDeckStore.getState().deck;
 
@@ -226,7 +233,7 @@ const useBuildsListStore = create<BuildsListStoreState>((set, get) => ({
     if (screenName === "save") {
       // 1. le build est enregistré donc on met à jour la mémoire
       useBuildsPersistenceStore.getState().removeBuildInMemory(formerBuildDataId);
-      useBuildsPersistenceStore.getState().saveBuildInMemory(newBuildDataId, name, game);
+      useBuildsPersistenceStore.getState().saveBuildInMemory(newBuildDataId, name);
       // 2. on met à jour le deck
       useDeckStore.getState().updateBuildDataId(formerBuildDataId, newBuildDataId);
       return;

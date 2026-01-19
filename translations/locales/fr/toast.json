@@ -9,7 +9,7 @@
   "buildRenamed": "build renommé",
   "buildUpdated": "build mis à jour",
 
-  "buildStatsHaveBeenLoaded": "les stats du build ont été chargées",
+  "buildStatsHaveBeenLoadedInTheFinder": "les stats du build ont été chargées dans le Chercheur",
   "buildHasBeenLoadedInTheComparator": "le build a été chargé dans le Comparateur",
   "buildHasBeenSaved": "le build a été enregistré, cliquez sur 'Collection' pour le retrouver",
   "buildHasBeenUnsaved": "le build a été retiré de votre Collection",

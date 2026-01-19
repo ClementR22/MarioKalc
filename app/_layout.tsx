@@ -25,7 +25,6 @@ import { useTranslation } from "react-i18next";
 import ButtonIconWithBadge from "@/components/sortModeSelector/ButtonIconWithBadge";
 import { IconType } from "react-native-dynamic-vector-icons";
 import { useInitStatsStore } from "@/hooks/useInitStatsStore";
-import useGameStore from "@/stores/useGameStore";
 import { useInitPressableElementsStore } from "@/hooks/useInitPressableElementsStore";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -35,14 +34,12 @@ import WelcomeModal from "@/components/modal/WelcomeModal";
 import { runMigrations } from "@/utils/migrations";
 import { loadThingFromMemory } from "@/utils/asyncStorageOperations";
 import { useSettingsMap } from "@/hooks/useSettingsMap";
-import { Game } from "@/types";
 
 export default function TabLayout() {
   const [isReady, setIsReady] = useState(false);
 
   const { t } = useTranslation("screens");
   const theme = useThemeStore((state) => state.theme);
-  const game = useGameStore((state) => state.game);
   const isSettingsLoaded = useGeneralStore((state) => state.isSettingsLoaded);
   const setIsSettingsLoaded = useGeneralStore((state) => state.setIsSettingsLoaded);
   const buildsListSaved = useBuildsListStore((state) => state.buildsListSaved);
@@ -61,17 +58,12 @@ export default function TabLayout() {
         const changelogMessage = await runMigrations();
 
         // Charger les settings
-        let persistedGame: Game;
         for (const [key, { setState }] of Object.entries(settingsMap)) {
-          if (key === "game") {
-            persistedGame = await loadThingFromMemory(key, setState);
-          } else {
-            await loadThingFromMemory(key, setState);
-          }
+          await loadThingFromMemory(key, setState);
         }
 
         // Charger les builds pour le game persisté
-        await loadBuildsSaved(persistedGame);
+        await loadBuildsSaved();
 
         setIsSettingsLoaded(true);
 
@@ -101,7 +93,7 @@ export default function TabLayout() {
   useEffect(() => {
     if (!isSettingsLoaded) return;
     loadBuildsSaved();
-  }, [game, isSettingsLoaded, loadBuildsSaved]);
+  }, [isSettingsLoaded, loadBuildsSaved]);
 
   // 4. METTRE À JOUR LE COMPTEUR DE BUILDS
   useEffect(() => {
@@ -122,7 +114,7 @@ export default function TabLayout() {
         helpComponent={<HelpSearchBuildScreen />}
       />
     ),
-    []
+    [],
   );
 
   const renderDisplayHeader = useCallback(
@@ -134,7 +126,7 @@ export default function TabLayout() {
         helpComponent={<HelpDisplayBuildScreen />}
       />
     ),
-    []
+    [],
   );
 
   const renderSavedHeader = useCallback(
@@ -146,17 +138,17 @@ export default function TabLayout() {
         helpComponent={<HelpSavedBuildScreen />}
       />
     ),
-    []
+    [],
   );
 
   const renderGalleryHeader = useCallback(
     () => <CustomHeader iconName="image" iconType={IconType.Ionicons} title="galleryTitle" />,
-    []
+    [],
   );
 
   const renderSettingsHeader = useCallback(
     () => <CustomHeader iconName="settings" iconType={IconType.Ionicons} title="settingsTitle" />,
-    []
+    [],
   );
 
   // Return anticipé APRÈS tous les hooks

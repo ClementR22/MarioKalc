@@ -52,8 +52,8 @@ const StatSelector: React.FC<StatSelectorProps> = ({ children }) => {
         chosenStats: chosenStats.find((s) => s.name === name)?.checked ?? false,
         resultStats:
           screenName === "settings"
-            ? resultStatsDefault[game].find((s) => s.name === name)?.checked ?? false
-            : resultStats.find((s) => s.name === name)?.checked ?? false,
+            ? (resultStatsDefault[game].find((s) => s.name === name)?.checked ?? false)
+            : (resultStats.find((s) => s.name === name)?.checked ?? false),
       };
     });
 
@@ -84,7 +84,7 @@ const StatSelector: React.FC<StatSelectorProps> = ({ children }) => {
         return updated;
       });
     },
-    [columnNames, isResultStatsSync, screenName]
+    [columnNames, isResultStatsSync, screenName],
   );
 
   const handleModalClose = useCallback(async () => {
@@ -106,7 +106,7 @@ const StatSelector: React.FC<StatSelectorProps> = ({ children }) => {
     });
 
     if (columnNames.includes("chosenStats")) setChosenStats(chosenUpdated);
-    if (screenName === "settings") await setResultStatsDefaultForGame(resultDefaultUpdated, game);
+    if (screenName === "settings") await setResultStatsDefaultForGame(resultDefaultUpdated);
     else setResultStats(resultUpdated);
   }, [statMap, columnNames, screenName, setChosenStats, setResultStats, setResultStatsDefaultForGame]);
 
@@ -122,7 +122,7 @@ const StatSelector: React.FC<StatSelectorProps> = ({ children }) => {
         {screenName === "search" && statMap && (
           <ResultStatsSyncSwitch
             resultStats={Object.entries(statMap).map(
-              ([name, val]) => ({ name, checked: val.resultStats } as ResultStat)
+              ([name, val]) => ({ name, checked: val.resultStats }) as ResultStat,
             )}
             setResultStats={(newList) =>
               setStatMap((prev) => {
@@ -136,7 +136,7 @@ const StatSelector: React.FC<StatSelectorProps> = ({ children }) => {
             resultStatsBeforeSync={resultStatsBeforeSync}
             setResultStatsBeforeSync={setResultStatsBeforeSync}
             chosenStats={Object.entries(statMap).map(
-              ([name, val]) => ({ name, checked: val.chosenStats } as ChosenStat)
+              ([name, val]) => ({ name, checked: val.chosenStats }) as ChosenStat,
             )}
           />
         )}

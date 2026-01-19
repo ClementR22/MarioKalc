@@ -5,16 +5,21 @@ export const checkFormatBuildImported = (obj: unknown): obj is BuildPersistant =
     return false;
   }
 
-  const importedBuild = obj as BuildPersistant;
+  const importedBuild = obj as Partial<BuildPersistant>;
   const keys = Object.keys(importedBuild);
 
   const dataIdRegex = /^(?:\d+(?:-\d+){1}|\d+(?:-\d+){3})$/;
 
-  return (
-    keys.length === 2 &&
-    typeof importedBuild.name === "string" &&
-    importedBuild.name.trim() !== "" &&
-    typeof importedBuild.buildDataId === "string" &&
-    dataIdRegex.test(importedBuild.buildDataId)
-  );
+  // buildDataId obligatoire et doit matcher le regex
+  if (typeof importedBuild.buildDataId !== "string" || !dataIdRegex.test(importedBuild.buildDataId)) {
+    return false;
+  }
+
+  // name optionnel mais si présent doit être une string
+  if ("name" in importedBuild && typeof importedBuild.name !== "string") {
+    return false;
+  }
+
+  // Pas d'autres propriétés que buildDataId et name
+  return keys.every((key) => key === "buildDataId" || key === "name");
 };

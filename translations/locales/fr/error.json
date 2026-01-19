@@ -5,13 +5,9 @@
 
   "buildLimitReached": "limite de builds atteinte",
   "buildLimitReachedInThisScreen": "limite de builds atteinte",
-  "nameAlreadyExists": "ce nom est déjà pris :",
   "buildAlreadyExists": "ce build est déjà présent",
+  "nameAlreadyExists": "ce nom est déjà pris :",
+  "nameInvalid": "ce nom n'est pas autorisé",
   "wrongGameBuildImported": "ce build a été créé pour",
-  "pleaseSwitchGame": "donc sélectionnez ce jeu dans les paramètres pour pouvoir l'utiliser",
-
-  "buildNameRequiredForSharing": "vous devez entrer un nom pour partager un build",
-  "buildNameRequiredForSaving": "vous devez entrer un nom pour enregister un build",
-  "buildNameRequiredForLoading": "vous devez entrer un nom pour déplacer un build dans le Comparateur",
-  "savedBuildCannotHaveEmptyName": "les builds de la Collection doivent avoir un nom"
+  "pleaseSwitchGame": "donc sélectionnez ce jeu dans les paramètres pour pouvoir l'utiliser"
 }

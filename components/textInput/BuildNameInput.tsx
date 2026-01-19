@@ -3,10 +3,9 @@ import { useScreen } from "../../contexts/ScreenContext";
 import useBuildsListStore from "@/stores/useBuildsListStore";
 import BuildNameInputContent from "./BuildNameInputContent";
 import showToast from "@/utils/showToast";
-import { NameAlreadyExistsError } from "@/errors/errors";
+import { NameAlreadyExistsError, NameInvalidError } from "@/errors/errors";
 import { useKeyboardDidHideWhileFocused } from "@/hooks/useKeyboardDidHideWhileFocused";
 import { TextInput } from "react-native";
-import useGameStore from "@/stores/useGameStore";
 
 interface BuildNameInputProps {
   name: string;
@@ -16,7 +15,6 @@ interface BuildNameInputProps {
 }
 
 const BuildNameInput: React.FC<BuildNameInputProps> = ({ name, buildDataId, editable = true, isSaved }) => {
-  const game = useGameStore((state) => state.game);
   const screenName = useScreen();
   const renameBuild = useBuildsListStore((state) => state.renameBuild);
   const setScrollRequest = useBuildsListStore((state) => state.setScrollRequest);
@@ -37,21 +35,18 @@ const BuildNameInput: React.FC<BuildNameInputProps> = ({ name, buildDataId, edit
       let newName = localName.trim();
 
       if (!newName) {
-        if (isSaved) {
-          setLocalName(name);
-          showToast("error:savedBuildCannotHaveEmptyName", "error");
-          return;
-        }
         newName = "";
         setLocalName(newName);
       }
 
       if (newName !== name) {
         try {
-          renameBuild(localName, screenName, buildDataId, isSaved, game);
+          renameBuild(localName, screenName, buildDataId, isSaved);
           showToast("toast:buildRenamed", "success");
         } catch (e) {
           if (e instanceof NameAlreadyExistsError) {
+            showToast(`error:${e.message}|${e.buildName}`, "error");
+          } else if (e instanceof NameInvalidError) {
             showToast(`error:${e.message}|${e.buildName}`, "error");
           } else {
             showToast(`error:${e.message}`, "error");
@@ -60,7 +55,7 @@ const BuildNameInput: React.FC<BuildNameInputProps> = ({ name, buildDataId, edit
         }
       }
     },
-    [name, screenName, buildDataId, isSaved, renameBuild]
+    [name, screenName, buildDataId, isSaved, renameBuild],
   );
 
   // Hook pour ne déclencher que si l'input est focus

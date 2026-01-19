@@ -6,9 +6,8 @@ export type BuildEntry = { name: string; isSaved: boolean };
 interface DeckState {
   deck: Map<string, BuildEntry>;
 
-  setBuildName: (buildDataId: string, name: string) => void;
+  setBuildName: (buildDataId: string, newName: string) => void;
   updateBuildDataId: (formerBuildDataId: string, newBuildDataId: string) => void;
-  removeBuildName: (buildDataId: string) => void;
   saveBuild: (buildDataId: string) => void;
   unSaveBuild: (buildDataId: string) => void;
   loadBuildsSaved: (buildsSaved: BuildPersistant[]) => void;
@@ -16,9 +15,7 @@ interface DeckState {
 }
 
 const useDeckStore = create<DeckState>((set, get) => ({
-  deck: new Map([
-    //    [DEFAULT_BUILDS.build1.buildDataId, { name: DEFAULT_BUILDS.build1.name, isSaved: false }],
-  ]),
+  deck: new Map([]),
 
   setBuildName: (buildDataId, newName) =>
     set((state) => {
@@ -28,7 +25,12 @@ const useDeckStore = create<DeckState>((set, get) => ({
         : { name: newName, isSaved: false };
 
       const newDeck = new Map(state.deck);
-      newDeck.set(buildDataId, updatedEntry);
+
+      if (newName === "" && !updatedEntry.isSaved) {
+        newDeck.delete(buildDataId);
+      } else {
+        newDeck.set(buildDataId, updatedEntry);
+      }
       return { deck: newDeck };
     }),
 
@@ -43,20 +45,13 @@ const useDeckStore = create<DeckState>((set, get) => ({
       return { deck: newDeck };
     }),
 
-  removeBuildName: (buildDataId) =>
-    set((state) => {
-      const newDeck = new Map(state.deck);
-      newDeck.delete(buildDataId);
-      return { deck: newDeck };
-    }),
-
   saveBuild: (buildDataId) =>
     set((state) => {
       const buildEntry = state.deck.get(buildDataId);
-      if (!buildEntry) return state;
+      const updatedEntry: BuildEntry = buildEntry ? { ...buildEntry, isSaved: true } : { name: "", isSaved: true };
 
       const newDeck = new Map(state.deck);
-      newDeck.set(buildDataId, { ...buildEntry, isSaved: true });
+      newDeck.set(buildDataId, updatedEntry);
       return { deck: newDeck };
     }),
 
@@ -66,7 +61,12 @@ const useDeckStore = create<DeckState>((set, get) => ({
       if (!buildEntry) return state;
 
       const newDeck = new Map(state.deck);
-      newDeck.set(buildDataId, { ...buildEntry, isSaved: false });
+
+      if (buildEntry.name === "") {
+        newDeck.delete(buildDataId);
+      } else {
+        newDeck.set(buildDataId, { ...buildEntry, isSaved: false });
+      }
       return { deck: newDeck };
     }),
 
@@ -75,7 +75,7 @@ const useDeckStore = create<DeckState>((set, get) => ({
       const newDeck = new Map(state.deck);
       buildsSaved.forEach((buildPersistant) => {
         newDeck.set(buildPersistant.buildDataId, {
-          name: buildPersistant.name,
+          name: buildPersistant.name || "",
           isSaved: true,
         });
       });
@@ -85,7 +85,7 @@ const useDeckStore = create<DeckState>((set, get) => ({
   checkNameFree: (buildName) => {
     const { deck } = get();
     for (const entry of deck.values()) {
-      if (entry.name.trim().toLowerCase() === buildName.trim().toLowerCase()) {
+      if (entry.name?.trim().toLowerCase() === buildName.trim().toLowerCase()) {
         return false; // nom déjà pris
       }
     }

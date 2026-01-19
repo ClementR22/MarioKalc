@@ -11,5 +11,5 @@ export type Build = {
 
 export type BuildPersistant = {
   buildDataId: string;
-  name: string;
+  name?: string;
 };

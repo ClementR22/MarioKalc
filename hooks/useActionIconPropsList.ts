@@ -50,7 +50,7 @@ export function useActionIconPropsList(
 
   const handleLoadToSearchPress = useCallback(() => {
     loadToSearch({ source, buildDataId }, buildsDataMap);
-    showToast("toast:buildStatsHaveBeenLoaded", "success", 3000);
+    showToast("toast:buildStatsHaveBeenLoadedInTheFinder", "success", 3000);
     modalContext && modalContext.close();
   }, [source, buildDataId, loadToSearch]);
 

@@ -23,6 +23,15 @@ export class NameAlreadyExistsError extends Error {
   }
 }
 
+export class NameInvalidError extends Error {
+  buildName: string;
+
+  constructor(buildName: string) {
+    super("nameInvalid");
+    this.buildName = buildName;
+  }
+}
+
 export class WrongGameBuildImportedError extends Error {
   gameTarget: Game;
 

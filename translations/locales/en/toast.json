@@ -9,7 +9,7 @@
   "buildRenamed": "the build has been renamed",
   "buildUpdated": "build updated",
 
-  "buildStatsHaveBeenLoaded": "the build's stats have been loaded",
+  "buildStatsHaveBeenLoadedInTheFinder": "the build's stats have been loaded in the Finder",
   "buildHasBeenLoadedInTheComparator": "the build have been loaded in the Comparator",
   "buildHasBeenSaved": "the build has been saved, click on 'Collection' to find it",
   "buildHasBeenUnsaved": "the build has been removed from your Collection",

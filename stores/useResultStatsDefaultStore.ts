@@ -4,6 +4,7 @@ import { Game, ResultStat } from "@/types";
 import { IS_RESULT_STATS_SYNC_DEFAULT } from "@/config/config";
 import { resultStatsDefaultInit as resultStatsDefaultInitMK8D } from "@/data/mk8d";
 import { resultStatsDefaultInit as resultStatsDefaultInitMKW } from "@/data/mkw";
+import useGameStore from "./useGameStore";
 
 interface ResultStatsDefaultState {
   isResultStatsSync: boolean;
@@ -11,7 +12,7 @@ interface ResultStatsDefaultState {
 
   resultStatsDefault: Record<Game, ResultStat[]>;
   initResultStatsDefault: (initObj: Record<Game, ResultStat[]>) => void;
-  setResultStatsDefaultForGame: (list: ResultStat[], game: Game) => Promise<void>;
+  setResultStatsDefaultForGame: (list: ResultStat[]) => Promise<void>;
 }
 
 const useResultStatsDefaultStore = create<ResultStatsDefaultState>((set, get) => ({
@@ -26,7 +27,9 @@ const useResultStatsDefaultStore = create<ResultStatsDefaultState>((set, get) =>
 
   initResultStatsDefault: (obj) => set({ resultStatsDefault: obj }),
 
-  setResultStatsDefaultForGame: async (list, game) => {
+  setResultStatsDefaultForGame: async (list) => {
+    const game = useGameStore.getState().game;
+
     const current = get().resultStatsDefault;
     const updated = { ...current, [game]: list };
 

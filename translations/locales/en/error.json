@@ -5,13 +5,9 @@
 
   "buildLimitReached": "build limit reached",
   "buildLimitReachedInThisScreen": "build limit reached",
-  "nameAlreadyExists": "this name is already taken:",
   "buildAlreadyExists": "this build is already",
+  "nameAlreadyExists": "this name is already taken:",
+  "nameInvalid": "this name is not allowed",
   "wrongGameBuildImported": "this build was created for",
-  "pleaseSwitchGame": "so please switch to this game in the settings to use it",
-
-  "buildNameRequiredForSharing": "you must enter a name to share a build",
-  "buildNameRequiredForSaving": "you must enter a name to record a build",
-  "buildNameRequiredForLoading": "you must enter a name to move a build to the Comparator",
-  "savedBuildCannotHaveEmptyName": "Collection's builds must have a name"
+  "pleaseSwitchGame": "so please switch to this game in the settings to use it"
 }
