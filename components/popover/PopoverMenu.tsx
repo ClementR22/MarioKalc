@@ -24,7 +24,7 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({ trigger, actionIconPropsList 
       <MenuTrigger>{trigger(openPopover)}</MenuTrigger>
       <MenuOptions
         customStyles={{
-          optionsContainer: [styles.menuContainerList, { backgroundColor: theme.surface_container }],
+          optionsContainer: [styles.menuContainerList],
         }}
       >
         {actionIconPropsList.map((actionProps) => {
@@ -49,7 +49,7 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({ trigger, actionIconPropsList 
 const styles = StyleSheet.create({
   menuContainerList: {
     borderRadius: 4,
-    paddingVertical: 4,
+    overflow: "hidden",
     width: 166,
     marginTop: BUTTON_SIZE,
   },

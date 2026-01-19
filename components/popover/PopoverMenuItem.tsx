@@ -1,4 +1,5 @@
 import Text from "@/primitiveComponents/Text";
+import useThemeStore from "@/stores/useThemeStore";
 import { buttonPressed } from "@/utils/designTokens";
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
@@ -11,8 +12,17 @@ interface PopoverMenuItemProps {
 }
 
 const PopoverMenuItem: React.FC<PopoverMenuItemProps> = ({ onPress, title, iconProps }) => {
+  const theme = useThemeStore((state) => state.theme);
+
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [styles.container, pressed && buttonPressed]}>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.container,
+        { backgroundColor: theme.surface_container },
+        pressed && buttonPressed,
+      ]}
+    >
       {iconProps && <Icon name={iconProps.name} type={iconProps.type} size={24} />}
       <Text role="title" size="small" namespace="button" style={styles.text}>
         {title}
