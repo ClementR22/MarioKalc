@@ -45,6 +45,7 @@ const EditBuildModal: React.FC = () => {
       isModalVisible={isEditBuildModalVisible}
       setIsModalVisible={setIsEditBuildModalVisible}
       onClose={handleCloseEditBuildModal}
+      horizontalScroll={true}
     >
       <PannelElementsBottom />
     </Modal>
