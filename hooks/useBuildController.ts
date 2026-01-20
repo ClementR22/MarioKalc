@@ -12,7 +12,9 @@ export function useBuildController() {
       throw new Error("buildLimitReached");
     }
 
-    const build = getRandomDataId(numberOfClassesByCategory);
+    const forbiddenBuildDataIds = buildsListDisplayed.map((build) => build.buildDataId);
+
+    const build = getRandomDataId(numberOfClassesByCategory, forbiddenBuildDataIds);
     addBuildInDisplay(build);
   }
 
