@@ -21,7 +21,15 @@
   "appliedForBuildFinderAndComparator": "Appliquées au démarrage de l'app pour le Chercheur et le Comparateur",
   "doYouWantToOpenTheBrowser": "Voulez-vous ouvrir le navigateur ?",
 
-  "welcomeText": "Cet outil vous aide à trouver le meilleur build selon votre style de jeu. En cas de doute, effectuez un appui long sur un élément (bouton, image, abréviation) pour afficher sa description, ou utilisez le bouton d’aide au haut de l'écran.",
+  "welcomeText1": "Cet outil vous aide à trouver le meilleur build selon votre style de jeu.\n\nEn cas de doute, effectuez un ",
+  "longPress": "appui long",
+  "welcomeText2": " sur un élément pour afficher sa description.",
+  "LongPress": "Appuyez longuement",
+  "welcomeText3": "Vous pouvez également le faire avec les ",
+  "pictures": "images",
+  "and": " et les ",
+  "stats": "stats",
+  "too": ".",
 
   "buildFound": "Build trouvé",
 
@@ -29,7 +37,5 @@
 
   "tutoImportation": "Copiez le texte, allez dans 'Collection' et cliquez sur le bouton 'Importer' (presse-papier).",
 
-  "modified": "modifié",
-
-  "longPress": "Appuyez longuement"
+  "modified": "modifié"
 }

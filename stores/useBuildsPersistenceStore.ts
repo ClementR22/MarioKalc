@@ -11,16 +11,15 @@ import {
   saveThingInMemory,
 } from "@/utils/asyncStorageOperations";
 import { SORT_NUMBER_SAVED_BUILDS_DEFAULT } from "@/config/config";
-import useGameStore from "./useGameStore";
 
 interface BuildsPersistenceStoreState {
   sortNumberSavedBuilds: number;
 
   setSortNumberSavedBuilds: (newSortNumberSavedBuilds: number) => Promise<void>;
-  fetchBuildsSavedKeys: () => Promise<string[]>;
-  fetchBuildsSaved: () => Promise<BuildPersistant[]>;
-  saveBuildInMemory: (buildDataId: string, name: string) => Promise<void>;
-  removeBuildInMemory: (buildDataId: string) => Promise<void>;
+  fetchBuildsSavedKeys: (game: Game) => Promise<string[]>;
+  fetchBuildsSaved: (game: Game) => Promise<BuildPersistant[]>;
+  saveBuildInMemory: (buildDataId: string, name: string, game: Game) => Promise<void>;
+  removeBuildInMemory: (buildDataId: string, game: Game) => Promise<void>;
   loadSortNumberFromMemory: () => Promise<void>;
 }
 
@@ -32,13 +31,13 @@ const useBuildsPersistenceStore = create<BuildsPersistenceStoreState>((set, get)
     set({ sortNumberSavedBuilds: newSortNumberSavedBuilds });
   },
 
-  fetchBuildsSavedKeys: async () => {
-    const buildsKeys = await getOnlyBuildsSavedKeysFromMemory();
+  fetchBuildsSavedKeys: async (game) => {
+    const buildsKeys = await getOnlyBuildsSavedKeysFromMemory(game);
     return buildsKeys;
   },
 
-  fetchBuildsSaved: async () => {
-    const buildsKeys = await get().fetchBuildsSavedKeys();
+  fetchBuildsSaved: async (game) => {
+    const buildsKeys = await get().fetchBuildsSavedKeys(game);
     const buildsValues = await AsyncStorage.multiGet(buildsKeys);
     const buildsValuesParsed: BuildPersistant[] = buildsValues
       .map(([, value]) => {
@@ -53,14 +52,12 @@ const useBuildsPersistenceStore = create<BuildsPersistenceStoreState>((set, get)
     return buildsValuesParsed;
   },
 
-  saveBuildInMemory: async (buildDataId, name) => {
-    const game = useGameStore.getState().game;
+  saveBuildInMemory: async (buildDataId, name, game) => {
     const buildPersistant: BuildPersistant = { buildDataId, name };
     await saveThingInMemory(`${game}:${buildDataId}`, buildPersistant);
   },
 
-  removeBuildInMemory: async (buildDataId) => {
-    const game = useGameStore.getState().game;
+  removeBuildInMemory: async (buildDataId, game) => {
     await AsyncStorage.removeItem(`${game}:${buildDataId}`);
   },
 

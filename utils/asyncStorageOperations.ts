@@ -1,4 +1,4 @@
-import useGameStore from "@/stores/useGameStore";
+import { Game } from "@/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // ne pas ajouter d'autres imports (types, stores, etc.) car souvent
 // c'est asyncStorageOperations qui est importé dans d'autres fichier
@@ -30,9 +30,8 @@ export const loadThingFromMemory = async (thingKey: string, setThing?: any) => {
   }
 };
 
-export const getOnlyBuildsSavedKeysFromMemory = async () => {
+export const getOnlyBuildsSavedKeysFromMemory = async (game: Game) => {
   const keys = await AsyncStorage.getAllKeys();
-  const game = useGameStore.getState().game;
   const onlyBuildsKeys = keys.filter((k) => k.startsWith(`${game}`));
   return onlyBuildsKeys;
 };
@@ -54,9 +53,9 @@ export const deleteAllTheMemory = async () => {
   }
 };
 
-export const deleteAllSavedBuildsInMemory = async () => {
+export const deleteAllSavedBuildsInMemory = async (game: Game) => {
   try {
-    const buildsKeys = await getOnlyBuildsSavedKeysFromMemory();
+    const buildsKeys = await getOnlyBuildsSavedKeysFromMemory(game);
     buildsKeys.forEach(async (thingKey) => await AsyncStorage.removeItem(thingKey));
   } catch (e) {
     console.error("Erreur lors de la suppression : ", e);

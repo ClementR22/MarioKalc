@@ -21,7 +21,15 @@
   "appliedForBuildFinderAndComparator": "Applied when the app starts for the Finder and the Comparator",
   "doYouWantToOpenTheBrowser": "Do you want to open the browser?",
 
-  "welcomeText": "This tool helps you find the best build based on your playstyle. If you need help, long-press an element (button, picture, abbreviation) to view its description, or use the help button at the top of the screen.",
+  "welcomeText1": "This tool helps you find the best build based on your playstyle.\n\nIf you need help, ",
+  "longPress": "long press",
+  "welcomeText2": " an element to view its description.",
+  "LongPress": "Long press",
+  "welcomeText3": "You can do it with ",
+  "pictures": "pictures",
+  "and": " and ",
+  "stats": "stats",
+  "too": " too.",
 
   "buildFound": "Build found",
 
@@ -29,7 +37,5 @@
 
   "tutoImportation": "Copy the text, go to 'Collection', and click the 'Import' (clipboard) button.",
 
-  "modified": "modified",
-
-  "longPress": "Long press"
+  "modified": "modified"
 }

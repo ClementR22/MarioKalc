@@ -6,6 +6,7 @@ import showToast from "@/utils/showToast";
 import { NameAlreadyExistsError, NameInvalidError } from "@/errors/errors";
 import { useKeyboardDidHideWhileFocused } from "@/hooks/useKeyboardDidHideWhileFocused";
 import { TextInput } from "react-native";
+import useGameStore from "@/stores/useGameStore";
 
 interface BuildNameInputProps {
   name: string;
@@ -15,6 +16,7 @@ interface BuildNameInputProps {
 }
 
 const BuildNameInput: React.FC<BuildNameInputProps> = ({ name, buildDataId, editable = true, isSaved }) => {
+  const game = useGameStore((state) => state.game);
   const screenName = useScreen();
   const renameBuild = useBuildsListStore((state) => state.renameBuild);
   const setScrollRequest = useBuildsListStore((state) => state.setScrollRequest);
@@ -41,7 +43,7 @@ const BuildNameInput: React.FC<BuildNameInputProps> = ({ name, buildDataId, edit
 
       if (newName !== name) {
         try {
-          renameBuild(localName, screenName, buildDataId, isSaved);
+          renameBuild(localName, screenName, buildDataId, isSaved, game);
           showToast("toast:buildRenamed", "success");
         } catch (e) {
           if (e instanceof NameAlreadyExistsError) {
@@ -55,7 +57,7 @@ const BuildNameInput: React.FC<BuildNameInputProps> = ({ name, buildDataId, edit
         }
       }
     },
-    [name, screenName, buildDataId, isSaved, renameBuild],
+    [name, screenName, buildDataId, isSaved, game, renameBuild],
   );
 
   // Hook pour ne déclencher que si l'input est focus

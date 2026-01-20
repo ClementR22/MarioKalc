@@ -40,7 +40,7 @@ interface BuildsActionsStoreState {
   loadToDisplay: (params: { source: ScreenName; buildDataId: string }) => void;
   loadBuildsSaved: () => Promise<void>;
   saveBuild: (source: ScreenName, buildDataId: string) => Promise<void>;
-  unSaveBuild: (buildDataId: string) => Promise<void>;
+  unSaveBuild: (buildDataId: string, game: Game) => Promise<void>;
   exportBuild: (screenName: ScreenName, buildDataId: string) => void;
   importBuild: (clipboardContent: string, screenName: ScreenName, buildsDataMap: Map<string, BuildData>) => void;
 }
@@ -131,7 +131,8 @@ const useBuildsActionsStore = create<BuildsActionsStoreState>((set, get) => ({
   },
 
   loadBuildsSaved: async () => {
-    const buildsPersistant = await useBuildsPersistenceStore.getState().fetchBuildsSaved();
+    const game = useGameStore.getState().game;
+    const buildsPersistant = await useBuildsPersistenceStore.getState().fetchBuildsSaved(game);
     const buildsListSaved: Build[] = buildsPersistant.map((buildPersistant) => ({
       buildDataId: buildPersistant.buildDataId,
     }));
@@ -151,12 +152,13 @@ const useBuildsActionsStore = create<BuildsActionsStoreState>((set, get) => ({
     const name = useDeckStore.getState().deck.get(buildDataId)?.name;
 
     get().loadBuildCard({ build: build, target: "save" });
-    await useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, name);
+    const game = useGameStore.getState().game;
+    await useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, name, game);
     useDeckStore.getState().saveBuild(build.buildDataId);
   },
 
-  unSaveBuild: async (buildDataId: string) => {
-    await useBuildsListStore.getState().removeBuild(buildDataId, "save");
+  unSaveBuild: async (buildDataId, game) => {
+    await useBuildsListStore.getState().removeBuild(buildDataId, "save", game);
   },
 
   exportBuild: (screenName, buildDataId) => {
@@ -212,7 +214,8 @@ const useBuildsActionsStore = create<BuildsActionsStoreState>((set, get) => ({
       useDeckStore.getState().setBuildName(buildDataId, newName);
 
       if (screenName === "save") {
-        useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, newName);
+        const game = useGameStore.getState().game;
+        useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, newName, game);
       }
     }
   },

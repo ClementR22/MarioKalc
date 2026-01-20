@@ -76,7 +76,7 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   containerOuter: {
     height: BUTTON_SIZE,
     borderRadius: BORDER_RADIUS_INF,

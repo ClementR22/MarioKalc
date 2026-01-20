@@ -10,6 +10,7 @@ interface TooltipProps {
   tooltipText: string;
   namespace?: string;
   onPress?: () => void;
+  onClose?: () => void;
   childStyleInner?: ViewStyle | ViewStyle[];
   childStyleOuter?: ViewStyle | ViewStyle[];
   placement?: "top" | "right" | "bottom" | "left" | "auto";
@@ -22,6 +23,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   tooltipText,
   namespace,
   onPress = null,
+  onClose,
   childStyleInner,
   childStyleOuter,
   placement = "top",
@@ -36,6 +38,8 @@ const Tooltip: React.FC<TooltipProps> = ({
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const close = useCallback(() => {
+    onClose && onClose();
+
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;

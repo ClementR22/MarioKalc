@@ -45,12 +45,12 @@ interface BuildsListStoreState {
   setBuildsListFound: (newBuildsList: Build[]) => void;
   setBuildsListDisplayed: (newBuildsList: Build[]) => void;
   setBuildsListSaved: (newBuildsList: Build[]) => void;
-  deleteAllSavedBuilds: () => Promise<void>;
+  deleteAllSavedBuilds: (game: Game) => Promise<void>;
   setBuildEditedDataId: (buildDataId: string) => void;
   addBuildInDisplay: (buildDataId: string) => void;
-  removeBuild: (buildDataId: string, screenName: ScreenName) => Promise<void>;
-  renameBuild: (newName: string, screenName: ScreenName, buildDataId: string, isSaved: boolean) => void;
-  updateBuildsList: (pressedClassIds: Record<string, number>, screenName: ScreenName) => void;
+  removeBuild: (buildDataId: string, screenName: ScreenName, game) => Promise<void>;
+  renameBuild: (newName: string, screenName: ScreenName, buildDataId: string, isSaved: boolean, game: Game) => void;
+  updateBuildsList: (pressedClassIds: Record<string, number>, screenName: ScreenName, game: Game) => void;
   sortBuildsList: (
     screenName: ScreenName,
     sortNumber: number,
@@ -131,14 +131,14 @@ const useBuildsListStore = create<BuildsListStoreState>((set, get) => ({
 
   setBuildsListSaved: (newBuildsList) => set({ buildsListSaved: newBuildsList }),
 
-  deleteAllSavedBuilds: async () => {
+  deleteAllSavedBuilds: async (game) => {
     const unSaveBuild = useDeckStore.getState().unSaveBuild;
     const buildsListSaved = useBuildsListStore.getState().buildsListSaved;
     buildsListSaved.forEach((build) => unSaveBuild(build.buildDataId));
 
     useBuildsListStore.getState().setBuildsListSaved([]);
 
-    await deleteAllSavedBuildsInMemory();
+    await deleteAllSavedBuildsInMemory(game);
   },
 
   setBuildEditedDataId: (buildDataId) => {
@@ -160,20 +160,20 @@ const useBuildsListStore = create<BuildsListStoreState>((set, get) => ({
     });
   },
 
-  removeBuild: async (buildDataId, screenName) => {
+  removeBuild: async (buildDataId, screenName, game) => {
     const { buildsList, buildsListName } = get().getBuildsList(screenName);
 
     const newList = buildsList.filter((build) => build.buildDataId !== buildDataId);
     set({ [buildsListName]: newList });
     if (screenName === "save") {
-      await useBuildsPersistenceStore.getState().removeBuildInMemory(buildDataId);
+      await useBuildsPersistenceStore.getState().removeBuildInMemory(buildDataId, game);
 
       // mise à jour de la props isSaved dans useDeckStore
       useDeckStore.getState().unSaveBuild(buildDataId);
     }
   },
 
-  renameBuild: (newName, screenName, buildDataId, isSaved) => {
+  renameBuild: (newName, screenName, buildDataId, isSaved, game) => {
     const build = get().getBuild(screenName, buildDataId);
 
     // si le nouveau nom est vide
@@ -196,13 +196,13 @@ const useBuildsListStore = create<BuildsListStoreState>((set, get) => ({
     }
 
     if (isSaved) {
-      useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, newName);
+      useBuildsPersistenceStore.getState().saveBuildInMemory(buildDataId, newName, game);
     }
 
     useDeckStore.getState().setBuildName(build.buildDataId, newName);
   },
 
-  updateBuildsList: (selectedClassIdsByCategory, screenName) => {
+  updateBuildsList: (selectedClassIdsByCategory, screenName, game) => {
     const { buildsList, buildsListName } = get().getBuildsList(screenName);
     const deck = useDeckStore.getState().deck;
 
@@ -232,8 +232,8 @@ const useBuildsListStore = create<BuildsListStoreState>((set, get) => ({
     // si on est dans dans la collection
     if (screenName === "save") {
       // 1. le build est enregistré donc on met à jour la mémoire
-      useBuildsPersistenceStore.getState().removeBuildInMemory(formerBuildDataId);
-      useBuildsPersistenceStore.getState().saveBuildInMemory(newBuildDataId, name);
+      useBuildsPersistenceStore.getState().removeBuildInMemory(formerBuildDataId, game);
+      useBuildsPersistenceStore.getState().saveBuildInMemory(newBuildDataId, name, game);
       // 2. on met à jour le deck
       useDeckStore.getState().updateBuildDataId(formerBuildDataId, newBuildDataId);
       return;

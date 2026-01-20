@@ -11,6 +11,7 @@ import { useGameData } from "./useGameData";
 import { Platform } from "react-native";
 import { useModal } from "@/contexts/ModalContext";
 import useEditBuildModalStore from "@/stores/useEditBuildModalStore";
+import useGameStore from "@/stores/useGameStore";
 
 export interface ActionIconProps {
   title: string;
@@ -30,6 +31,7 @@ export function useActionIconPropsList(
 
   const source = isInLoadBuildModal ? "save" : screenName;
 
+  const game = useGameStore((state) => state.game);
   const updateSelectionFromBuild = usePressableElementsStore((state) => state.updateSelectionFromBuild);
   const setBuildEditedDataId = useBuildsListStore((state) => state.setBuildEditedDataId);
   const loadToSearch = useBuildsActionsStore((state) => state.loadToSearch);
@@ -89,18 +91,18 @@ export function useActionIconPropsList(
         await saveBuild(source, buildDataId);
         showToast("toast:buildHasBeenSaved", "success", 4000);
       } else {
-        await unSaveBuild(buildDataId);
+        await unSaveBuild(buildDataId, game);
         showToast("toast:buildHasBeenUnsaved", "success");
       }
     } catch (e) {
       showToast(`error:${e.message}`, "error");
     }
-  }, [source, buildDataId, isSaved, saveBuild, unSaveBuild]);
+  }, [source, buildDataId, isSaved, game, saveBuild, unSaveBuild]);
 
   const handleRemovePress = useCallback(() => {
-    removeBuild(buildDataId, source);
+    removeBuild(buildDataId, source, game);
     showToast("toast:buildHasBeenDeleted", "success");
-  }, [source, buildDataId, removeBuild, setScrollRequest]);
+  }, [source, buildDataId, game, removeBuild, setScrollRequest]);
 
   const handleExportPress = useCallback(() => {
     try {

@@ -3,12 +3,14 @@ import useBuildsListStore from "@/stores/useBuildsListStore";
 import showToast from "@/utils/showToast";
 import ButtonAndModalConfirm from "../modal/ButtonAndModalConfirm";
 import { IconType } from "react-native-dynamic-vector-icons";
+import useGameStore from "@/stores/useGameStore";
 
 const ButtonDeleteAllBuildsInMemory = () => {
+  const game = useGameStore((state) => state.game);
   const deleteAllSavedBuilds = useBuildsListStore((state) => state.deleteAllSavedBuilds);
 
   const handleDeleteAllSavedBuilds = () => {
-    deleteAllSavedBuilds();
+    deleteAllSavedBuilds(game);
     showToast("toast:allSavedBuildsHaveBeenDeleted", "success", 3000);
   };
 
