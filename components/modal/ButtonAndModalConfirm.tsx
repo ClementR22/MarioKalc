@@ -34,7 +34,7 @@ const ButtonAndModalConfirm: React.FC<ButtonAndModalWarningProps> = ({
       triggerComponent={
         <ButtonSettings
           title={title}
-          iconProps={{ name: iconProps.name, type: iconProps.type, color: theme.on_error }}
+          iconProps={{ name: iconProps.name, type: iconProps.type, color: isWarning ? theme.on_error : undefined }}
           backgroundColor={isWarning ? theme.error : undefined}
           tooltipText={tooltipText}
           disabled={disabled}
