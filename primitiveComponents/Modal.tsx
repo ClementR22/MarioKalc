@@ -95,7 +95,7 @@ const Modal = ({
       const subscription = BackHandler.addEventListener("hardwareBackPress", onBackPress);
 
       return () => subscription.remove();
-    }, [isModalVisible]),
+    }, [isModalVisible, requestClose]),
   );
 
   // la fonction open est donnée par le store
