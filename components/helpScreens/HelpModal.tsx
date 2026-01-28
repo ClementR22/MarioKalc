@@ -5,6 +5,7 @@ import ButtonAndModal from "../modal/ButtonAndModal";
 import { StyleSheet } from "react-native";
 import useThemeStore from "@/stores/useThemeStore";
 import { ScrollView } from "react-native-gesture-handler";
+import useGeneralStore from "@/stores/useGeneralStore";
 
 type HelpModalProps = {
   title: string;
@@ -13,6 +14,8 @@ type HelpModalProps = {
 
 const HelpModal: React.FC<HelpModalProps> = ({ title, children }) => {
   const theme = useThemeStore((state) => state.theme);
+
+  const isScrollEnable = useGeneralStore((state) => state.isScrollEnable);
 
   const triggerComponent = useMemo(
     () => (
@@ -26,12 +29,12 @@ const HelpModal: React.FC<HelpModalProps> = ({ title, children }) => {
         toolTipPlacement="left"
       />
     ),
-    [theme.on_surface]
+    [theme.on_surface],
   );
 
   return (
     <ButtonAndModal modalTitle={title} triggerComponent={triggerComponent}>
-      <ScrollView scrollEnabled={true} style={styles.scrollView} contentContainerStyle={styles.container}>
+      <ScrollView scrollEnabled={isScrollEnable} style={styles.scrollView} contentContainerStyle={styles.container}>
         {children}
       </ScrollView>
     </ButtonAndModal>

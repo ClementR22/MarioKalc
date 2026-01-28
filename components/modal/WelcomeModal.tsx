@@ -38,7 +38,12 @@ const WelcomeModal = () => {
   }
 
   return (
-    <Modal modalTitle="welcome" isModalVisible={true} setIsModalVisible={setIsModalVisible} onClose={hideWelcome}>
+    <Modal
+      modalTitle="welcome"
+      isModalVisible={isModalVisible}
+      setIsModalVisible={setIsModalVisible}
+      onClose={hideWelcome}
+    >
       {welcomeMessage ? (
         <View style={styles.container}>
           <Text role="body" size="large" textAlign="center" namespace="text">
