@@ -7,7 +7,7 @@ import useStatsStore from "@/stores/useStatsStore";
 import { getStatSliderBorderColor } from "@/utils/getStatSliderBorderColor";
 import useThemeStore from "@/stores/useThemeStore";
 import { StatName } from "@/types";
-import { BORDER_RADIUS_INF, BORDER_RADIUS_STAT_GAUGE_CONTAINER, BUTTON_SIZE } from "@/utils/designTokens";
+import { BORDER_RADIUS_INF, BORDER_RADIUS_STAT_GAUGE_CONTAINER, WIDTH_BUTTON_RECTANGLE } from "@/utils/designTokens";
 import { box_shadow_z1 } from "../styles/shadow";
 import Text from "@/primitiveComponents/Text";
 import useGameStore from "@/stores/useGameStore";
@@ -121,19 +121,15 @@ const StatSliderContent = ({
         />
       </View>
       <View style={styles.containerRight}>
-        <View style={styles.valueWrapper}>
-          <Text role="title" size="medium" namespace="not">
-            {tempValue}
-          </Text>
-        </View>
+        <Text role="title" size="medium" namespace="not">
+          {tempValue}
+        </Text>
 
-        <View style={styles.buttonWrapper}>
-          <ButtonMultiStateToggle
-            number={statFilterNumber}
-            setNumber={setStatFilterNumber}
-            tooltipText="changeCondition"
-          />
-        </View>
+        <ButtonMultiStateToggle
+          number={statFilterNumber}
+          setNumber={setStatFilterNumber}
+          tooltipText="changeCondition"
+        />
       </View>
     </Pressable>
   );
@@ -151,7 +147,13 @@ const styles = StyleSheet.create({
     boxShadow: box_shadow_z1,
   },
   containerLeft: { flex: 1, justifyContent: "flex-start" },
-  containerRight: { alignItems: "center", justifyContent: "flex-start", width: 46 },
+  containerRight: {
+    width: WIDTH_BUTTON_RECTANGLE,
+    paddingTop: 2,
+    paddingBottom: 8,
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
   textWrapper: {
     flexDirection: "row",
     marginLeft: 3,
@@ -160,12 +162,6 @@ const styles = StyleSheet.create({
   sliderContainer: {
     marginBottom: 4,
   },
-  valueWrapper: {
-    width: BUTTON_SIZE,
-    alignItems: "flex-start",
-    paddingTop: 2,
-  },
-  buttonWrapper: { position: "absolute", bottom: 8 },
   track: {
     height: 16,
     borderRadius: BORDER_RADIUS_INF,

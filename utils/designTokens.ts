@@ -59,6 +59,8 @@ export const WIDTH_BUILD_CARD_CONTENT = WIDTH_BUILD_CARD - 2 * PADDING_BUILD_CAR
 export const MAX_WIDTH_IN_BUILD_CARD = WIDTH_BUILD_CARD - PADDING_BUILD_CARD * 2; // 200
 
 export const BUTTON_SIZE = 40;
+export const HEIGHT_BUTTON_RECTANGLE = 30;
+export const WIDTH_BUTTON_RECTANGLE = 46;
 
 export const buttonPressed = {
   opacity: 0.8, // léger effet d’opacité
