@@ -11,11 +11,11 @@ interface PlaceholderProps {
 }
 
 const iconName: Record<PlaceholderText, string> = {
-  searchEmpty: "chat-question",
+  searchEmpty: "magnify",
   searchNotFound: "home-flood",
-  chooseStatsToCompare: "compare",
+  chooseStatsToCompare: "checkbox-multiple-marked",
   noBuildToCompare: "compare",
-  savedEmpty: "heart-multiple",
+  savedEmpty: "content-save-outline",
 };
 
 const Placeholder: React.FC<PlaceholderProps> = ({ text }) => {
