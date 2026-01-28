@@ -23,7 +23,7 @@ const GalleryScreen = () => {
   const { elementsDataByCategory, classesStats } = useGameData();
   const { t } = useTranslation(elementsNamespaceByGame[game]);
   const [selectedElementId, setSelectedElementId] = useState(0);
-  const [isLeftPannelExpanded, setIsLeftPannelExpanded] = useState(true);
+  const [isLeftPannelExpanded, setIsLeftPannelExpanded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>("character");
   const [sortNumber, setSortNumber] = useState(0);
 
@@ -46,7 +46,7 @@ const GalleryScreen = () => {
     const { selectedElementName, selectedElementStats } = getSelectedElementData(
       categoryElementsSorted,
       selectedElementId,
-      classesStats
+      classesStats,
     );
 
     // pendant le chargement dû au changement de game
@@ -67,7 +67,7 @@ const GalleryScreen = () => {
         setIsLeftPannelExpanded(false);
       }
     },
-    [selectedElementId, isLeftPannelExpanded]
+    [selectedElementId, isLeftPannelExpanded],
   );
 
   const handleBackgroundPress = useCallback(() => {
@@ -81,7 +81,7 @@ const GalleryScreen = () => {
   useEffect(() => {
     setSelectedCategory("character");
     setSelectedElementId(0);
-    setIsLeftPannelExpanded(true);
+    setIsLeftPannelExpanded(false);
   }, [game]);
 
   const animatedOverlayStyle = useAnimatedStyle(() => ({
