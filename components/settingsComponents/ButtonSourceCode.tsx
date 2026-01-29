@@ -15,6 +15,7 @@ const ButtonSourceCode = () => {
       title="sourceCode"
       iconProps={{ name: "github", type: IconType.AntDesign }}
       tooltipText="sourceCode"
+      isOpenBrowser
       onPress={handlePress}
     />
   );

@@ -15,6 +15,7 @@ const ButtonSendFeedback = () => {
       title="sendFeedback"
       iconProps={{ name: "chatbox-ellipses-outline", type: IconType.Ionicons }}
       tooltipText="sendFeedback"
+      isOpenBrowser
       onPress={handlePress}
     />
   );

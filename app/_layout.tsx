@@ -1,8 +1,8 @@
 // _layout.tsx
 import React, { useCallback, useEffect, useState } from "react";
-import { Tabs } from "expo-router";
+import { Tabs, useFocusEffect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { Appearance, StyleSheet } from "react-native";
+import { Appearance, BackHandler, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MenuProvider } from "react-native-popup-menu";
 import Toast from "react-native-toast-message";
@@ -34,10 +34,9 @@ import WelcomeModal from "@/components/modal/WelcomeModal";
 import { runMigrations } from "@/utils/migrations";
 import { loadThingFromMemory } from "@/utils/asyncStorageOperations";
 import { useSettingsMap } from "@/hooks/useSettingsMap";
+import ModalConfirm from "@/components/modal/ModalConfirm";
 
 export default function TabLayout() {
-  const [isReady, setIsReady] = useState(false);
-
   const { t } = useTranslation("screens");
   const theme = useThemeStore((state) => state.theme);
   const isSettingsLoaded = useGeneralStore((state) => state.isSettingsLoaded);
@@ -49,6 +48,9 @@ export default function TabLayout() {
   const loadBuildsSaved = useBuildsActionsStore((state) => state.loadBuildsSaved);
 
   const settingsMap = useSettingsMap();
+
+  const [isReady, setIsReady] = useState(false);
+  const [isModalQuitVisible, setIsModalQuitVisible] = useState(false);
 
   // 1. INITIALISATION AU DÉMARRAGE (une seule fois)
   useEffect(() => {
@@ -104,7 +106,26 @@ export default function TabLayout() {
   useInitStatsStore();
   useInitPressableElementsStore();
 
-  // 6. CALLBACKS MÉMOÏSÉS POUR LES HEADERS
+  // 6. INTERCEPTER LE BACK POUR EVITER DE QUITTER INVOLONTAIREMENT
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        if (isModalQuitVisible) {
+          setIsModalQuitVisible(false);
+          return true;
+        }
+
+        setIsModalQuitVisible(true);
+        return true;
+      };
+
+      const subscription = BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+      return () => subscription.remove();
+    }, []),
+  );
+
+  // 7. CALLBACKS MÉMOÏSÉS POUR LES HEADERS
   const renderSearchHeader = useCallback(
     () => (
       <CustomHeader
@@ -269,6 +290,12 @@ export default function TabLayout() {
             <LoadBuildModal />
             <UpdateAvailableModal />
             <WelcomeModal />
+            <ModalConfirm
+              isModalVisible={isModalQuitVisible}
+              setIsModalVisible={setIsModalQuitVisible}
+              text="quitApp"
+              onPress={BackHandler.exitApp}
+            />
           </BottomSheetModalProvider>
           <Toast config={toastConfig} bottomOffset={59} swipeable={false} />
         </GestureHandlerRootView>

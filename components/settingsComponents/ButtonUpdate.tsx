@@ -13,8 +13,9 @@ const ButtonUpdate: React.FC<ButtonUpdateProps> = () => {
       title="updateTheApp"
       iconProps={{ name: "system-update-alt", type: IconType.MaterialIcons }}
       tooltipText="updateTheApp"
-      onPress={openDownloadPage}
+      isOpenBrowser
       disabled={!updateAvailable}
+      onPress={openDownloadPage}
     />
   );
 };

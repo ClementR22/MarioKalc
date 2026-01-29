@@ -15,6 +15,7 @@ const ButtonMakeADonation = () => {
       title="makeADonation"
       iconProps={{ name: "hand-heart", type: IconType.MaterialCommunityIcons }}
       tooltipText="makeADonation"
+      isOpenBrowser
       onPress={handleContactPress}
     />
   );
