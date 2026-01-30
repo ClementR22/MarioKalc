@@ -4,7 +4,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   owner: "lentrepriz",
   name: "Mario Kalc",
-  slug: "Mario Kalc",
+  slug: "MK8DSB",
   version: "{{VERSION}}",
 
   runtimeVersion: {
