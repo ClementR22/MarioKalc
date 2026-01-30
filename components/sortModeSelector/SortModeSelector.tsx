@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import useGeneralStore from "@/stores/useGeneralStore";
-import { SortButtonProps, SortName } from "@/types";
+import { IconProps, SortButtonProps, SortName } from "@/types";
 import Popover from "../popover/Popover";
 import ButtonIconWithBadge from "./ButtonIconWithBadge";
 import {
@@ -13,7 +13,6 @@ import {
 import { useScreen } from "@/contexts/ScreenContext";
 import { getCurrentDirection, getSortNameFromSortNumber, sortNameMap } from "@/utils/getSortNameFromSortNumber";
 import { vw } from "../styles/theme";
-import { IconType } from "react-native-dynamic-vector-icons";
 import showToast from "@/utils/showToast";
 import { useGameData } from "@/hooks/useGameData";
 import useGameStore from "@/stores/useGameStore";
@@ -39,7 +38,7 @@ const SortModeSelector: React.FC<SortModeSelectorProps> = ({ sortNumber, setSort
 
   const sortNamesDefault = useMemo(
     () => (sortCase === "element" ? sortNamesElementDefault : sortNamesBuildCardDefault),
-    [sortCase, sortNamesElementDefault, sortNamesBuildCardDefault]
+    [sortCase, sortNamesElementDefault, sortNamesBuildCardDefault],
   );
 
   const [currentDirection, setCurrentDirection] = useState<"asc" | "desc">(getCurrentDirection(sortNumber));
@@ -60,18 +59,12 @@ const SortModeSelector: React.FC<SortModeSelectorProps> = ({ sortNumber, setSort
 
       showToast(`${sortsNamespaceByGame[game]}:${sortName}|${sortsNamespaceByGame[game]}:${newDirection}`);
     },
-    [activeSort, currentDirection, setSortNumber]
+    [activeSort, currentDirection, setSortNumber],
   );
 
   // Fonction générique pour créer un menu tooltip
   const createTooltipMenu = useCallback(
-    (
-      key: string,
-      statNames: readonly SortName[],
-      tooltipText: string,
-      triggerIconName: string,
-      triggerIconType: IconType
-    ) => (
+    (key: string, statNames: readonly SortName[], tooltipText: string, iconProps: IconProps) => (
       <Popover
         key={key}
         trigger={(openPopover) => (
@@ -79,8 +72,7 @@ const SortModeSelector: React.FC<SortModeSelectorProps> = ({ sortNumber, setSort
             tooltipText={tooltipText}
             onPress={openPopover}
             namespace={sortsNamespaceByGame[game]}
-            iconName={triggerIconName}
-            iconType={triggerIconType}
+            iconProps={iconProps}
             direction={statNames.includes(activeSort) ? currentDirection : undefined}
             isBadge={statNames.includes(activeSort)}
           />
@@ -95,9 +87,7 @@ const SortModeSelector: React.FC<SortModeSelectorProps> = ({ sortNumber, setSort
               onPress={() => handlePress(statName)}
               tooltipText={statName}
               namespace={sortsNamespaceByGame[game]}
-              iconName={iconConfig.iconName}
-              iconType={iconConfig.iconType}
-              iconColor={theme.inverse_on_surface}
+              iconProps={{ iconKey: iconConfig.iconKey, iconColor: theme.inverse_on_surface }}
               backgroundColor={theme[iconConfig.backgroundColor]}
               direction={isActive ? currentDirection : undefined}
               isBadge={isActive}
@@ -106,20 +96,20 @@ const SortModeSelector: React.FC<SortModeSelectorProps> = ({ sortNumber, setSort
         })}
       </Popover>
     ),
-    [sortButtonsConfig, activeSort, currentDirection, theme, handlePress]
+    [sortButtonsConfig, activeSort, currentDirection, theme, handlePress],
   );
 
   const mainButtons = useMemo(() => {
     return sortNamesDefault.map((sortName) => {
-      const iconConfig: SortButtonProps = sortButtonsConfig[sortName];
-      if (!iconConfig) return null;
+      const iconProps: SortButtonProps = sortButtonsConfig[sortName];
+      if (!iconProps) return null;
 
       // Menus spéciaux
       if (sortName === "speed") {
-        return createTooltipMenu("speed", statNamesSpeed, "speed", iconConfig.iconName, iconConfig.iconType);
+        return createTooltipMenu("speed", statNamesSpeed, "speed", iconProps);
       }
       if (sortName === "handling") {
-        return createTooltipMenu("handling", statNamesHandling, "handling", iconConfig.iconName, iconConfig.iconType);
+        return createTooltipMenu("handling", statNamesHandling, "handling", iconProps);
       }
 
       // Boutons normaux
@@ -130,8 +120,7 @@ const SortModeSelector: React.FC<SortModeSelectorProps> = ({ sortNumber, setSort
           onPress={() => handlePress(sortName)}
           tooltipText={sortName}
           namespace={sortsNamespaceByGame[game]}
-          iconName={iconConfig.iconName}
-          iconType={iconConfig.iconType}
+          iconProps={iconProps}
           direction={isActive ? currentDirection : undefined}
           isBadge={isActive}
         />

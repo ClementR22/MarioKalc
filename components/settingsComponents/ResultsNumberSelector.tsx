@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import ButtonIcon from "@/primitiveComponents/ButtonIcon";
-import { IconType } from "react-native-dynamic-vector-icons";
 import useGeneralStore from "@/stores/useGeneralStore";
 import ButtonAndModal from "@/components/modal/ButtonAndModal";
 import Text from "@/primitiveComponents/Text";
@@ -25,7 +24,7 @@ const ResultsNumberSelector = () => {
       triggerComponent={
         <ButtonSettings
           title="numberOfSearchResults"
-          iconProps={{ name: "numbers", type: IconType.MaterialIcons }}
+          iconProps={{ iconKey: "numbers" }}
           tooltipText="numberOfSearchResults"
         />
       }
@@ -39,8 +38,7 @@ const ResultsNumberSelector = () => {
       <View style={styles.container}>
         <ButtonIcon
           onPress={() => setResultsNumberInModal((v) => Math.max(v - 1, MIN_RESULTS))}
-          iconName="minus"
-          iconType={IconType.MaterialCommunityIcons}
+          iconProps={{ iconKey: "minus" }}
           disabled={!canDecrement}
           tooltipText="decrease"
         />
@@ -51,8 +49,7 @@ const ResultsNumberSelector = () => {
 
         <ButtonIcon
           onPress={() => setResultsNumberInModal((v) => Math.min(v + 1, MAX_RESULTS))}
-          iconName="plus"
-          iconType={IconType.MaterialCommunityIcons}
+          iconProps={{ iconKey: "plus" }}
           disabled={!canIncrement}
           tooltipText="increase"
         />

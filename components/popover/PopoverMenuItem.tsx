@@ -1,18 +1,21 @@
+import { APP_ICONS, IconKey } from "@/constants/Icons";
 import Text from "@/primitiveComponents/Text";
 import useThemeStore from "@/stores/useThemeStore";
 import { buttonPressed } from "@/utils/designTokens";
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
-import Icon, { IconType } from "react-native-dynamic-vector-icons";
+import Icon from "react-native-dynamic-vector-icons";
 
 interface PopoverMenuItemProps {
   onPress: () => any;
   title: string;
-  iconProps?: { name: string; type: IconType };
+  iconKey?: IconKey;
 }
 
-const PopoverMenuItem: React.FC<PopoverMenuItemProps> = ({ onPress, title, iconProps }) => {
+const PopoverMenuItem: React.FC<PopoverMenuItemProps> = ({ onPress, title, iconKey }) => {
   const theme = useThemeStore((state) => state.theme);
+
+  const { name, type } = APP_ICONS[iconKey];
 
   return (
     <Pressable
@@ -23,7 +26,7 @@ const PopoverMenuItem: React.FC<PopoverMenuItemProps> = ({ onPress, title, iconP
         pressed && buttonPressed,
       ]}
     >
-      {iconProps && <Icon name={iconProps.name} type={iconProps.type} size={24} />}
+      {iconKey && <Icon name={name} type={type} size={24} />}
       <Text role="title" size="small" namespace="button" style={styles.text}>
         {title}
       </Text>

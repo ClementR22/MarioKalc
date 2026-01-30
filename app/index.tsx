@@ -11,7 +11,6 @@ import { ResultStatsProvider } from "@/contexts/ResultStatsContext";
 import BoxContainer from "@/primitiveComponents/BoxContainer";
 import useGeneralStore from "@/stores/useGeneralStore";
 import ButtonIcon from "@/primitiveComponents/ButtonIcon";
-import { IconType } from "react-native-dynamic-vector-icons";
 import { BORDER_RADIUS_CONTAINER_LOWEST, PADDING_SEARCH_CONTAINER, GAP_STAT_GAUGE_GROUP } from "@/utils/designTokens";
 import ScrollViewScreen, { ScrollViewScreenHandles } from "@/components/ScrollViewScreen";
 import { box_shadow_z1 } from "@/components/styles/shadow";
@@ -72,8 +71,7 @@ const SearchBuildScreen: React.FC = () => {
           <View style={styles.searchContainerPressablesContainer}>
             <ButtonIcon
               onPress={toggleAll}
-              iconName={isAllCompact ? "chevron-down" : "chevron-up"}
-              iconType={IconType.MaterialCommunityIcons}
+              iconProps={{ iconKey: isAllCompact ? "chevron-down" : "chevron-up" }}
               tooltipText={isAllCompact ? "developSliders" : "reduceSliders"}
             />
 

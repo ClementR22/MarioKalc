@@ -5,11 +5,11 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { StyleSheet } from "react-native";
 import Modal from "@/primitiveComponents/Modal";
 
-interface ModalConfirmProps {
+export interface ModalConfirmProps {
   isModalVisible: boolean;
   setIsModalVisible: (newBool: boolean) => void;
   title?: string;
-  text: string;
+  text?: string;
   isWarning?: boolean;
   isOpenBrowser?: boolean;
   onPress: () => any;

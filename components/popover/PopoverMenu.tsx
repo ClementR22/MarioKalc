@@ -28,7 +28,7 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({ trigger, actionIconPropsList 
         }}
       >
         {actionIconPropsList.map((actionProps) => {
-          const { title, name, type, onPress } = actionProps;
+          const { title, iconKey, onPress } = actionProps;
           return (
             <PopoverMenuItem
               key={title}
@@ -37,7 +37,7 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({ trigger, actionIconPropsList 
                 closePopover();
               }}
               title={title}
-              iconProps={{ name, type }}
+              iconKey={iconKey}
             />
           );
         })}

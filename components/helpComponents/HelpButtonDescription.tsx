@@ -1,14 +1,12 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { IconType } from "react-native-dynamic-vector-icons";
 import IconContainer from "@/primitiveComponents/IconContainer";
-import { BORDER_RADIUS_INF, BUTTON_SIZE } from "@/utils/designTokens";
 import Text from "@/primitiveComponents/Text";
 import Tooltip from "../Tooltip";
+import { IconKey } from "@/constants/Icons";
 
 interface HelpButtonDescriptionProps {
-  iconName: string;
-  iconType: IconType;
+  iconKey: IconKey;
   description: string;
   namespaceDescription: string;
   tooltipText: string;
@@ -16,8 +14,7 @@ interface HelpButtonDescriptionProps {
 }
 
 const HelpButtonDescription = ({
-  iconName,
-  iconType,
+  iconKey,
   description,
   namespaceDescription,
   tooltipText,
@@ -26,7 +23,7 @@ const HelpButtonDescription = ({
   return (
     <View style={styles.container}>
       <Tooltip tooltipText={tooltipText} namespace={namespaceTooltipText}>
-        <IconContainer iconName={iconName} iconType={iconType} />
+        <IconContainer iconProps={{ iconKey }} />
       </Tooltip>
 
       <View style={styles.description}>

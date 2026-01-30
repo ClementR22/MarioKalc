@@ -1,4 +1,3 @@
-import { IconType } from "react-native-dynamic-vector-icons";
 import { useCallback, useMemo } from "react";
 import { ScreenName } from "@/contexts/ScreenContext";
 import useBuildsActionsStore from "@/stores/useBuildsActionsStore";
@@ -8,15 +7,14 @@ import useBuildsListStore from "@/stores/useBuildsListStore";
 import usePressableElementsStore from "@/stores/usePressableElementsStore";
 import { BuildAlreadyExistsError } from "@/errors/errors";
 import { useGameData } from "./useGameData";
-import { Platform } from "react-native";
 import { useModal } from "@/contexts/ModalContext";
 import useEditBuildModalStore from "@/stores/useEditBuildModalStore";
 import useGameStore from "@/stores/useGameStore";
+import { IconKey } from "@/constants/Icons";
 
 export interface ActionIconProps {
   title: string;
-  name: string;
-  type: IconType;
+  iconKey: IconKey;
   onPress: () => void;
 }
 
@@ -117,8 +115,7 @@ export function useActionIconPropsList(
     const actionIconPropsList: ActionIconProps[] = [
       {
         title: screenName === "search" ? "loadTheStats" : "loadTheBuild",
-        name: "check",
-        type: IconType.FontAwesome5,
+        iconKey: "check",
         onPress: screenName === "search" ? handleLoadToSearchPress : handleLoadToDisplayPress,
       },
     ];
@@ -129,38 +126,32 @@ export function useActionIconPropsList(
     const allActionsDefs: Record<ActionName, ActionIconProps> = {
       edit: {
         title: "editTheBuild",
-        name: "edit",
-        type: IconType.MaterialIcons,
+        iconKey: "pencil",
         onPress: handleEditPress,
       },
       loadToSearch: {
         title: isInLoadBuildModal ? "loadTheStats" : "loadTheStatsToSearchScreen",
-        name: isInLoadBuildModal ? "check" : "magnify",
-        type: isInLoadBuildModal ? IconType.FontAwesome5 : IconType.MaterialCommunityIcons,
+        iconKey: isInLoadBuildModal ? "check" : "magnify",
         onPress: handleLoadToSearchPress,
       },
       loadToDisplay: {
         title: isInLoadBuildModal ? "loadTheBuild" : "loadTheBuildToDisplayScreen",
-        name: isInLoadBuildModal ? "check" : "compare",
-        type: isInLoadBuildModal ? IconType.FontAwesome5 : IconType.MaterialCommunityIcons,
+        iconKey: isInLoadBuildModal ? "check" : "compare",
         onPress: handleLoadToDisplayPress,
       },
       save: {
         title: "save",
-        name: isSaved ? "content-save-check" : "content-save-outline",
-        type: IconType.MaterialCommunityIcons,
+        iconKey: isSaved ? "content-save-check" : "content-save-outline",
         onPress: handleSavePress,
       },
       remove: {
         title: "remove",
-        name: source === "save" ? "trash-can" : "close",
-        type: source === "save" ? IconType.MaterialCommunityIcons : IconType.AntDesign,
+        iconKey: source === "save" ? "trash-can" : "close",
         onPress: handleRemovePress,
       },
       share: {
         title: "share",
-        name: Platform.OS === "ios" ? "share-outline" : "share",
-        type: Platform.OS === "ios" ? IconType.Ionicons : IconType.MaterialIcons,
+        iconKey: "share",
         onPress: handleExportPress,
       },
     };

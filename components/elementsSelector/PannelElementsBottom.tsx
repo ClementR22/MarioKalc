@@ -6,7 +6,6 @@ import usePressableElementsStore from "@/stores/usePressableElementsStore";
 import SortModeSelector from "../sortModeSelector/SortModeSelector";
 import { sortElements } from "@/utils/sortElements";
 import ButtonIcon from "@/primitiveComponents/ButtonIcon";
-import { IconType } from "react-native-dynamic-vector-icons";
 import { Bodytype } from "@/types";
 import BodytypesSelector from "../rowSelector/BodytypesSelector";
 import useThemeStore from "@/stores/useThemeStore";
@@ -25,6 +24,7 @@ import { ElementData } from "@/types";
 import { useGameData } from "@/hooks/useGameData";
 import useGameStore from "@/stores/useGameStore";
 import { elementsNamespaceByGame } from "@/translations/namespaces";
+import { IconKey } from "@/constants/Icons";
 
 interface ElementShortSelectorPannelProps {
   selectionMode?: "single" | "multiple";
@@ -55,7 +55,7 @@ const PannelElementsBottom: React.FC<ElementShortSelectorPannelProps> = ({
 
   const categoryElementsSorted = useMemo<ElementData[]>(
     () => sortElements<ElementData>(elementsDataByCategory[selectedCategory], sortNumber, t),
-    [selectedCategory, sortNumber, t]
+    [selectedCategory, sortNumber, t],
   );
 
   const numberOfPages = useMemo(() => {
@@ -74,7 +74,7 @@ const PannelElementsBottom: React.FC<ElementShortSelectorPannelProps> = ({
   const selectedClassId = usePressableElementsStore((state) =>
     isFilterMode
       ? state.multiSelectedClassIdsByCategory[selectedCategory]
-      : state.selectedClassIdsByCategory[selectedCategory]
+      : state.selectedClassIdsByCategory[selectedCategory],
   );
 
   const selectedClassIds = usePressableElementsStore((state) => state.selectedClassIdsByCategory);
@@ -82,12 +82,12 @@ const PannelElementsBottom: React.FC<ElementShortSelectorPannelProps> = ({
   const selectElementsByClassId = usePressableElementsStore((state) => state.selectElementsByClassId);
 
   const toggleMultiSelectElementsByClassId = usePressableElementsStore(
-    (state) => state.toggleMultiSelectElementsByClassId
+    (state) => state.toggleMultiSelectElementsByClassId,
   );
 
   const handleSelectElement = useMemo(
     () => (isFilterMode ? toggleMultiSelectElementsByClassId : selectElementsByClassId),
-    [selectElementsByClassId, toggleMultiSelectElementsByClassId, isFilterMode]
+    [selectElementsByClassId, toggleMultiSelectElementsByClassId, isFilterMode],
   );
 
   const toggleOpenSortView = useCallback(() => setIsOpenSortView((prev) => !prev), []);
@@ -128,9 +128,9 @@ const PannelElementsBottom: React.FC<ElementShortSelectorPannelProps> = ({
     pagerRef.current?.setPageWithoutAnimation(0);
   }, []);
 
-  const { iconName, iconType, tooltipText } = isOpenSortView
-    ? { iconName: "car-sports", iconType: IconType.MaterialCommunityIcons, tooltipText: "filterBodytypes" }
-    : { iconName: "sort", iconType: IconType.MaterialCommunityIcons, tooltipText: "sortElements" };
+  const { iconKey, tooltipText }: { iconKey: IconKey; tooltipText: string } = isOpenSortView
+    ? { iconKey: "car-sports", tooltipText: "filterBodytypes" }
+    : { iconKey: "sort", tooltipText: "sortElements" };
 
   return (
     <>
@@ -140,12 +140,7 @@ const PannelElementsBottom: React.FC<ElementShortSelectorPannelProps> = ({
         {isFilterMode && (
           <>
             <View style={styles.buttonToggleWrapper}>
-              <ButtonIcon
-                onPress={toggleOpenSortView}
-                iconName={iconName}
-                iconType={iconType}
-                tooltipText={tooltipText}
-              />
+              <ButtonIcon onPress={toggleOpenSortView} iconProps={{ iconKey }} tooltipText={tooltipText} />
             </View>
             <Separator direction="vertical" length={BUTTON_SIZE} />
           </>

@@ -23,7 +23,6 @@ import { toastConfig } from "@/config/toastConfig";
 import { useTranslation } from "react-i18next";
 
 import ButtonIconWithBadge from "@/components/sortModeSelector/ButtonIconWithBadge";
-import { IconType } from "react-native-dynamic-vector-icons";
 import { useInitStatsStore } from "@/hooks/useInitStatsStore";
 import { useInitPressableElementsStore } from "@/hooks/useInitPressableElementsStore";
 
@@ -127,50 +126,23 @@ export default function TabLayout() {
 
   // 7. CALLBACKS MÉMOÏSÉS POUR LES HEADERS
   const renderSearchHeader = useCallback(
-    () => (
-      <CustomHeader
-        iconName="magnify"
-        iconType={IconType.MaterialCommunityIcons}
-        title="buildFinderTitle"
-        helpComponent={<HelpSearchBuildScreen />}
-      />
-    ),
+    () => <CustomHeader iconKey="magnify" title="buildFinderTitle" helpComponent={<HelpSearchBuildScreen />} />,
     [],
   );
 
   const renderDisplayHeader = useCallback(
-    () => (
-      <CustomHeader
-        iconName="compare"
-        iconType={IconType.MaterialCommunityIcons}
-        title="comparatorTitle"
-        helpComponent={<HelpDisplayBuildScreen />}
-      />
-    ),
+    () => <CustomHeader iconKey="compare" title="comparatorTitle" helpComponent={<HelpDisplayBuildScreen />} />,
     [],
   );
 
   const renderSavedHeader = useCallback(
-    () => (
-      <CustomHeader
-        iconName="cards"
-        iconType={IconType.MaterialCommunityIcons}
-        title="collectionTitle"
-        helpComponent={<HelpSavedBuildScreen />}
-      />
-    ),
+    () => <CustomHeader iconKey="cards" title="collectionTitle" helpComponent={<HelpSavedBuildScreen />} />,
     [],
   );
 
-  const renderGalleryHeader = useCallback(
-    () => <CustomHeader iconName="image" iconType={IconType.Ionicons} title="galleryTitle" />,
-    [],
-  );
+  const renderGalleryHeader = useCallback(() => <CustomHeader iconKey="image" title="galleryTitle" />, []);
 
-  const renderSettingsHeader = useCallback(
-    () => <CustomHeader iconName="settings" iconType={IconType.Ionicons} title="settingsTitle" />,
-    [],
-  );
+  const renderSettingsHeader = useCallback(() => <CustomHeader iconKey="settings" title="settingsTitle" />, []);
 
   // Return anticipé APRÈS tous les hooks
   if (!isReady) {
@@ -207,10 +179,8 @@ export default function TabLayout() {
                   tabBarIcon: ({ color }) => (
                     <ButtonIconWithBadge
                       tooltipText=""
-                      iconName="magnify"
-                      iconType={IconType.MaterialCommunityIcons}
+                      iconProps={{ iconKey: "magnify", iconColor: color }}
                       backgroundColor="transparent"
-                      iconColor={color}
                       isBadge={false}
                     />
                   ),
@@ -224,10 +194,8 @@ export default function TabLayout() {
                   tabBarIcon: ({ color }) => (
                     <ButtonIconWithBadge
                       tooltipText=""
-                      iconName="compare"
-                      iconType={IconType.MaterialCommunityIcons}
+                      iconProps={{ iconKey: "compare", iconColor: color }}
                       backgroundColor="transparent"
-                      iconColor={color}
                       isBadge={false}
                     />
                   ),
@@ -241,11 +209,9 @@ export default function TabLayout() {
                   tabBarIcon: ({ color, focused }) => (
                     <ButtonIconWithBadge
                       tooltipText=""
-                      iconName={focused ? "cards" : "cards-outline"}
-                      iconType={IconType.MaterialCommunityIcons}
+                      iconProps={{ iconKey: focused ? "cards" : "cards-outline", iconColor: color }}
                       badgeText={numberSavedBuilds}
                       backgroundColor="transparent"
-                      iconColor={color}
                     />
                   ),
                   header: renderSavedHeader,
@@ -258,10 +224,8 @@ export default function TabLayout() {
                   tabBarIcon: ({ color, focused }) => (
                     <ButtonIconWithBadge
                       tooltipText=""
-                      iconName={focused ? "image" : "image-outline"}
-                      iconType={IconType.Ionicons}
+                      iconProps={{ iconKey: focused ? "image" : "image-outline", iconColor: color }}
                       backgroundColor="transparent"
-                      iconColor={color}
                       isBadge={false}
                     />
                   ),
@@ -275,10 +239,8 @@ export default function TabLayout() {
                   tabBarIcon: ({ color, focused }) => (
                     <ButtonIconWithBadge
                       tooltipText=""
-                      iconName={focused ? "settings" : "settings-outline"}
-                      iconType={IconType.Ionicons}
+                      iconProps={{ iconKey: focused ? "settings" : "settings-outline", iconColor: color }}
                       backgroundColor="transparent"
-                      iconColor={color}
                       isBadge={false}
                     />
                   ),

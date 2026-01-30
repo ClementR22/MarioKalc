@@ -1,22 +1,14 @@
 import React from "react";
-import { IconType } from "react-native-dynamic-vector-icons";
 import ButtonBase from "./ButtonBase";
-import IconContainer from "./IconContainer";
+import IconContainer, { IconContainerProps } from "./IconContainer";
 import { BUTTON_SIZE } from "@/utils/designTokens";
 
-export interface ButtonIconProps {
+export interface ButtonIconProps extends IconContainerProps {
   onPress?: (event?: Event) => void;
   tooltipText?: string;
   namespace?: string;
   toolTipPlacement?: "top" | "right" | "bottom" | "left" | "auto";
-  iconName: string;
-  iconType: IconType;
-  iconColor?: string;
-  buttonSize?: number;
-  shape?: "circle" | "rectangle";
-  backgroundColor?: string;
   disabled?: boolean;
-  [key: string]: any;
 }
 
 const ButtonIcon: React.FC<ButtonIconProps> = ({
@@ -24,14 +16,11 @@ const ButtonIcon: React.FC<ButtonIconProps> = ({
   tooltipText,
   namespace,
   toolTipPlacement = "top",
-  iconName,
-  iconType,
-  iconColor = null,
-  buttonSize = BUTTON_SIZE,
-  shape = "circle",
-  backgroundColor,
   disabled = false,
-  ...props
+  iconProps,
+  shape = "circle",
+  containerSize = BUTTON_SIZE,
+  backgroundColor,
 }) => {
   return (
     <ButtonBase
@@ -40,15 +29,12 @@ const ButtonIcon: React.FC<ButtonIconProps> = ({
       namespace={namespace}
       placement={toolTipPlacement}
       disabled={disabled}
-      {...props}
     >
       <IconContainer
-        iconName={iconName}
-        iconType={iconType}
+        iconProps={iconProps}
         shape={shape}
-        containerSize={buttonSize}
+        containerSize={containerSize}
         backgroundColor={disabled ? "grey" : backgroundColor}
-        iconColor={iconColor}
       />
     </ButtonBase>
   );

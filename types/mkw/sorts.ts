@@ -1,6 +1,6 @@
+import { IconKey } from "@/constants/Icons";
 import { StatName, StatNameHandling, StatNameSpeed } from "./stats";
 import { Terrain } from "./stats";
-import { IconType } from "react-native-dynamic-vector-icons";
 
 type StatNameSort = StatName | "speed" | "handling";
 
@@ -13,7 +13,6 @@ export type SortNameElementDefault = Exclude<SortName, StatNameSpeed | StatNameH
 export type SortNameBuildCardDefault = Exclude<SortNameElementDefault, "id">;
 
 export interface SortButtonProps {
-  iconName: string;
-  iconType: IconType;
+  iconKey: IconKey;
   backgroundColor?: Terrain; // Make it optional as it's only for terrain stats
 }

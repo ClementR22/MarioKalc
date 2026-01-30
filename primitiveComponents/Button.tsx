@@ -6,26 +6,25 @@ import ButtonBase from "./ButtonBase";
 import { BORDER_RADIUS_INF, BUTTON_SIZE } from "@/utils/designTokens";
 import { box_shadow_z2 } from "@/components/styles/shadow";
 import Text from "./Text";
-import { IconProps } from "@/types";
+import { APP_ICONS, IconKey } from "@/constants/Icons";
 
 interface ButtonProps {
   children: ReactNode;
   onPress?: () => void;
   tooltipText: string;
-  iconProps?: IconProps;
+  iconKey?: IconKey;
   buttonColor?: string;
   buttonTextColor?: string;
   isErrorStyle?: boolean;
   flex?: number;
   disabled?: boolean;
-  [key: string]: any;
 }
 
 const Button: React.FC<ButtonProps> = ({
   children,
   onPress,
   tooltipText,
-  iconProps,
+  iconKey,
   buttonColor,
   buttonTextColor,
   isErrorStyle,
@@ -33,6 +32,8 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
 }) => {
   const theme = useThemeStore((state) => state.theme);
+
+  const { name, type } = APP_ICONS[iconKey];
 
   let backgroundColor: string, contentColor: string;
   if (disabled) {
@@ -60,7 +61,7 @@ const Button: React.FC<ButtonProps> = ({
       containerStyleInner={styles.containerInner}
       disabled={disabled}
     >
-      {iconProps && <Icon type={iconProps.type} name={iconProps.name} size={24} color={contentColor} />}
+      {iconKey && <Icon name={name} type={type} size={24} color={contentColor} />}
       <Text
         role="title"
         size="small"

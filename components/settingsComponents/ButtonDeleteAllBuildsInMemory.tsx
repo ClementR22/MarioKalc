@@ -2,7 +2,6 @@ import React from "react";
 import useBuildsListStore from "@/stores/useBuildsListStore";
 import showToast from "@/utils/showToast";
 import ButtonAndModalConfirm from "../modal/ButtonAndModalConfirm";
-import { IconType } from "react-native-dynamic-vector-icons";
 import useGameStore from "@/stores/useGameStore";
 
 const ButtonDeleteAllBuildsInMemory = () => {
@@ -17,7 +16,7 @@ const ButtonDeleteAllBuildsInMemory = () => {
   return (
     <ButtonAndModalConfirm
       title="deleteAllBuildsInMemory"
-      iconProps={{ name: "trash-can", type: IconType.MaterialCommunityIcons }}
+      iconKey="trash-can"
       tooltipText="deleteAllBuildsInMemory"
       text="deleteAllBuildsInMemoryText"
       isWarning={true}

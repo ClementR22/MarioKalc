@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import ButtonAndModal from "../modal/ButtonAndModal";
-import { IconType } from "react-native-dynamic-vector-icons";
 import ButtonSettings from "@/primitiveComponents/ButtonSettings";
 import licenses from "@/assets/licenses.json";
 import { ScrollView } from "react-native-gesture-handler";
@@ -17,7 +16,7 @@ const ButtonLicenses = () => {
       triggerComponent={
         <ButtonSettings
           title="openSourceLicenses"
-          iconProps={{ name: "license", type: IconType.MaterialCommunityIcons }}
+          iconProps={{ iconKey: "license" }}
           tooltipText="openSourceLicenses"
         />
       }

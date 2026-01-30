@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import { Linking } from "react-native";
-import { IconType } from "react-native-dynamic-vector-icons";
 import ButtonAndModalConfirm from "../modal/ButtonAndModalConfirm";
 
 const url = "https://github.com/ClementR22/MK8DSB";
@@ -13,7 +12,7 @@ const ButtonSourceCode = () => {
   return (
     <ButtonAndModalConfirm
       title="sourceCode"
-      iconProps={{ name: "github", type: IconType.AntDesign }}
+      iconKey="github"
       tooltipText="sourceCode"
       isOpenBrowser
       onPress={handlePress}

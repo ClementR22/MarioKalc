@@ -26,7 +26,7 @@ const BuildCardActionButtons: React.FC<BuildCardActionButtonsProps> = ({
     screenName,
     isInLoadBuildModal,
     buildDataId,
-    isSaved
+    isSaved,
   );
 
   return (
@@ -38,8 +38,8 @@ const BuildCardActionButtons: React.FC<BuildCardActionButtonsProps> = ({
       borderRadius={BORDER_RADIUS_MEDIUM}
     >
       {actionIconPropsList.map((actionProps) => {
-        const { title, name, type, onPress } = actionProps;
-        return <ButtonIcon key={name} tooltipText={title} iconName={name} iconType={type} onPress={onPress} />;
+        const { title, iconKey, onPress } = actionProps;
+        return <ButtonIcon key={title} tooltipText={title} iconProps={{ iconKey }} onPress={onPress} />;
       })}
     </BoxContainer>
   );

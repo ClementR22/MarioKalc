@@ -1,6 +1,5 @@
 import React, { memo, useMemo } from "react";
 import useLoadBuildModalStore from "@/stores/useLoadBuildModalStore";
-import { IconType } from "react-native-dynamic-vector-icons";
 import ButtonIconWithBadge from "../sortModeSelector/ButtonIconWithBadge";
 import useGeneralStore from "@/stores/useGeneralStore";
 import PopoverMenu from "../popover/PopoverMenu";
@@ -22,18 +21,16 @@ const ButtonLoadBuild: React.FC<ButtonLoadBuildProps> = ({ tooltipText }) => {
     () => [
       {
         title: "collection",
-        name: "cards-outline",
-        type: IconType.MaterialCommunityIcons,
+        iconKey: "cards-outline",
         onPress: openLoadBuildModal,
       },
       {
         title: "import",
-        name: "content-paste",
-        type: IconType.MaterialCommunityIcons,
+        iconKey: "content-paste",
         onPress: importBuild,
       },
     ],
-    [openLoadBuildModal, importBuild]
+    [openLoadBuildModal, importBuild],
   );
 
   return (
@@ -42,8 +39,7 @@ const ButtonLoadBuild: React.FC<ButtonLoadBuildProps> = ({ tooltipText }) => {
         <ButtonIconWithBadge
           onPress={openPopover}
           tooltipText={tooltipText}
-          iconName="cards-outline"
-          iconType={IconType.MaterialCommunityIcons}
+          iconProps={{ iconKey: "cards-outline" }}
           badgeText={numberSavedBuilds}
         />
       )}

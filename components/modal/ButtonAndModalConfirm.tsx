@@ -1,23 +1,18 @@
 import React, { useMemo, useState } from "react";
 import useThemeStore from "@/stores/useThemeStore";
-import { IconType } from "react-native-dynamic-vector-icons";
 import ButtonSettings from "@/primitiveComponents/ButtonSettings";
-import ModalConfirm from "./ModalConfirm";
+import ModalConfirm, { ModalConfirmProps } from "./ModalConfirm";
+import { IconKey } from "@/constants/Icons";
 
-interface ButtonAndModalConfirmProps {
-  title?: string;
-  iconProps: { name: string; type: IconType };
+interface ButtonAndModalConfirmProps extends Omit<ModalConfirmProps, "isModalVisible" | "setIsModalVisible"> {
+  iconKey: IconKey;
   tooltipText: string;
-  text?: string;
-  isWarning?: boolean;
-  isOpenBrowser?: boolean;
   disabled?: boolean;
-  onPress: () => any;
 }
 
 const ButtonAndModalConfirm: React.FC<ButtonAndModalConfirmProps> = ({
   title,
-  iconProps,
+  iconKey,
   tooltipText,
   text,
   isWarning = false,
@@ -35,13 +30,13 @@ const ButtonAndModalConfirm: React.FC<ButtonAndModalConfirmProps> = ({
       <ButtonSettings
         title={title}
         onPress={() => setIsModalVisible(true)}
-        iconProps={{ name: iconProps.name, type: iconProps.type, color: isWarning ? theme.on_error : undefined }}
+        iconProps={{ iconKey, iconColor: isWarning ? theme.on_error : undefined }}
         backgroundColor={isWarning ? theme.error : undefined}
         tooltipText={tooltipText}
         disabled={disabled}
       />
     ),
-    [iconProps, isWarning, tooltipText, disabled, theme],
+    [iconKey, isWarning, tooltipText, disabled, theme],
   );
 
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import Icon, { IconType } from "react-native-dynamic-vector-icons";
+import Icon from "react-native-dynamic-vector-icons";
 import useThemeStore from "@/stores/useThemeStore";
 import {
   BORDER_RADIUS_INF,
@@ -9,6 +9,8 @@ import {
   HEIGHT_BUTTON_RECTANGLE,
   WIDTH_BUTTON_RECTANGLE,
 } from "@/utils/designTokens";
+import { APP_ICONS } from "@/constants/Icons";
+import { IconProps } from "@/types";
 
 type Shape = "circle" | "rectangle" | "square";
 
@@ -28,26 +30,22 @@ const getContainerStyle = (shape: Shape, containerSize?: number) => {
   }
 };
 
-interface IconContainerProps {
-  iconName: string;
-  iconType: IconType;
+export interface IconContainerProps {
+  iconProps: IconProps;
   shape?: Shape;
   containerSize?: number;
   backgroundColor?: string;
-  iconColor?: string;
 }
 
 const IconContainer = ({
-  iconName,
-  iconType,
+  iconProps,
   shape = "circle",
   containerSize = BUTTON_SIZE,
   backgroundColor,
-  iconColor,
-  ...iconProps
 }: IconContainerProps) => {
   const { theme } = useThemeStore();
 
+  const { name, type } = APP_ICONS[iconProps.iconKey];
   const iconSize = (24 / BUTTON_SIZE) * containerSize;
   const containerStyle = getContainerStyle(shape, containerSize);
 
@@ -63,7 +61,7 @@ const IconContainer = ({
         containerStyle,
       ]}
     >
-      <Icon name={iconName} type={iconType} size={iconSize} color={iconColor || theme.on_primary} {...iconProps} />
+      <Icon name={name} type={type} size={iconSize} color={iconProps.iconColor || theme.on_primary} />
     </View>
   );
 };

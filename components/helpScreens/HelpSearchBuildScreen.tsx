@@ -1,6 +1,5 @@
 import React, { memo, useState } from "react";
-import { Platform, View } from "react-native";
-import { IconType } from "react-native-dynamic-vector-icons";
+import { View } from "react-native";
 import HelpModal from "./HelpModal";
 import StatSliderPreview from "../statSlider/StatSliderPreview";
 import { WIDTH_BUILD_CARD } from "@/utils/designTokens";
@@ -44,8 +43,7 @@ const HelpSearchBuildScreen = () => {
       <HelpSection title="how_to_use.title" namespace="helpSearch" contentType="step">
         <HelpStepItem key={1} stepChar="1" title="how_to_use.step.choose_criteria" namespace="helpSearch">
           <HelpButtonDescription
-            iconName="checkbox-multiple-marked"
-            iconType={IconType.MaterialCommunityIcons}
+            iconKey="checkbox-multiple-marked"
             description="how_to_use.step.choose_criteria.add_stat"
             namespaceDescription="helpSearch"
             tooltipText="desiredStatsAndStatsInBuilds"
@@ -104,14 +102,7 @@ const HelpSearchBuildScreen = () => {
           namespace="helpSearch"
           alignItems="center"
         >
-          <Button
-            onPress={null}
-            tooltipText="search"
-            iconProps={{
-              type: IconType.MaterialCommunityIcons,
-              name: "magnify",
-            }}
-          >
+          <Button onPress={null} tooltipText="search" iconKey="magnify">
             search
           </Button>
         </HelpStepItem>
@@ -141,8 +132,7 @@ const HelpSearchBuildScreen = () => {
       <HelpSection title="advanced_options.title" namespace="helpSearch" contentType="step">
         <HelpStepItem key="A" stepChar="A" title="advanced_options.step.customize_display" namespace="helpSearch">
           <HelpButtonDescription
-            iconName="checkbox-multiple-marked"
-            iconType={IconType.MaterialCommunityIcons}
+            iconKey="checkbox-multiple-marked"
             description="advanced_options.step.customize_display.choose_stats_to_show"
             namespaceDescription="helpSearch"
             tooltipText="desiredStatsAndStatsInBuilds"
@@ -151,8 +141,7 @@ const HelpSearchBuildScreen = () => {
 
         <HelpStepItem key="B" stepChar="B" title="advanced_options.step.filters" namespace="helpSearch">
           <HelpButtonDescription
-            iconName="filter"
-            iconType={IconType.MaterialCommunityIcons}
+            iconKey="filter"
             description="advanced_options.step.filters.lock_item"
             namespaceDescription="helpSearch"
             tooltipText="chooseFilters"
@@ -161,15 +150,13 @@ const HelpSearchBuildScreen = () => {
 
         <HelpStepItem key="C" stepChar="C" title="advanced_options.step.reuse_stats" namespace="helpSearch">
           <HelpButtonDescription
-            iconName="cards-outline"
-            iconType={IconType.MaterialCommunityIcons}
+            iconKey="cards-outline"
             description="advanced_options.step.reuse_stats.open_collection"
             namespaceDescription="helpSearch"
             tooltipText="loadStatsOfABuild"
           />
           <HelpButtonDescription
-            iconName="check"
-            iconType={IconType.FontAwesome5}
+            iconKey="check"
             description="advanced_options.step.reuse_stats.import_variations"
             namespaceDescription="helpSearch"
             tooltipText="loadTheStats"
@@ -180,22 +167,19 @@ const HelpSearchBuildScreen = () => {
       {/* Section 3 — Results management */}
       <HelpSection title="results_management.title" namespace="helpSearch" contentType="button">
         <HelpButtonDescription
-          iconName="content-save-outline"
-          iconType={IconType.MaterialCommunityIcons}
+          iconKey="content-save-outline"
           description="results_management.save_to_collection"
           namespaceDescription="helpSearch"
           tooltipText="save"
         />
         <HelpButtonDescription
-          iconName="compare"
-          iconType={IconType.MaterialCommunityIcons}
+          iconKey="compare"
           description="results_management.add_to"
           namespaceDescription="helpSearch"
           tooltipText="loadTheBuildToDisplayScreen"
         />
         <HelpButtonDescription
-          iconName={Platform.OS === "ios" ? "share-outline" : "share"}
-          iconType={Platform.OS === "ios" ? IconType.Ionicons : IconType.MaterialIcons}
+          iconKey="share"
           description="results_management.export_set"
           namespaceDescription="helpSearch"
           tooltipText="share"

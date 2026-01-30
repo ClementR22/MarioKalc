@@ -12,7 +12,6 @@ import StatGaugeGroupCompare from "@/components/statGaugeCompare/StatGaugeGroupC
 import ScrollViewScreen from "@/components/ScrollViewScreen";
 import StatSelector from "@/components/statSelector/StatSelector";
 import ButtonIcon from "@/primitiveComponents/ButtonIcon";
-import { IconType } from "react-native-dynamic-vector-icons";
 import { StyleSheet, View } from "react-native";
 import { MARGIN_CONTAINER_LOWEST } from "@/utils/designTokens";
 
@@ -78,7 +77,7 @@ const DisplayBuildScreen = () => {
         ...build,
         color: buildsColorsMap?.get(build.buildDataId) || theme.surface_variant,
       })),
-    [buildsListDisplayed, buildsColorsMap, theme.surface_variant]
+    [buildsListDisplayed, buildsColorsMap, theme.surface_variant],
   );
 
   return (
@@ -87,8 +86,7 @@ const DisplayBuildScreen = () => {
         <ScreenPressablesContainer sortNumber={sortNumber} setSortNumber={setSortNumber}>
           <ButtonIcon
             onPress={toggleIsBuildCardsCollapsed}
-            iconName={isBuildCardsCollapsed ? "chevron-down" : "chevron-up"}
-            iconType={IconType.MaterialCommunityIcons}
+            iconProps={{ iconKey: isBuildCardsCollapsed ? "chevron-down" : "chevron-up" }}
             tooltipText={isBuildCardsCollapsed ? "developBuilds" : "reduceBuilds"}
           />
           <ButtonLoadBuild tooltipText="loadABuild" />

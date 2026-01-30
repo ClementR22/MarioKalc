@@ -11,7 +11,6 @@ type ButtonBaseProps = {
   containerStyleOuter?: ViewStyle | ViewStyle[];
   containerStyleInner?: ViewStyle | ViewStyle[];
   disabled?: boolean;
-  [key: string]: any; // autres props à passer
 };
 
 const ButtonBase = ({
@@ -23,7 +22,6 @@ const ButtonBase = ({
   containerStyleOuter,
   containerStyleInner,
   disabled = false,
-  ...props
 }: ButtonBaseProps) => {
   if (!tooltipText) {
     console.error("tooltipText missing in buttonBase", children, onPress);
@@ -37,7 +35,6 @@ const ButtonBase = ({
       namespace={namespace}
       placement={placement}
       onPressDisabled={disabled}
-      {...props}
     >
       {children}
     </Tooltip>

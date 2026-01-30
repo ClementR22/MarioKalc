@@ -1,6 +1,5 @@
 import React from "react";
 import { useCheckUpdate } from "@/hooks/useCheckUpdate";
-import { IconType } from "react-native-dynamic-vector-icons";
 import ButtonAndModalConfirm from "../modal/ButtonAndModalConfirm";
 
 interface ButtonUpdateProps {}
@@ -11,7 +10,7 @@ const ButtonUpdate: React.FC<ButtonUpdateProps> = () => {
   return (
     <ButtonAndModalConfirm
       title="updateTheApp"
-      iconProps={{ name: "system-update-alt", type: IconType.MaterialIcons }}
+      iconKey="update"
       tooltipText="updateTheApp"
       isOpenBrowser
       disabled={!updateAvailable}

@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { IconType } from "react-native-dynamic-vector-icons";
 import ButtonAndModal from "../modal/ButtonAndModal";
 import Button from "../../primitiveComponents/Button";
 import usePressableElementsStore from "@/stores/usePressableElementsStore";
@@ -41,7 +40,7 @@ const SearchBuildScreenPressablesContainer: React.FC<SearchBuildScreenPressables
       selectedClassIdsByCategory
         ? Object.values(selectedClassIdsByCategory).reduce((count, category) => count + category.size, 0)
         : 0,
-    [selectedClassIdsByCategory]
+    [selectedClassIdsByCategory],
   );
 
   useEffect(() => {
@@ -144,7 +143,7 @@ const SearchBuildScreenPressablesContainer: React.FC<SearchBuildScreenPressables
         key="button-search"
         onPress={handleSearch}
         tooltipText="search"
-        iconProps={{ type: IconType.MaterialCommunityIcons, name: "magnify" }}
+        iconKey="magnify"
         disabled={disableSearch}
         flex={1}
       >
@@ -156,8 +155,7 @@ const SearchBuildScreenPressablesContainer: React.FC<SearchBuildScreenPressables
         triggerComponent={
           <ButtonIconWithBadge
             tooltipText="chooseFilters"
-            iconName="filter"
-            iconType={IconType.MaterialCommunityIcons}
+            iconProps={{ iconKey: "filter" }}
             badgeText={numberOfSelectedClassIds}
           />
         }

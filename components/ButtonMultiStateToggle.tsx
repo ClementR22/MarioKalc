@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import ButtonIcon from "@/primitiveComponents/ButtonIcon";
-import { IconType } from "react-native-dynamic-vector-icons";
+import { IconKey } from "@/constants/Icons";
 
 interface ButtonMultiStateToggleProps {
   number: number;
@@ -8,7 +8,7 @@ interface ButtonMultiStateToggleProps {
   tooltipText?: string;
 }
 
-const statFilterIconsNames = ["approximately-equal", "greater-than-or-equal", "equal"];
+const statFilterIconsNames: IconKey[] = ["approximately-equal", "greater-than-or-equal", "equal"];
 
 const ButtonMultiStateToggle: React.FC<ButtonMultiStateToggleProps> = ({ number, setNumber, tooltipText }) => {
   const currentIconsNames = statFilterIconsNames;
@@ -21,10 +21,9 @@ const ButtonMultiStateToggle: React.FC<ButtonMultiStateToggleProps> = ({ number,
   return (
     <ButtonIcon
       tooltipText={tooltipText}
-      iconName={currentIconsNames[number]}
-      iconType={IconType.MaterialCommunityIcons}
+      iconProps={{ iconKey: currentIconsNames[number] }}
       onPress={handlePress}
-      shape={"rectangle"}
+      shape="rectangle"
     />
   );
 };

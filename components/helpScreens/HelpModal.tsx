@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import { IconType } from "react-native-dynamic-vector-icons";
 import ButtonIcon from "@/primitiveComponents/ButtonIcon";
 import ButtonAndModal from "../modal/ButtonAndModal";
 import { StyleSheet } from "react-native";
@@ -20,10 +19,8 @@ const HelpModal: React.FC<HelpModalProps> = ({ title, children }) => {
   const triggerComponent = useMemo(
     () => (
       <ButtonIcon
-        iconName="help-circle-outline"
-        iconType={IconType.MaterialCommunityIcons}
-        buttonSize={48}
-        iconColor={theme.on_surface}
+        iconProps={{ iconKey: "help-circle-outline", iconColor: theme.on_surface }}
+        containerSize={48}
         backgroundColor="transparent"
         tooltipText="help"
         toolTipPlacement="left"

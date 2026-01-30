@@ -3,7 +3,7 @@ import IconContainer from "@/primitiveComponents/IconContainer";
 import Text from "@/primitiveComponents/Text";
 import useThemeStore from "@/stores/useThemeStore";
 import { BORDER_RADIUS_INF } from "@/utils/designTokens";
-import React, { memo } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import Icon, { IconType } from "react-native-dynamic-vector-icons";
 
@@ -21,9 +21,7 @@ const ButtonIconWithBadge: React.FC<ButtonIconWithBadgeProps> = ({
   onPress,
   tooltipText,
   namespace,
-  iconName,
-  iconType,
-  iconColor,
+  iconProps,
   backgroundColor,
   badgeText,
   direction,
@@ -43,9 +41,7 @@ const ButtonIconWithBadge: React.FC<ButtonIconWithBadgeProps> = ({
         onPress={onPress}
         tooltipText={tooltipText}
         namespace={namespace}
-        iconName={iconName}
-        iconType={iconType}
-        iconColor={iconColor}
+        iconProps={iconProps}
         backgroundColor={backgroundColor ?? theme.primary}
       />
       {isBadge && (
