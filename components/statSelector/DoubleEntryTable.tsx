@@ -60,8 +60,13 @@ const DoubleEntryTable: React.FC<DoubleEntryTableProps> = ({ statMap, columnName
   );
 
   return (
-    <View style={[styles.tableWrapper, { borderColor: theme.outline_variant }]}>
-      <View style={[styles.header, { borderColor: theme.outline_variant, backgroundColor: theme.surface_container }]}>
+    <View style={[styles.tableWrapper, { borderColor: theme.outline_variant, backgroundColor: theme.surface_container }]}>
+      <View
+        style={[
+          styles.header,
+          { borderColor: theme.outline_variant, backgroundColor: theme.surface_container_highest },
+        ]}
+      >
         <View style={[styles.headerCell, { flex: labelFlex }]} />
         {columnNames.map((col) => (
           <View key={col} style={styles.headerCell}>

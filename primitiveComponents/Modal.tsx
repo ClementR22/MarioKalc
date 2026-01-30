@@ -111,7 +111,7 @@ const Modal = ({
   return (
     <BottomSheetModal
       ref={bottomSheetModalRef}
-      backgroundStyle={{ backgroundColor: theme.surface_container_highest }}
+      backgroundStyle={{ backgroundColor: theme.surface_container_low }}
       backdropComponent={renderBackdrop}
       onAnimate={(fromIndex, toIndex) => {
         // onAnimate est plus rapide que onChange
@@ -134,7 +134,7 @@ const Modal = ({
           </Text>
         )}
         <View
-          style={!withoutChildrenContainer && [styles.childrenContainer, { backgroundColor: theme.surface_container }]}
+          style={!withoutChildrenContainer && [styles.childrenContainer, { backgroundColor: theme.surface_container_highest }]}
         >
           <ModalProvider close={close}>{children}</ModalProvider>
         </View>

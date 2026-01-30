@@ -35,7 +35,7 @@ export interface ThemeColor {
   surface_container_high: string;
   surface_container: string;
   surface_container_low: string;
-  // surface_container_lowest: string;
+  surface_container_lowest: string;
   inverse_surface: string;
   inverse_on_surface: string;
   surface_tint: string;
