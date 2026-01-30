@@ -1,22 +1,19 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "target": "ES6",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "extends": "expo/tsconfig.base",
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "app",
     "components",
-    "babel.config.js",
     "stores/usePressableElementsStore.ts",
     "translations",
     ".expo/types/**/*.ts",
