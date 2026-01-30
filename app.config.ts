@@ -3,8 +3,8 @@ import { ExpoConfig, ConfigContext } from "expo/config";
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   owner: "lentrepriz",
-  name: "MK8DSB",
-  slug: "MK8DSB",
+  name: "Mario Kalc",
+  slug: "MarioKalc",
   version: "{{VERSION}}",
 
   runtimeVersion: {
@@ -24,12 +24,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 
   ios: {
     supportsTablet: true,
-    bundleIdentifier: "com.clementrayer.MK8DSB",
+    bundleIdentifier: "com.clementrayer.MarioKart",
     buildNumber: process.env.IOS_BUILD_NUMBER ?? "1",
   },
 
   android: {
-    package: "com.clement_rayer.MK8DSB",
+    package: "com.clement_rayer.MarioKalc",
     edgeToEdgeEnabled: true,
     versionCode: Number(process.env.ANDROID_VERSION_CODE ?? 1),
     adaptiveIcon: {

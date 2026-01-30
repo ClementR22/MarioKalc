@@ -1,11 +1,11 @@
-# Mario Kart 8 Deluxe Set Builder (MK8DSB)
+# Mario Kalc
 
 [![React Native](https://img.shields.io/badge/React%20Native-Expo-blue)](https://reactnative.dev/)  
 [![Platform](https://img.shields.io/badge/platform-Android-green.svg)]()  
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)  
-[![Issues](https://img.shields.io/github/issues/ClementR22/MK8DSB.svg)](../../issues)  
-[![Stars](https://img.shields.io/github/stars/ClementR22/MK8DSB.svg)](../../stargazers)  
-[![Release](https://img.shields.io/github/v/release/ClementR22/MK8DSB?label=pre-release%20release)](https://github.com/ClementR22/MK8DSB/releases)
+[![Issues](https://img.shields.io/github/issues/ClementR22/MarioKalc.svg)](../../issues)  
+[![Stars](https://img.shields.io/github/stars/ClementR22/MarioKalc.svg)](../../stargazers)  
+[![Release](https://img.shields.io/github/v/release/ClementR22/MarioKalc?label=pre-release%20release)](https://github.com/ClementR22/MarioKalc/releases)
 
 🎮 **Mario Kart 8 Deluxe Set Builder** is a mobile app designed to help players **optimize their kart, wheels, glider, and character combinations** in _Mario Kart 8 Deluxe_.  
 Whether you want more speed, better handling, or the perfect balance, this app helps you build the set that fits your playstyle.
@@ -15,7 +15,7 @@ Whether you want more speed, better handling, or the perfect balance, this app h
 ## 📥 Download
 
 You can download the latest Android APK from the GitHub Releases page:  
-👉 [Latest Release](https://github.com/ClementR22/mk8dsb/releases)
+👉 [Latest Release](https://github.com/ClementR22/MarioKalc/releases)
 
 ---
 
@@ -28,9 +28,9 @@ Feedback and contributions are welcome via [issues](../../issues) and [pull requ
 
 ## ✨ Features
 
--   Build a complete set (character, kart, wheels, glider)
--   View and compare stats for each set
--   Save your favorite builds
+- Build a complete set (character, kart, wheels, glider)
+- View and compare stats for each set
+- Save your favorite builds
 
 ---
 
@@ -44,17 +44,17 @@ _(Add some app screenshots or a demo GIF here)_
 
 ### Requirements
 
--   [Node.js](https://nodejs.org/)
--   [npm](https://www.npmjs.com/)
--   [Expo](https://expo.dev/)
--   Android SDK _(if you want to build locally for Android)_
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/)
+- [Expo](https://expo.dev/)
+- Android SDK _(if you want to build locally for Android)_
 
 ### Run the app
 
 ```bash
 # Clone the project
-git clone https://github.com/ClementR22/MK8DSB.git
-cd MK8DSB
+git clone https://github.com/ClementR22/MarioKalc.git
+cd MarioKalc
 
 # Install dependencies
 npm install
@@ -70,9 +70,9 @@ npx expo run:android
 
 ## 🗺 Roadmap
 
--   [x] Stable Android release
--   [ ] Stable iOS release
--   [ ] Play Store release
+- [x] Stable Android release
+- [ ] Stable iOS release
+- [ ] Play Store release
 
 ---
 
@@ -80,8 +80,8 @@ npx expo run:android
 
 Contributions are welcome!
 
--   Open an [issue](../../issues) to report a bug or suggest a feature
--   Submit a [pull request](../../pulls) with improvements
+- Open an [issue](../../issues) to report a bug or suggest a feature
+- Submit a [pull request](../../pulls) with improvements
 
 ---
 

@@ -4,7 +4,7 @@ import packageJSON from "@/package.json";
 
 export async function fetchLatestVersion(): Promise<string | null> {
   try {
-    const response = await fetch("https://api.github.com/repos/ClementR22/MK8DSB/releases/latest");
+    const response = await fetch("https://api.github.com/repos/ClementR22/MarioKalc/releases/latest");
 
     if (!response.ok) return null;
 
@@ -35,7 +35,7 @@ export function useCheckUpdate() {
   }, []);
 
   function openDownloadPage() {
-    Linking.openURL("https://github.com/ClementR22/MK8DSB/releases/latest");
+    Linking.openURL("https://github.com/ClementR22/MarioKalc/releases/latest");
   }
 
   return { updateAvailable, openDownloadPage };

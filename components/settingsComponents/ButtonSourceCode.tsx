@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { Linking } from "react-native";
 import ButtonAndModalConfirm from "../modal/ButtonAndModalConfirm";
 
-const url = "https://github.com/ClementR22/MK8DSB";
+const url = "https://github.com/ClementR22/MarioKalc";
 
 const ButtonSourceCode = () => {
   const handlePress = useCallback(() => {

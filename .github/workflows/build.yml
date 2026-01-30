@@ -100,7 +100,7 @@ jobs:
         id: get-latest-tag
         uses: pozetroninc/github-action-get-latest-release@master
         with:
-          repository: ClementR22/MK8DSB
+          repository: ClementR22/MarioKalc
           excludes: prerelease
 
       # -------------------------
@@ -172,9 +172,9 @@ jobs:
         if: ${{ !inputs.skip-build }}
         run: |
           if [ "${{ inputs.stable }}" = "true" ]; then
-            echo "value=mk8dsb_${{ steps.version_build.outputs.v-version }}.apk" >> "$GITHUB_OUTPUT"
+            echo "value=MarioKalc_${{ steps.version_build.outputs.v-version }}.apk" >> "$GITHUB_OUTPUT"
           else
-            echo "value=mk8dsb-nightly_${{ steps.nightly-version.outputs.value }}.apk" >> "$GITHUB_OUTPUT"
+            echo "value=MarioKalc-nightly_${{ steps.nightly-version.outputs.value }}.apk" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Rename APK
@@ -236,7 +236,7 @@ jobs:
         id: get-latest-tag
         uses: pozetroninc/github-action-get-latest-release@master
         with:
-          repository: ClementR22/MK8DSB
+          repository: ClementR22/MarioKalc
           excludes: prerelease
 
       # -------------------------
@@ -303,9 +303,9 @@ jobs:
         id: ios-build-name
         run: |
           if [ "${{ inputs.stable }}" = "true" ]; then
-            echo "value=mk8dsb_${{ steps.version_build.outputs.v-version }}.ipa" >> "$GITHUB_OUTPUT"
+            echo "value=MarioKalc_${{ steps.version_build.outputs.v-version }}.ipa" >> "$GITHUB_OUTPUT"
           else
-            echo "value=mk8dsb-nightly_${{ steps.nightly-version.outputs.value }}.ipa" >> "$GITHUB_OUTPUT"
+            echo "value=MarioKalc-nightly_${{ steps.nightly-version.outputs.value }}.ipa" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Rename IPA
@@ -355,7 +355,7 @@ jobs:
             ${{ inputs.description || 'No description provided' }}
 
             **Commit:** ${{ github.sha }}
-          artifacts: "mk8dsb-nightly_*.apk,mk8dsb-nightly_*.ipa,sha256sum-*.txt"
+          artifacts: "MarioKalc-nightly_*.apk,MarioKalc-nightly_*.ipa,sha256sum-*.txt"
 
   # --------------------------------------------------
   # Stable release
@@ -419,7 +419,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           token: ${{ github.token }}
-          name: MK8DSB ${{ needs.build.outputs.next-version }}
+          name: MarioKalc ${{ needs.build.outputs.next-version }}
           tag: ${{ needs.build.outputs.next-version }}
           draft: ${{ inputs.is-draft }}
           body: |
@@ -436,4 +436,4 @@ jobs:
 
             ## 🔐 Verification
             Verify the SHA256 checksums using the provided `sha256sum-*.txt` files.
-          artifacts: "mk8dsb_*.apk,mk8dsb_*.ipa,sha256sum-*.txt"
+          artifacts: "MarioKalc_*.apk,MarioKalc_*.ipa,sha256sum-*.txt"
