@@ -35,9 +35,6 @@ on:
 env:
   GITHUB_TOKEN: ${{ github.token }}
 
-# --------------------------------------------------
-# Check inputs
-# --------------------------------------------------
 jobs:
   check-inputs:
     runs-on: ubuntu-latest
@@ -53,9 +50,6 @@ jobs:
         run: |
           echo "⚠️ skip-build enabled: no APK will be generated"
 
-  # --------------------------------------------------
-  # Build job (Android)
-  # --------------------------------------------------
   build:
     runs-on: ubuntu-latest
     needs: [check-inputs]
@@ -84,8 +78,6 @@ jobs:
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-
-      - run: npm install
 
       - name: Get latest release tag
         id: get-latest-tag
@@ -119,7 +111,7 @@ jobs:
           echo "value=$VERSION" >> "$GITHUB_OUTPUT"
 
       # -------------------------
-      # Write version (IDEMPOTENT)
+      # Write version (AVANT npm install)
       # -------------------------
       - name: Update package.json & app.config.ts
         run: |
@@ -139,6 +131,9 @@ jobs:
           "
 
           sed -i "s/{{VERSION}}/$VERSION/g" app.config.ts
+
+      # 🔑 npm install APRÈS la mise à jour de version
+      - run: npm install
 
       # -------------------------
       # Android build
@@ -185,11 +180,13 @@ jobs:
             *.apk
             sha256sum-android.txt
 
-      - name: Upload package.json
+      - name: Upload package files
         uses: actions/upload-artifact@v4
         with:
-          name: package-json
-          path: package.json
+          name: package-files
+          path: |
+            package.json
+            package-lock.json
 
   # --------------------------------------------------
   # Nightly release
@@ -232,21 +229,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download Android artifacts
-        if: ${{ !inputs.skip-build }}
-        uses: actions/download-artifact@v4
-        with:
-          name: android-artifacts
-
       - uses: actions/download-artifact@v4
         with:
-          name: package-json
+          name: package-files
 
       - name: Commit version bump
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add package.json
+          git add package.json package-lock.json
           git commit -m "chore: bump version to ${{ needs.build.outputs.next-version }}" || echo "No changes"
           git push origin HEAD:${{ github.ref_name }}
 

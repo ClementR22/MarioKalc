@@ -15,7 +15,7 @@ interface PopoverMenuItemProps {
 const PopoverMenuItem: React.FC<PopoverMenuItemProps> = ({ onPress, title, iconKey }) => {
   const theme = useThemeStore((state) => state.theme);
 
-  const { name, type } = APP_ICONS[iconKey];
+  const { name, type } = APP_ICONS[iconKey as IconKey] ?? {};
 
   return (
     <Pressable

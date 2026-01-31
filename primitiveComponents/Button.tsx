@@ -33,7 +33,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const theme = useThemeStore((state) => state.theme);
 
-  const { name, type } = APP_ICONS[iconKey];
+  const { name, type } = APP_ICONS[iconKey as IconKey] ?? {};
 
   let backgroundColor: string, contentColor: string;
   if (disabled) {

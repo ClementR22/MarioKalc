@@ -19,6 +19,7 @@ function checkIsNewVersionAvailable(latest: string | null): boolean {
   if (!latest) return false;
 
   const current = packageJSON.version;
+  console.log({ current, latest });
   return current !== latest.replace(/^v/, ""); // supprime "v"
 }
 
