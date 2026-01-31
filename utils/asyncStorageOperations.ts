@@ -26,6 +26,7 @@ export const loadThingFromMemory = async (thingKey: string, setThing?: any) => {
     if (setThing) {
       setThing(savedThingParsed);
     }
+
     return savedThingParsed;
   }
 };
@@ -47,9 +48,22 @@ export const deleteThingInMemory = async (thingKey) => {
 export const deleteAllTheMemory = async () => {
   try {
     const allKeys = await AsyncStorage.getAllKeys();
-    allKeys.forEach(async (thingKey) => await AsyncStorage.removeItem(thingKey));
+    await AsyncStorage.multiRemove(allKeys);
   } catch (e) {
     console.error("Erreur lors de la suppression : ", e);
+  }
+};
+
+export const deleteUserMemory = async () => {
+  try {
+    const keys = await AsyncStorage.getAllKeys();
+    // garder les clés système essentielles
+    const keysToDelete = keys.filter(
+      (k) => k !== "lastMigrationVersion", // peut etre ajouter d'autres keys
+    );
+    await AsyncStorage.multiRemove(keysToDelete);
+  } catch (e) {
+    console.error("Erreur lors de la suppression de la mémoire utilisateur : ", e);
   }
 };
 

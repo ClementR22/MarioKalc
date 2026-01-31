@@ -31,7 +31,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import UpdateAvailableModal from "@/components/modal/UpdateAvailableModal";
 import WelcomeModal from "@/components/modal/WelcomeModal";
 import { runMigrations } from "@/utils/migrations";
-import { loadThingFromMemory } from "@/utils/asyncStorageOperations";
+import { loadThingFromMemory, saveThingInMemory } from "@/utils/asyncStorageOperations";
 import { useSettingsMap } from "@/hooks/useSettingsMap";
 import ModalConfirm from "@/components/modal/ModalConfirm";
 
@@ -68,10 +68,15 @@ export default function TabLayout() {
 
         setIsSettingsLoaded(true);
 
+        // Vérifier si le tutorial a déjà été vu
+        const welcomeSeen = await loadThingFromMemory("welcomeSeen");
         // Si une migration a un message, l'afficher
         if (changelogMessage) {
-          const showWelcome = useGeneralStore.getState().showWelcome;
-          showWelcome(changelogMessage);
+          useGeneralStore.getState().showWelcome(changelogMessage);
+        } else if (!welcomeSeen) {
+          // Afficher le tutorial uniquement si jamais vu
+          useGeneralStore.getState().showWelcome(""); // vide = tutorial
+          await saveThingInMemory("welcomeSeen", true);
         }
 
         setIsReady(true);

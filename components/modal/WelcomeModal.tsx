@@ -45,12 +45,14 @@ const WelcomeModal = () => {
       onClose={hideWelcome}
     >
       {welcomeMessage ? (
+        // Si message fourni = changelog
         <View style={styles.container}>
           <Text role="body" size="large" textAlign="center" namespace="text">
             {welcomeMessage}
           </Text>
         </View>
       ) : (
+        // Sinon, c'est le tutorial
         <ScrollView ref={scrollViewRef} horizontal pagingEnabled contentContainerStyle={styles.scrollview}>
           <View style={styles.container}>
             <Text role="body" size="large" textAlign="center" namespace="not">

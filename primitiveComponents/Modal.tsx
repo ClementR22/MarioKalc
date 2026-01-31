@@ -134,7 +134,12 @@ const Modal = ({
           </Text>
         )}
         <View
-          style={!withoutChildrenContainer && [styles.childrenContainer, { backgroundColor: theme.surface_container_highest }]}
+          style={
+            !withoutChildrenContainer && [
+              styles.childrenContainer,
+              { backgroundColor: theme.surface_container_highest },
+            ]
+          }
         >
           <ModalProvider close={close}>{children}</ModalProvider>
         </View>

@@ -6,7 +6,7 @@ import ButtonResetSettings from "@/components/settingsComponents/ButtonResetSett
 import ButtonSendFeedback from "@/components/settingsComponents/ButtonSendFeedback";
 import ButtonLicenses from "@/components/settingsComponents/ButtonLicenses";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { deleteAllTheMemory } from "@/utils/asyncStorageOperations";
+import { deleteUserMemory, saveThingInMemory } from "@/utils/asyncStorageOperations";
 import ButtonDeleteAllBuildsInMemory from "@/components/settingsComponents/ButtonDeleteAllBuildsInMemory";
 import StatSelector from "@/components/statSelector/StatSelector";
 import { ScreenProvider } from "@/contexts/ScreenContext";
@@ -22,7 +22,6 @@ import packageJSON from "@/package.json";
 import BoxContainer from "@/primitiveComponents/BoxContainer";
 import useGeneralStore from "@/stores/useGeneralStore";
 import Modal from "@/primitiveComponents/Modal";
-import Button from "@/primitiveComponents/Button";
 import { ScrollView } from "react-native-gesture-handler";
 import useThemeStore from "@/stores/useThemeStore";
 import useGameStore from "@/stores/useGameStore";
@@ -43,13 +42,18 @@ const SettingsScreen: React.FC = () => {
     setDebugDump(JSON.stringify(Object.fromEntries(items), null, 2));
   }, []);
 
-  const handleRemoveMemory = useCallback(async () => {
+  const handleRemoveUserMemory = useCallback(async () => {
     // eslint-disable-next-line no-console
-    console.log("remove all the memory");
-    await deleteAllTheMemory();
+    console.log("remove user memory only");
+    await deleteUserMemory();
 
     await updateDebugDump();
-  }, [deleteAllTheMemory, updateDebugDump]);
+
+    // Réafficher le tutorial mais pas le changelog
+    useGeneralStore.getState().showWelcome("");
+    // Marquer tutorial comme vu pour que ça ne réapparaisse pas au prochain lancement
+    await saveThingInMemory("welcomeSeen", true);
+  }, [updateDebugDump]);
 
   return (
     <ScreenProvider screenName="settings">
@@ -98,7 +102,17 @@ const SettingsScreen: React.FC = () => {
             </Text>
           </Pressable>
 
-          <Modal modalTitle={undefined} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}>
+          <Modal
+            modalTitle={undefined}
+            isModalVisible={isModalVisible}
+            setIsModalVisible={setIsModalVisible}
+            bottomButtonProps={{
+              onPress: handleRemoveUserMemory,
+              text: "deleteAllData",
+              tooltipText: "deleteAllData",
+              isErrorStyle: true,
+            }}
+          >
             <BoxContainer>
               <Text role="title" size="large" namespace="not">
                 Debug
@@ -109,10 +123,6 @@ const SettingsScreen: React.FC = () => {
                   {debugDump}
                 </Text>
               </ScrollView>
-
-              <Button onPress={handleRemoveMemory} tooltipText="deleteAllData" isErrorStyle>
-                deleteAllData
-              </Button>
             </BoxContainer>
           </Modal>
         </BoxContainer>
