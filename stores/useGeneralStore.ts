@@ -30,7 +30,7 @@ interface GeneralStoreState {
 
   isWelcome: boolean;
   welcomeMessage: string | null; // Message à afficher dans WelcomeModal
-  showWelcome: (message?: string) => void;
+  showWelcome: (message: string) => void;
   hideWelcome: () => void;
 }
 
@@ -73,7 +73,7 @@ const useGeneralStore = create<GeneralStoreState>((set, get) => ({
 
   isWelcome: false,
   welcomeMessage: null,
-  showWelcome: (message = "welcomeText") => {
+  showWelcome: (message) => {
     set({ isWelcome: true, welcomeMessage: message });
   },
   hideWelcome: () => {

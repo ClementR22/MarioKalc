@@ -16,7 +16,7 @@ interface CustomHeaderProps {
 const CustomHeader: React.FC<CustomHeaderProps> = ({ iconKey, title, helpComponent }) => {
   const theme = useThemeStore((state) => state.theme);
 
-  const { name, type } = APP_ICONS[iconKey];
+  const { name, type } = APP_ICONS[iconKey as IconKey] ?? {};
   const statusBarHeight = useSafeAreaInsets().top;
 
   return (

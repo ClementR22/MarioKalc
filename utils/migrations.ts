@@ -13,7 +13,7 @@ const migrations: Migration[] = [
   {
     version: "0.1.6",
     name: "Restructure persistent memory",
-    changelogMessage: "welcomeText", // Clé de traduction
+    //  changelogMessage: "welcomeText", // Clé de traduction
     migrate: async () => {
       console.log("Migration 0.1.6: Cleaning old data structure...");
       await deleteAllTheMemory();
