@@ -45,20 +45,12 @@ jobs:
           echo "❌ Missing description for a stable release"
           exit 1
 
-      - name: Warn if skip-build enabled
-        if: ${{ inputs.skip-build }}
-        run: |
-          echo "⚠️ skip-build enabled: no APK will be generated"
-
   build:
     runs-on: ubuntu-latest
     needs: [check-inputs]
-
     outputs:
-      next-version: ${{ steps.version_build.outputs.v-version || steps.nightly-version.outputs.value }}
+      next-version: ${{ steps.final-version.outputs.value }}
       build-name: ${{ steps.build-name.outputs.value }}
-      is-stable: ${{ inputs.stable }}
-      skip-build: ${{ inputs.skip-build }}
 
     steps:
       - uses: actions/checkout@v5
@@ -79,16 +71,16 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      # -------------------------
+      # Versioning
+      # -------------------------
       - name: Get latest release tag
         id: get-latest-tag
         uses: pozetroninc/github-action-get-latest-release@master
         with:
-          repository: ClementR22/MarioKalc
+          repository: ${{ github.repository }}
           excludes: prerelease
 
-      # -------------------------
-      # Versioning
-      # -------------------------
       - name: Calculate next stable version
         id: version_build
         if: ${{ inputs.stable }}
@@ -98,54 +90,38 @@ jobs:
           increment: ${{ inputs.version-bump }}
           tag_prefix: v
 
-      - name: Get latest commit hash
-        id: get-latest-commit
-        run: echo "value=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
-
-      - name: Store nightly version
-        id: nightly-version
-        if: ${{ !inputs.stable }}
+      - name: Finalize Version String
+        id: final-version
         run: |
-          BASE="${{ steps.get-latest-tag.outputs.release || 'v0.0.0' }}"
-          VERSION="$BASE-${{ steps.get-latest-commit.outputs.value }}"
-          echo "value=$VERSION" >> "$GITHUB_OUTPUT"
+          if [ "${{ inputs.stable }}" = "true" ]; then
+            echo "value=${{ steps.version_build.outputs.v-version }}" >> "$GITHUB_OUTPUT"
+          else
+            HASH=$(git rev-parse --short HEAD)
+            BASE="${{ steps.get-latest-tag.outputs.release || 'v0.0.0' }}"
+            echo "value=$BASE-$HASH" >> "$GITHUB_OUTPUT"
+          fi
 
       # -------------------------
-      # Write version (AVANT npm install)
+      # Update Files
       # -------------------------
       - name: Update package.json & app.config.ts
         run: |
-          VERSION="${{ inputs.stable && steps.version_build.outputs.v-version || steps.nightly-version.outputs.value }}"
+          VERSION="${{ steps.final-version.outputs.value }}"
           CLEAN_VERSION="${VERSION#v}"
-
-          node -e "
-          const fs = require('fs');
-          const pkg = require('./package.json');
-          if (pkg.version !== '$CLEAN_VERSION') {
-            pkg.version = '$CLEAN_VERSION';
-            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
-            console.log('package.json updated');
-          } else {
-            console.log('Version already set, skipping');
-          }
-          "
-
+          node -e "const fs = require('fs'); const pkg = require('./package.json'); pkg.version = '$CLEAN_VERSION'; fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));"
           sed -i "s/{{VERSION}}/$VERSION/g" app.config.ts
 
-      # 🔑 npm install APRÈS la mise à jour de version
       - run: npm install
 
       # -------------------------
-      # Android build
+      # Android Build
       # -------------------------
       - name: Increment Android Version Code
         id: android-version
         if: ${{ !inputs.skip-build }}
         run: |
-          CURRENT_VCODE=$(eas app:inspect --platform android --non-interactive 2>/dev/null \
-            | grep versionCode | awk '{print $2}' | tr -d '",')
-          CURRENT_VCODE=${CURRENT_VCODE:-0}
-          echo "value=$((CURRENT_VCODE + 1))" >> "$GITHUB_OUTPUT"
+          CURRENT_VCODE=$(eas app:inspect --platform android --non-interactive 2>/dev/null | grep versionCode | awk '{print $2}' | tr -d '",')
+          echo "value=$((${CURRENT_VCODE:-0} + 1))" >> "$GITHUB_OUTPUT"
 
       - name: Build APK
         if: ${{ !inputs.skip-build }}
@@ -153,88 +129,51 @@ jobs:
           ANDROID_VERSION_CODE: ${{ steps.android-version.outputs.value }}
         run: eas build --platform android --profile preview --local --non-interactive
 
-      - name: Store build name
+      - name: Rename and Hash APK
         id: build-name
         if: ${{ !inputs.skip-build }}
         run: |
+          VERSION="${{ steps.final-version.outputs.value }}"
           if [ "${{ inputs.stable }}" = "true" ]; then
-            echo "value=MarioKalc_${{ steps.version_build.outputs.v-version }}.apk" >> "$GITHUB_OUTPUT"
+            NAME="MarioKalc_${VERSION}.apk"
           else
-            echo "value=MarioKalc-nightly_${{ steps.nightly-version.outputs.value }}.apk" >> "$GITHUB_OUTPUT"
+            NAME="MarioKalc-nightly_${VERSION}.apk"
           fi
+          mv build-*.apk "$NAME"
+          sha256sum "$NAME" > sha256sum-android.txt
+          echo "value=$NAME" >> "$GITHUB_OUTPUT"
 
-      - name: Rename APK
-        if: ${{ !inputs.skip-build }}
-        run: mv build-*.apk "${{ steps.build-name.outputs.value }}"
-
-      - name: Generate SHA256 for APK
-        if: ${{ !inputs.skip-build }}
-        run: sha256sum "${{ steps.build-name.outputs.value }}" > sha256sum-android.txt
-
-      - name: Upload Android artifacts
+      - name: Upload Artifacts
         if: ${{ !inputs.skip-build }}
         uses: actions/upload-artifact@v4
         with:
-          name: android-artifacts
+          name: build-assets
           path: |
             *.apk
             sha256sum-android.txt
-
-      - name: Upload package files
-        uses: actions/upload-artifact@v4
-        with:
-          name: package-files
-          path: |
             package.json
             package-lock.json
 
-  # --------------------------------------------------
-  # Nightly release
-  # --------------------------------------------------
-  nightly:
-    if: ${{ !inputs.stable && !inputs.skip-build }}
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Android artifacts
-        if: ${{ !inputs.skip-build }}
-        uses: actions/download-artifact@v4
-        with:
-          name: android-artifacts
-
-      - name: Publish nightly release
-        uses: ncipollo/release-action@v1
-        with:
-          token: ${{ github.token }}
-          tag: nightly-${{ needs.build.outputs.next-version }}
-          name: Nightly ${{ needs.build.outputs.next-version }}
-          prerelease: true
-          body: |
-            ⚠️ Unstable build – use at your own risk
-
-            ${{ inputs.description || 'No description provided' }}
-
-            **Commit:** ${{ github.sha }}
-          artifacts: "MarioKalc-nightly_*.apk,sha256sum-*.txt"
-
-  # --------------------------------------------------
-  # Stable release
-  # --------------------------------------------------
   release:
-    if: ${{ inputs.stable && !inputs.skip-build }}
     needs: [build]
+    if: ${{ !inputs.skip-build }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - uses: actions/download-artifact@v4
+      - name: Download Build Assets
+        uses: actions/download-artifact@v4
         with:
-          name: package-files
+          name: build-assets
+          path: ./release-files
 
+      # Commit seulement si stable
       - name: Commit version bump
+        if: ${{ inputs.stable }}
         run: |
+          cp ./release-files/package*.json .
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add package.json package-lock.json
@@ -244,42 +183,31 @@ jobs:
       - name: Generate changelog
         id: changelog
         run: |
-          # Récupère le dernier tag qui ne contient pas de tiret (ex: évite nightly-xxx)
-          LAST_TAG=$(git tag -l --sort=-version:refname | grep -v '-' | head -n 2 | tail -n 1)
-
-          echo "Generating changelog since $LAST_TAG"
-
-          # Création d'un délimiteur unique pour éviter les erreurs de parsing
+          # On cherche le dernier tag stable pour comparer
+          LAST_TAG=$(git tag -l --sort=-version:refname | grep -v '-' | head -n 1)
           EOF=$(dd if=/dev/urandom bs=15 count=1 2>/dev/null | base64)
-
-          if [ -z "$LAST_TAG" ]; then
-            CHANGELOG=$(git log --pretty=format:'- %s (%h)' --max-count=20)
-          else
-            CHANGELOG=$(git log ${LAST_TAG}..HEAD --pretty=format:'- %s (%h)')
-          fi
-
-          # Écriture sécurisée dans GITHUB_OUTPUT
           echo "content<<$EOF" >> "$GITHUB_OUTPUT"
-          echo "$CHANGELOG" >> "$GITHUB_OUTPUT"
+          if [ -z "$LAST_TAG" ]; then
+            git log --pretty=format:'- %s (%h)' --max-count=20 >> "$GITHUB_OUTPUT"
+          else
+            git log ${LAST_TAG}..HEAD --pretty=format:'- %s (%h)' >> "$GITHUB_OUTPUT"
+          fi
+          echo "" >> "$GITHUB_OUTPUT"
           echo "$EOF" >> "$GITHUB_OUTPUT"
 
-      - name: Create GitHub release
+      - name: Publish Release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ github.token }}
-          name: MarioKalc ${{ needs.build.outputs.next-version }}
-          tag: ${{ needs.build.outputs.next-version }}
+          tag: ${{ inputs.stable && needs.build.outputs.next-version || format('nightly-{0}', needs.build.outputs.next-version) }}
+          name: ${{ inputs.stable && format('Mario Kalc {0}', needs.build.outputs.next-version) || format('Nightly {0}', needs.build.outputs.next-version) }}
+          prerelease: ${{ !inputs.stable }}
           draft: ${{ inputs.is-draft }}
           body: |
             ${{ inputs.description }}
 
-            ## 🔧 Changelog
+            ${{ inputs.stable && '## 🔧 Changelog' || '## 🧪 Changes in this nightly' }}
             ${{ steps.changelog.outputs.content }}
 
-            ## 📥 Installation
-
-            **Android:** Download the APK file and install it on your Android device.
-
-            ## 🔐 Verification
-            Verify the SHA256 checksums using the provided `sha256sum-*.txt` files.
-          artifacts: "MarioKalc_*.apk,sha256sum-*.txt"
+            ${{ !inputs.stable && '⚠️ Unstable build – use at your own risk' || '' }}
+          artifacts: "release-files/*.apk,release-files/sha256sum-android.txt"
