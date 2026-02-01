@@ -1,7 +1,7 @@
 {
   "name": "mariokalc",
   "main": "expo-router/entry",
-  "version": "0.1.9",
+  "version": "1.0.0",
   "scripts": {
     "start": "expo start --go",
     "reset-project": "node ./scripts/reset-project.js",
