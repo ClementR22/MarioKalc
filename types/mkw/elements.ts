@@ -26,4 +26,5 @@ export type ElementStats = {
   handlingRough: number;
   handlingWater: number;
   miniTurbo: number;
+  coin: number;
 };

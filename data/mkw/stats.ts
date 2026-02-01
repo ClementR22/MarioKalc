@@ -11,6 +11,7 @@ export const statNames: StatName[] = [
   "handlingRough",
   "handlingWater",
   "miniTurbo",
+  "coin",
 ];
 
 export const statNamesCompact = {
@@ -23,6 +24,7 @@ export const statNamesCompact = {
   handlingRough: "HR",
   handlingWater: "HW",
   miniTurbo: "MTu",
+  coin: "Coi",
 };
 
 const statNamesSortDefault: StatNameSortDefault[] = [
@@ -31,6 +33,7 @@ const statNamesSortDefault: StatNameSortDefault[] = [
   "weight",
   "handling", // A special button to open the handling-specific sorting sub-menu
   "miniTurbo",
+  "coin",
 ];
 
 export const sortNamesBuildCardDefault: SortNameBuildCardDefault[] = ["name", ...statNamesSortDefault];

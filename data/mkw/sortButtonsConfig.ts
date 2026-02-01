@@ -48,4 +48,5 @@ export const sortButtonsConfig: { [key in SortName]: SortButtonProps } = {
   miniTurbo: {
     iconKey: "miniTurbo",
   },
+  coin: { iconKey: "coin" },
 };

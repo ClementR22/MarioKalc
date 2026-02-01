@@ -9,6 +9,7 @@
   "handlingWater": "Maniabilité eau (ME)",
   "traction": "Adhérence (Adh)",
   "miniTurbo": "Mini-turbo (MTu)",
+  "coin": "Pièce (Piè)",
 
   "SS": "VL",
   "SR": "VR",
@@ -21,5 +22,6 @@
   "HW": "ME",
   "HA": "MA",
   "Tra": "Adh",
-  "MTu": "MTu"
+  "MTu": "MTu",
+  "Coi": "Piè"
 }

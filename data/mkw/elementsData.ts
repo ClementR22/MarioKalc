@@ -20,6 +20,7 @@ function getElementStats(classId: number, overrides?: Partial<ElementStats>): El
       handlingRough: 0,
       handlingWater: 0,
       miniTurbo: 0,
+      coin: 0,
     };
   }
   return { ...stats, ...overrides };
@@ -792,11 +793,11 @@ export const elementsData = [
 ] as ElementData[];
 
 const elementsDataCharacter: ElementDataCharacter[] = elementsData.filter(
-  (element): element is ElementDataCharacter => element.category === "character"
+  (element): element is ElementDataCharacter => element.category === "character",
 );
 
 const elementsDataBody: ElementDataBody[] = elementsData.filter(
-  (element): element is ElementDataBody => element.category === "body"
+  (element): element is ElementDataBody => element.category === "body",
 );
 
 export const elementsDataByCategory: {

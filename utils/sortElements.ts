@@ -29,12 +29,13 @@ const sortMap = [
   "weight",
   "traction",
   "miniTurbo",
+  "coin",
 ] as const;
 
 export const sortElements = <T>(
   elements: T[],
   sortNumber: number,
-  t: TFunction = ((key: string) => key) as unknown as TFunction
+  t: TFunction = ((key: string) => key) as unknown as TFunction,
 ): T[] => {
   const sortKey = sortMap[Math.floor(sortNumber / 2)] as keyof T;
   const ascending = sortNumber % 2 === 0;

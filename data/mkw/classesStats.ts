@@ -23,6 +23,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.6,
     handlingWater: 2.6,
     miniTurbo: 2.4,
+    coin: 3.0,
   },
   1: {
     // Baby Mario, Goomba, Spike
@@ -35,6 +36,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.4,
     handlingWater: 2.4,
     miniTurbo: 2.2,
+    coin: 2.8,
   },
   2: {
     // Baby Luigi, Dry Bones, Peepa
@@ -47,6 +49,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.8,
     handlingWater: 2.4,
     miniTurbo: 2.2,
+    coin: 2.8,
   },
   3: {
     // Baby Rosalina, Sidestepper, Fish Bone
@@ -59,6 +62,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.4,
     handlingWater: 2.8,
     miniTurbo: 2.2,
+    coin: 2.8,
   },
   4: {
     // Toadette, Nabbit
@@ -71,6 +75,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.2,
     handlingWater: 2.2,
     miniTurbo: 2.2,
+    coin: 2.6,
   },
   5: {
     // Toad, Shy Guy, Stingby
@@ -83,6 +88,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.6,
     handlingWater: 2.2,
     miniTurbo: 2.2,
+    coin: 2.6,
   },
   6: {
     // Koopa Troopa, Lakitu, Cheep Cheep
@@ -95,6 +101,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.2,
     handlingWater: 2.6,
     miniTurbo: 2.2,
+    coin: 2.6,
   },
   7: {
     // Peach, Daisy, Coin Coffer
@@ -107,6 +114,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.0,
     handlingWater: 2.0,
     miniTurbo: 2.0,
+    coin: 2.2,
   },
   8: {
     // Yoshi, Monty Mole
@@ -119,6 +127,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.4,
     handlingWater: 2.0,
     miniTurbo: 2.0,
+    coin: 2.2,
   },
   9: {
     // Bowser Jr., Dolphin
@@ -131,6 +140,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.0,
     handlingWater: 2.4,
     miniTurbo: 2.0,
+    coin: 2.2,
   },
   10: {
     // Mario, Rocky Wrench
@@ -143,6 +153,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 1.8,
     handlingWater: 1.8,
     miniTurbo: 1.8,
+    coin: 2.0,
   },
   11: {
     // Luigi, Hammer Bro, Pokey
@@ -155,6 +166,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.2,
     handlingWater: 1.8,
     miniTurbo: 1.8,
+    coin: 2.0,
   },
   12: {
     // Birdo, Penguin
@@ -167,6 +179,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 1.8,
     handlingWater: 2.2,
     miniTurbo: 1.8,
+    coin: 2.0,
   },
   13: {
     // Pauline, Piranha Plant, Snowman
@@ -179,6 +192,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 1.6,
     handlingWater: 1.6,
     miniTurbo: 1.6,
+    coin: 1.6,
   },
   14: {
     // King Boo, Conkdor
@@ -191,6 +205,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 2.0,
     handlingWater: 1.6,
     miniTurbo: 1.6,
+    coin: 1.6,
   },
   15: {
     // Rosalina, Cataquack
@@ -203,6 +218,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 1.6,
     handlingWater: 2.0,
     miniTurbo: 1.6,
+    coin: 1.6,
   },
   16: {
     // Wario, Wiggler
@@ -215,6 +231,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 1.4,
     handlingWater: 1.4,
     miniTurbo: 1.6,
+    coin: 1.4,
   },
   17: {
     // Donkey Kong, Cow, Chargin' Chuck
@@ -227,6 +244,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 1.8,
     handlingWater: 1.4,
     miniTurbo: 1.6,
+    coin: 1.4,
   },
   18: {
     // Waluigi, Pianta
@@ -239,6 +257,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 1.4,
     handlingWater: 1.8,
     miniTurbo: 1.6,
+    coin: 1.4,
   },
   19: {
     // Bowser
@@ -251,6 +270,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 1.4,
     handlingWater: 1.4,
     miniTurbo: 1.6,
+    coin: 1.2,
   },
   // --- Body Class Stats ---
   20: {
@@ -264,6 +284,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.0,
     handlingWater: 0.0,
     miniTurbo: 0.0,
+    coin: 0.0,
   },
   21: {
     // Hot Rod, Roadster Royale, B Dasher, Bumble V
@@ -276,6 +297,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -0.4,
     handlingWater: -0.4,
     miniTurbo: -0.2,
+    coin: -0.2,
   },
   22: {
     // Zoom Buggy, Rally Kart
@@ -288,6 +310,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.6,
     handlingWater: -0.4,
     miniTurbo: -0.2,
+    coin: -0.2,
   },
   23: {
     // Ribbit Revster, Carpet Flyer, Cloud 9
@@ -300,6 +323,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -0.4,
     handlingWater: 0.6,
     miniTurbo: -0.2,
+    coin: -0.2,
   },
   24: {
     // Baby Blooper
@@ -312,6 +336,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.0,
     handlingWater: 0.0,
     miniTurbo: 0.2,
+    coin: 0.2,
   },
   25: {
     // Loco Moto
@@ -324,6 +349,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.2,
     handlingWater: 0.2,
     miniTurbo: 0.2,
+    coin: 0.2,
   },
   26: {
     // Chargin' Truck, Tiny Titan, Li'l Dumpy, Bowser Bruiser
@@ -336,6 +362,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.4,
     handlingWater: -0.8,
     miniTurbo: -0.8,
+    coin: -0.6,
   },
   27: {
     // Mecha Trike
@@ -348,6 +375,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -0.8,
     handlingWater: 0.4,
     miniTurbo: -0.8,
+    coin: -0.6,
   },
   28: {
     // Standard Bike, Cute Scoot, Tune Thumper
@@ -360,6 +388,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.4,
     handlingWater: 0.4,
     miniTurbo: 0.8,
+    coin: 0.4,
   },
   29: {
     // Hyper Pipe, Rally Bike
@@ -372,6 +401,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 1.0,
     handlingWater: 0.2,
     miniTurbo: 0.6,
+    coin: 0.4,
   },
   30: {
     // Fin Twin, Dolphin Dasher
@@ -384,6 +414,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.2,
     handlingWater: 1.0,
     miniTurbo: 0.6,
+    coin: 0.4,
   },
   31: {
     // Mach Rocket, R.O.B. H.O.G.
@@ -396,6 +427,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.2,
     handlingWater: 0.2,
     miniTurbo: 0.4,
+    coin: 0.4,
   },
   32: {
     // Funky Dorrie
@@ -408,6 +440,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -0.8,
     handlingWater: 0.2,
     miniTurbo: 0.0,
+    coin: -0.4,
   },
   33: {
     // Biddybuggy
@@ -420,6 +453,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.8,
     handlingWater: 0.0,
     miniTurbo: 0.4,
+    coin: 0.2,
   },
   34: {
     // W-Twin Chopper
@@ -432,6 +466,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.0,
     handlingWater: 0.0,
     miniTurbo: -0.4,
+    coin: 0.0,
   },
   35: {
     // Dread Sled
@@ -444,6 +479,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.8,
     handlingWater: -0.2,
     miniTurbo: -0.4,
+    coin: -0.2,
   },
   36: {
     // Junkyard Hog
@@ -456,6 +492,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -0.6,
     handlingWater: -0.6,
     miniTurbo: -0.4,
+    coin: -0.4,
   },
   37: {
     // Lobster Roller
@@ -468,6 +505,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -1.2,
     handlingWater: 0.0,
     miniTurbo: -0.6,
+    coin: -0.8,
   },
   38: {
     // Stellar Sled
@@ -480,6 +518,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -0.6,
     handlingWater: 0.6,
     miniTurbo: -1.0,
+    coin: -0.6,
   },
   39: {
     // Reel Racer
@@ -492,6 +531,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -0.2,
     handlingWater: -0.2,
     miniTurbo: -0.6,
+    coin: -0.2,
   },
   40: {
     // Big Horn, Billdozer
@@ -504,6 +544,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -0.8,
     handlingWater: -0.8,
     miniTurbo: -0.6,
+    coin: -0.6,
   },
   41: {
     // Blastronaut III
@@ -516,6 +557,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -0.4,
     handlingWater: -0.4,
     miniTurbo: 0.2,
+    coin: -0.2,
   },
   42: {
     // Pipe Frame
@@ -528,6 +570,7 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: 0.2,
     handlingWater: 0.2,
     miniTurbo: 0.6,
+    coin: 0.2,
   },
   43: {
     // Rallygator
@@ -540,5 +583,6 @@ export const classesStats: { [key: number]: ElementStats } = {
     handlingRough: -1.2,
     handlingWater: -1.2,
     miniTurbo: -0.4,
+    coin: -0.8,
   },
 };

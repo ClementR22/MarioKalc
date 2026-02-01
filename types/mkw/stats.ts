@@ -9,7 +9,8 @@ export type StatName =
   | "handlingSmooth"
   | "handlingRough"
   | "handlingWater"
-  | "miniTurbo";
+  | "miniTurbo"
+  | "coin";
 
 export type StatNameSpeed = Extract<StatName, "speedSmooth" | "speedRough" | "speedWater">;
 

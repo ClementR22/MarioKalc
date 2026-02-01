@@ -35,6 +35,7 @@ export type IconKey =
   | "weight"
   | "traction"
   | "miniTurbo"
+  | "coin"
   | "chevron-down"
   | "chevron-up"
   | "approximately-equal"
@@ -118,6 +119,7 @@ export const APP_ICONS: Record<IconKey, AppIcon> = {
     name: "rocket-launch-outline",
     type: IconType.MaterialCommunityIcons,
   },
+  coin: { name: "coins", type: IconType.FontAwesome5 },
   "chevron-down": { name: "chevron-down", type: IconType.MaterialCommunityIcons },
   "chevron-up": { name: "chevron-up", type: IconType.MaterialCommunityIcons },
   "approximately-equal": { name: "approximately-equal", type: IconType.MaterialCommunityIcons },

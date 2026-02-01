@@ -15,6 +15,7 @@ export const sortNameMap: { [key: string]: { asc: number; desc: number } } = {
   weight: { asc: 22, desc: 23 },
   traction: { asc: 24, desc: 25 },
   miniTurbo: { asc: 26, desc: 27 },
+  coin: { asc: 28, desc: 29 },
 };
 
 export function getSortNameFromSortNumber(sortNumber: number): SortName | undefined {

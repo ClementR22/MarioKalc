@@ -12,6 +12,7 @@ const resultStatsDefaultConfig: Record<StatName, boolean> = {
   handlingRough: false,
   handlingWater: false,
   miniTurbo: true,
+  coin: false,
 };
 
 export const resultStatsDefaultInit: ResultStat[] = statNames.map((statName) => ({

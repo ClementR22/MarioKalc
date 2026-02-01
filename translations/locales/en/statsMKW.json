@@ -9,6 +9,7 @@
   "handlingWater": "Water handling (HW)",
   "traction": "Traction (Tra)",
   "miniTurbo": "Mini-Turbo (MTu)",
+  "coin": "Coin (Coi)",
 
   "SS": "SS",
   "SR": "SR",
@@ -19,5 +20,6 @@
   "HR": "HR",
   "HW": "HW",
   "Tra": "Tra",
-  "MTu": "MTu"
+  "MTu": "MTu",
+  "Coi": "Coi"
 }
