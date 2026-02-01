@@ -113,17 +113,15 @@ const SettingsScreen: React.FC = () => {
               isErrorStyle: true,
             }}
           >
-            <BoxContainer>
-              <Text role="title" size="large" namespace="not">
-                Debug
-              </Text>
+            <Text role="title" size="large" namespace="not">
+              Debug
+            </Text>
 
-              <ScrollView style={styles.debugDump} showsVerticalScrollIndicator>
-                <Text role="body" size="large" namespace="not">
-                  {debugDump}
-                </Text>
-              </ScrollView>
-            </BoxContainer>
+            <ScrollView style={styles.debugDump} showsVerticalScrollIndicator>
+              <Text role="body" size="large" namespace="not">
+                {debugDump}
+              </Text>
+            </ScrollView>
           </Modal>
         </BoxContainer>
       </ScrollViewScreen>
