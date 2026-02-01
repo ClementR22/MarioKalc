@@ -22,7 +22,9 @@
 
   "sendFeedback": "Send feedback",
   "makeADonation": "Make a donation",
+  "gameData": "Game data used",
   "sourceCode": "Source code",
   "openSourceLicenses": "Open Source Licenses",
+  "credits": "Credits",
   "updateTheApp": "Update the app"
 }

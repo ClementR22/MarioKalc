@@ -22,7 +22,9 @@
 
   "sendFeedback": "Laisser un avis",
   "makeADonation": "Faire un don",
+  "gameData": "Données du jeu utilisées",
   "sourceCode": "Code source",
   "openSourceLicenses": "Licences Open Source",
+  "credits": "Crédits",
   "updateTheApp": "Mettre à jour l'appli"
 }

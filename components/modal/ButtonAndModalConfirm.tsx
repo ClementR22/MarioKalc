@@ -17,6 +17,7 @@ const ButtonAndModalConfirm: React.FC<ButtonAndModalConfirmProps> = ({
   text,
   isWarning = false,
   isOpenBrowser = false,
+  withConfirmButton = true,
   disabled = false,
   onPress,
 }) => {
@@ -47,8 +48,9 @@ const ButtonAndModalConfirm: React.FC<ButtonAndModalConfirmProps> = ({
         setIsModalVisible={setIsModalVisible}
         title={title}
         text={text}
-        isOpenBrowser={isOpenBrowser}
         isWarning={isWarning}
+        isOpenBrowser={isOpenBrowser}
+        withConfirmButton={withConfirmButton}
         onPress={onPress}
       />
     </>

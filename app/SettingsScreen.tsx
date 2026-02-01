@@ -26,6 +26,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import useThemeStore from "@/stores/useThemeStore";
 import useGameStore from "@/stores/useGameStore";
 import { GAME_VERSIONS } from "@/data/registry";
+import ButtonCredits from "@/components/settingsComponents/ButtonCredits";
+import ButtonGameData from "@/components/settingsComponents/ButtonGameData";
 
 const SettingsScreen: React.FC = () => {
   const theme = useThemeStore((state) => state.theme);
@@ -80,9 +82,13 @@ const SettingsScreen: React.FC = () => {
 
             <ButtonMakeADonation />
 
+            <ButtonGameData />
+
             <ButtonSourceCode />
 
             <ButtonLicenses />
+
+            <ButtonCredits />
 
             <ButtonUpdate />
 

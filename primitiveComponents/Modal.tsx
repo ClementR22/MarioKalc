@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useEffect, useRef } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BackHandler } from "react-native";
 
@@ -34,6 +34,7 @@ interface ModalProps {
   bottomButtonProps?: ModalButtonProps;
   withoutChildrenContainer?: boolean;
   horizontalScroll?: boolean;
+  childrenContainerStyle?: ViewStyle;
   children: ReactNode;
   onClose?: () => void;
 }
@@ -45,6 +46,7 @@ const Modal = ({
   bottomButtonProps,
   withoutChildrenContainer = false,
   horizontalScroll = false,
+  childrenContainerStyle,
   children,
   onClose,
 }: ModalProps) => {
@@ -127,7 +129,7 @@ const Modal = ({
       activeOffsetY={horizontalScroll ? [-5, 5] : undefined}
       failOffsetX={horizontalScroll ? [-10, 10] : undefined}
     >
-      <BottomSheetView style={{ paddingBottom: bottomOffset, gap: 10 }}>
+      <BottomSheetView style={[{ paddingBottom: bottomOffset }, styles.container]}>
         {modalTitle && (
           <Text role="headline" size="small" textAlign="center" style={styles.titleCenter} namespace="modal">
             {modalTitle}
@@ -137,6 +139,7 @@ const Modal = ({
           style={
             !withoutChildrenContainer && [
               styles.childrenContainer,
+              childrenContainerStyle,
               { backgroundColor: theme.surface_container_highest },
             ]
           }
@@ -167,7 +170,9 @@ export default React.memo(Modal);
 /* -------------------------------------------------------------------------- */
 
 const styles = StyleSheet.create({
+  container: { gap: 10, paddingBottom: 10 },
   childrenContainer: {
+    gap: 10,
     marginHorizontal: MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER,
     borderRadius: BORDER_RADIUS_MODAL_CHILDREN_CONTAINER,
     overflow: "hidden",

@@ -11,6 +11,7 @@ export type IconKey =
   | "settings"
   | "settings-outline"
   | "license"
+  | "credits"
   | "numbers"
   | "minus"
   | "plus"
@@ -42,6 +43,7 @@ export type IconKey =
   | "close"
   | "more"
   | "donation"
+  | "database"
   | "reset"
   | "feedback"
   | "github"
@@ -86,6 +88,7 @@ export const APP_ICONS: Record<IconKey, AppIcon> = {
     type: IconType.Ionicons,
   },
   license: { name: "license", type: IconType.MaterialCommunityIcons },
+  credits: { name: "star-circle-outline", type: IconType.MaterialCommunityIcons },
   numbers: { name: "numbers", type: IconType.MaterialIcons },
   minus: { name: "minus", type: IconType.MaterialCommunityIcons },
   plus: { name: "plus", type: IconType.MaterialCommunityIcons },
@@ -123,6 +126,7 @@ export const APP_ICONS: Record<IconKey, AppIcon> = {
   close: { name: "close", type: IconType.AntDesign },
   more: { name: "more-vert", type: IconType.MaterialIcons },
   donation: { name: "hand-heart", type: IconType.MaterialCommunityIcons },
+  database: { name: "database", type: IconType.MaterialCommunityIcons },
   reset: { name: "rotate-ccw", type: IconType.Feather },
   feedback: { name: "chatbox-ellipses-outline", type: IconType.Ionicons },
   github: { name: "github", type: IconType.AntDesign },

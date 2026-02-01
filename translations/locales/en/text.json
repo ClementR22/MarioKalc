@@ -21,6 +21,8 @@
   "appliedForBuildFinderAndComparator": "Applied when the app starts for the Finder and the Comparator",
   "doYouWantToOpenTheBrowser": "Do you want to open the browser?",
   "quitApp": "You are about to leave the application. Do you want to continue?",
+  "creditsText": "Development: ClementR22\nDesign: NoAccount1\nData: Luigi_Fan2",
+  "specialThanks": "Special thanks:\nThanks to Luigi_Fan2 for his work.",
 
   "welcomeText1": "This tool helps you find the best build based on your playstyle.\n\nIf you need help, ",
   "longPress": "long press",
