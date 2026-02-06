@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "generate:licenses": "node scripts/generate-licenses.js"
+    "generate:licenses": "node scripts/generate-licenses.js",
+    "vercel-build": "expo export"
   },
   "jest": {
     "preset": "jest-expo"
