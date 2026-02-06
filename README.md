@@ -61,11 +61,14 @@ This app centralizes all statistics and lets you **quickly test and compare buil
 ---
 
 ## 📸 Screenshots
-...
 
-![Home](screenshots/home.png)
-![Builder](screenshots/builder.png)
-![Stats](screenshots/stats.png)
+<p align="center">
+<img src="assets/images/README/Screen1.jpg" width="180" />
+<img src="assets/images/README/Screen2.jpg" width="180" />
+<img src="assets/images/README/Screen3.jpg" width="180" />
+<img src="assets/images/README/Screen4.jpg" width="180" />
+<img src="assets/images/README/Screen5.jpg" width="180" />
+</p>
 
 ---
 
@@ -137,10 +140,9 @@ https://docs.google.com/spreadsheets/d/1BtHeFAEwL1MLND-l7KZz_Zg4wZWC2YIikbyweocq
 
 ## 🗺 Roadmap
 
-- [x] First Android release
 - [x] Stable Android version
-- [ ] iOS version
 - [ ] Google Play Store release 
+- [ ] iOS version
 
 ---
 
@@ -163,7 +165,7 @@ https://docs.google.com/spreadsheets/d/1BtHeFAEwL1MLND-l7KZz_Zg4wZWC2YIikbyweocq
 ## ⚠️ Nintendo Disclaimer
 
 This application is not affiliated with, endorsed, sponsored, or approved by Nintendo.  
-Mario Kart, Mario Kart 8 Deluxe, and Mario Kart World are trademarks of Nintendo Co., Ltd.
+Mario Kart, Mario Kart 8 Deluxe, and Mario Kart World are trademarks of Nintendo.
 
 ---
 
