@@ -1,5 +1,7 @@
 {
   "incorrectFormat": "presse-papiers vide ou format incorrect",
+  "User denied permission to access clipboard": "l'accès au presse-papier est requis",
+  "The 'AsyncClipboard' API is not available on this browser": "impossible d'accéder au presse-papier depuis ce navigateur",
   "thisBuildDoesNotExist": "ce build n'existe pas",
   "unknownError": "erreur inconnue",
 

@@ -1,9 +1,9 @@
 import React from "react";
-import Picker from "../Picker";
+import Picker, { PickerItem } from "../Picker";
 import useGameStore from "@/stores/useGameStore";
 import { Game } from "@/types";
 
-const gameList: { label: string; value: Game }[] = [
+const gameList: PickerItem<Game>[] = [
   { label: "MarioKart8Deluxe", value: "MK8D" },
   { label: "MarioKartWorld", value: "MKW" },
 ];

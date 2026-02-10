@@ -7,41 +7,42 @@ import Text from "@/primitiveComponents/Text";
 import { BORDER_RADIUS_STANDARD } from "@/utils/designTokens";
 import { typography } from "./styles/typography";
 
-type PickerItem = {
-  label: string; // clé de traduction (ex. "settings.language.english")
-  value: string;
+export type PickerItem<T> = {
+  label: string;
+  value: T;
+  translatable?: boolean;
 };
 
-interface PickerProps {
+interface PickerProps<T extends string> {
   value: string;
   setValue: (value: string | number) => void;
-  itemList: PickerItem[];
-  pickerTitle: string; // clé de traduction (ex. "settings.language.title")
+  itemList: PickerItem<T>[];
+  pickerTitle: string;
   namespace: string;
 }
 
-const Picker: React.FC<PickerProps> = ({ value, setValue, itemList, pickerTitle, namespace }) => {
+const Picker = <T extends string>({ value, setValue, itemList, pickerTitle, namespace }: PickerProps<T>) => {
   const theme = useThemeStore((state) => state.theme);
 
   const { t } = useTranslation(namespace);
 
+  const getLabel = (item: PickerItem<T>) => {
+    if (item.translatable === false) return item.label;
+
+    return t(item.label);
+  };
+
   const transformedItems = useMemo(() => {
-    return itemList.map((item) => (
-      <NativePicker.Item
-        key={item.value}
-        label={t(item.label)} // traduction directe
-        value={item.value}
-      />
-    ));
+    return itemList.map((item) => <NativePicker.Item key={item.value} label={getLabel(item)} value={item.value} />);
   }, [itemList, t]);
 
   return (
     <View style={styles.container}>
-      <Text role="title" size="small" weight="semibold" style={styles.title} namespace="text">
+      <Text role="title" size="small" weight="semibold" namespace="text">
         {pickerTitle}
       </Text>
 
-      <View style={[styles.pickerWrapper, { backgroundColor: theme.surface, borderColor: theme.outline }]}>
+      <View style={[styles.pickerWrapper, { backgroundColor: "red", borderColor: theme.outline }]}>
         <NativePicker
           selectedValue={value}
           onValueChange={setValue}
@@ -60,15 +61,11 @@ const Picker: React.FC<PickerProps> = ({ value, setValue, itemList, pickerTitle,
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-  },
-  title: {
-    marginBottom: 5,
+    gap: 5,
   },
   pickerWrapper: {
     borderWidth: 1,
     borderRadius: BORDER_RADIUS_STANDARD,
-    position: "relative",
-    justifyContent: "center",
   },
   pickerInput: {
     fontSize: typography.title.small.fontSize,

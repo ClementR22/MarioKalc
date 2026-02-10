@@ -1,11 +1,11 @@
 import React from "react";
-import Picker from "../Picker";
+import Picker, { PickerItem } from "../Picker";
 import useLanguageStore, { LanguageMode } from "@/stores/useLanguageStore";
 
-export const languageList: { label: string; value: LanguageMode }[] = [
-  { label: "english", value: "en" },
-  { label: "french", value: "fr" },
-  { label: "system", value: "system" },
+export const languageList: PickerItem<LanguageMode>[] = [
+  { label: "English", value: "en", translatable: false },
+  { label: "Français", value: "fr", translatable: false },
+  { label: "system", value: "system", translatable: true },
 ];
 
 const LanguageSelector = () => {

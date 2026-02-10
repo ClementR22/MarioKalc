@@ -1,5 +1,7 @@
 {
   "incorrectFormat": "empty clipboard or incorrect format",
+  "User denied permission to access clipboard": "clipboard access is required",
+  "The 'AsyncClipboard' API is not available on this browser": "cannot access to clipboard on this browser",
   "thisBuildDoesNotExist": "this build does not exist",
   "unknownError": "unknown error",
 

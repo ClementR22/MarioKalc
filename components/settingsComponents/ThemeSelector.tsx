@@ -1,8 +1,8 @@
 import React from "react";
-import Picker from "../Picker";
+import Picker, { PickerItem } from "../Picker";
 import useThemeStore, { ThemeMode } from "@/stores/useThemeStore";
 
-const themeList: { label: string; value: ThemeMode }[] = [
+const themeList: PickerItem<ThemeMode>[] = [
   { label: "dark", value: "dark" },
   { label: "light", value: "light" },
   { label: "system", value: "system" },
