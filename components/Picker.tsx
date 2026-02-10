@@ -42,11 +42,11 @@ const Picker = <T extends string>({ value, setValue, itemList, pickerTitle, name
         {pickerTitle}
       </Text>
 
-      <View style={[styles.pickerWrapper, { backgroundColor: "red", borderColor: theme.outline }]}>
+      <View style={[styles.pickerWrapper, { backgroundColor: theme.surface, borderColor: theme.outline }]}>
         <NativePicker
           selectedValue={value}
           onValueChange={setValue}
-          style={[styles.pickerInput, { color: theme.on_surface }]}
+          style={[styles.pickerInput, { color: Platform.OS === "web" ? theme.inverse_on_surface : theme.on_surface }]}
           itemStyle={Platform.OS === "ios" ? { color: theme.on_surface } : undefined}
           mode="dropdown"
           dropdownIconColor={Platform.OS === "android" ? "transparent" : undefined}
@@ -71,12 +71,6 @@ const styles = StyleSheet.create({
     fontSize: typography.title.small.fontSize,
     paddingHorizontal: 10,
     minHeight: 30,
-    width: "100%",
-  },
-  chevronIcon: {
-    position: "absolute",
-    right: 10,
-    pointerEvents: "none",
   },
 });
 
