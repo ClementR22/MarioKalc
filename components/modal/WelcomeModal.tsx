@@ -5,21 +5,19 @@ import Text from "@/primitiveComponents/Text";
 import useGeneralStore from "@/stores/useGeneralStore";
 import { Image, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import Button from "@/primitiveComponents/Button";
-import StatGaugeContainer from "../statGauge/StatGaugeContainer";
-import StatGaugeBar from "../statGauge/StatGaugeBar";
 import { useGameData } from "@/hooks/useGameData";
 import { BUTTON_SIZE, MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER } from "@/utils/designTokens";
 import Tooltip from "../Tooltip";
 import { elementsNamespaceByGame, statsNamespaceByGame } from "@/translations/namespaces";
 import useGameStore from "@/stores/useGameStore";
-import { vw } from "../styles/theme";
 import { ScrollView } from "react-native-gesture-handler";
 import { styles as stylesButton } from "@/primitiveComponents/Button";
 import useThemeStore from "@/stores/useThemeStore";
+import { useLayout } from "@/contexts/LayoutContext";
 
 const WelcomeModal = () => {
   const game = useGameStore((state) => state.game);
+  const { appWidth } = useLayout();
   const { elementsData, statNames, statNamesCompact } = useGameData();
   const { ready } = useTranslation();
   const theme = useThemeStore((state) => state.theme);
@@ -37,6 +35,10 @@ const WelcomeModal = () => {
     return null;
   }
 
+  const firstElement = elementsData?.[0];
+
+  const containerStyle = [styles.container, { width: appWidth - 2 * MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER }];
+
   return (
     <Modal
       modalTitle="welcome"
@@ -46,7 +48,7 @@ const WelcomeModal = () => {
     >
       {welcomeMessage ? (
         // Si message fourni = changelog
-        <View style={styles.container}>
+        <View style={containerStyle}>
           <Text role="body" size="large" textAlign="center" namespace="text">
             {welcomeMessage}
           </Text>
@@ -54,7 +56,7 @@ const WelcomeModal = () => {
       ) : (
         // Sinon, c'est le tutorial
         <ScrollView ref={scrollViewRef} horizontal pagingEnabled contentContainerStyle={styles.scrollview}>
-          <View style={styles.container}>
+          <View style={containerStyle}>
             <Text role="body" size="large" textAlign="center" namespace="not">
               <Text role="body" size="large" textAlign="center" namespace="text">
                 welcomeText1
@@ -87,7 +89,7 @@ const WelcomeModal = () => {
             </Tooltip>
           </View>
 
-          <View style={styles.container}>
+          <View style={containerStyle}>
             <Text role="body" size="large" textAlign="center" namespace="not">
               <Text role="body" size="large" textAlign="center" namespace="text">
                 welcomeText3
@@ -107,9 +109,11 @@ const WelcomeModal = () => {
             </Text>
 
             <View style={styles.row}>
-              <Tooltip tooltipText={elementsData[0].name} namespace={elementsNamespaceByGame[game]}>
-                <Image source={elementsData[0].imageUrl} style={styles.image} resizeMode="contain" />
-              </Tooltip>
+              {firstElement && (
+                <Tooltip tooltipText={elementsData[0].name} namespace={elementsNamespaceByGame[game]}>
+                  <Image source={elementsData[0].imageUrl} style={styles.image} resizeMode="contain" />
+                </Tooltip>
+              )}
 
               <Tooltip tooltipText={statNames[0]} namespace={statsNamespaceByGame[game]}>
                 <Text
@@ -135,7 +139,6 @@ const styles = StyleSheet.create({
     gap: 15,
     padding: 10,
     alignItems: "center",
-    width: vw - 2 * MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER,
   },
   scrollview: { flexDirection: "row", alignItems: "center" },
   row: { flexDirection: "row", width: "100%", justifyContent: "space-evenly", alignItems: "center" },

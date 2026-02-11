@@ -10,7 +10,7 @@ import { Bodytype } from "@/types";
 import BodytypesSelector from "../rowSelector/BodytypesSelector";
 import useThemeStore from "@/stores/useThemeStore";
 import CategorySelector from "../rowSelector/CategorySelector";
-import ElementsSelector, { ELEMENTS_GRID_HEIGHT, ELEMENTS_PER_PAGE } from "./ElementsSelector";
+import ElementsSelector, { ELEMENTS_PER_PAGE } from "./ElementsSelector";
 import PagesNavigator from "./PagesNavigator";
 import {
   BORDER_RADIUS_STANDARD,
@@ -25,6 +25,7 @@ import { useGameData } from "@/hooks/useGameData";
 import useGameStore from "@/stores/useGameStore";
 import { elementsNamespaceByGame } from "@/translations/namespaces";
 import { IconKey } from "@/constants/Icons";
+import { useElementsGridLayout } from "@/hooks/useElementsGridLayout";
 
 interface ElementShortSelectorPannelProps {
   selectionMode?: "single" | "multiple";
@@ -48,6 +49,7 @@ const PannelElementsBottom: React.FC<ElementShortSelectorPannelProps> = ({
   const pagerRef = useRef<PagerView>(null);
   const flatlistRef = useRef<FlatList>(null);
 
+  const { gridHeight } = useElementsGridLayout();
   const [selectedCategory, setSelectedCategory] = useState<Category>("character");
   const [sortNumber, setSortNumber] = useState(0);
   const [isOpenSortView, setIsOpenSortView] = useState(false);
@@ -186,9 +188,10 @@ const PannelElementsBottom: React.FC<ElementShortSelectorPannelProps> = ({
               offset: 300 * index,
               index,
             })}
+            showsHorizontalScrollIndicator={false}
           />
         ) : (
-          <PagerView ref={pagerRef} style={styles.pagerView} initialPage={0} onPageSelected={handlePageSelected}>
+          <PagerView ref={pagerRef} style={{ height: gridHeight }} initialPage={0} onPageSelected={handlePageSelected}>
             {pages.map((pageElements, index) => (
               <ElementsSelector
                 key={`page-${index}`}
@@ -226,9 +229,6 @@ const styles = StyleSheet.create({
   },
   categorySelectorWrapper: {
     paddingHorizontal: PADDING_PANNEL_PAGINATED,
-  },
-  pagerView: {
-    height: ELEMENTS_GRID_HEIGHT,
   },
   navigatorWrapper: {
     paddingHorizontal: PADDING_PANNEL_PAGINATED,

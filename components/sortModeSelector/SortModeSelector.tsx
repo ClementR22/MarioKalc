@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo, useState } from "react";
-import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { Platform, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import useGeneralStore from "@/stores/useGeneralStore";
 import { IconProps, SortButtonProps, SortName } from "@/types";
 import Popover from "../popover/Popover";
@@ -12,12 +12,12 @@ import {
 } from "@/utils/designTokens";
 import { useScreen } from "@/contexts/ScreenContext";
 import { getCurrentDirection, getSortNameFromSortNumber, sortNameMap } from "@/utils/getSortNameFromSortNumber";
-import { vw } from "../styles/theme";
 import showToast from "@/utils/showToast";
 import { useGameData } from "@/hooks/useGameData";
 import useGameStore from "@/stores/useGameStore";
 import { sortsNamespaceByGame } from "@/translations/namespaces";
 import useThemeStore from "@/stores/useThemeStore";
+import { useLayout } from "@/contexts/LayoutContext";
 
 interface SortModeSelectorProps {
   sortNumber: number;
@@ -29,11 +29,12 @@ interface SortModeSelectorProps {
 const SortModeSelector: React.FC<SortModeSelectorProps> = ({ sortNumber, setSortNumber, sortCase, containerStyle }) => {
   const game = useGameStore((state) => state.game);
   const theme = useThemeStore((state) => state.theme);
+  const screenName = useScreen();
+  const { appWidth } = useLayout();
 
   const { statNamesHandling, sortNamesElementDefault, sortNamesBuildCardDefault, statNamesSpeed, sortButtonsConfig } =
     useGameData();
 
-  const screenName = useScreen();
   const isScrollEnable = useGeneralStore((state) => state.isScrollEnable);
 
   const sortNamesDefault = useMemo(
@@ -131,8 +132,8 @@ const SortModeSelector: React.FC<SortModeSelectorProps> = ({ sortNumber, setSort
   const needsScroll = useMemo(() => {
     const numberOfButtons = mainButtons.length;
     const contentWidth = BUTTON_SIZE * numberOfButtons + GAP_SORT_MODE_SELECTOR * (numberOfButtons - 1);
-    return contentWidth > vw - 2 * MARGIN_CONTAINER_LOWEST - 2 * PADDING_BOX_CONTAINER;
-  }, [mainButtons]);
+    return contentWidth > appWidth - 2 * MARGIN_CONTAINER_LOWEST - 2 * PADDING_BOX_CONTAINER;
+  }, [mainButtons, appWidth]);
 
   const Wrapper = needsScroll ? ScrollView : View;
   const wrapperProps = needsScroll
@@ -140,6 +141,7 @@ const SortModeSelector: React.FC<SortModeSelectorProps> = ({ sortNumber, setSort
         horizontal: true,
         scrollEnabled: isScrollEnable,
         contentContainerStyle: containerStyle,
+        showsHorizontalScrollIndicator: Platform.OS !== "web",
       }
     : { style: containerStyle };
 

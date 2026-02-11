@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Tabs, useFocusEffect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { Appearance, BackHandler, StyleSheet } from "react-native";
+import { Appearance, BackHandler, Platform, StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MenuProvider } from "react-native-popup-menu";
 import Toast from "react-native-toast-message";
@@ -34,6 +34,7 @@ import { runMigrations } from "@/utils/migrations";
 import { loadThingFromMemory, saveThingInMemory } from "@/utils/asyncStorageOperations";
 import { useSettingsMap } from "@/hooks/useSettingsMap";
 import ModalConfirm from "@/components/modal/ModalConfirm";
+import PortraitContainer from "@/components/PortraitContainer";
 
 export default function TabLayout() {
   const { t } = useTranslation("screens");
@@ -73,7 +74,7 @@ export default function TabLayout() {
         // Si une migration a un message, l'afficher
         if (changelogMessage) {
           useGeneralStore.getState().showWelcome(changelogMessage);
-        } else if (!welcomeSeen) {
+        } else if (!welcomeSeen || Platform.OS === "web") {
           // Afficher le tutorial uniquement si jamais vu
           useGeneralStore.getState().showWelcome(""); // vide = tutorial
           await saveThingInMemory("welcomeSeen", true);
@@ -155,119 +156,124 @@ export default function TabLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <MenuProvider>
-        <GestureHandlerRootView style={styles.container}>
-          <BottomSheetModalProvider>
-            <StatusBar style={theme.theme_surface} />
-            <Tabs
-              screenOptions={{
-                tabBarActiveTintColor: theme.primary,
-                tabBarInactiveTintColor: theme.on_surface_variant,
-                sceneStyle: { backgroundColor: theme.surface },
-                tabBarLabelStyle: {
-                  fontSize: 10,
-                  fontWeight: "500",
-                  marginTop: 2,
-                },
-                tabBarStyle: {
-                  backgroundColor: theme.surface_container,
-                  borderTopWidth: 0,
-                  elevation: 1,
-                },
-              }}
-            >
-              <Tabs.Screen
-                name="index"
-                options={{
-                  title: t("buildFinderTabTitle"),
-                  tabBarIcon: ({ color }) => (
-                    <ButtonIconWithBadge
-                      tooltipText=""
-                      iconProps={{ iconKey: "magnify", iconColor: color }}
-                      backgroundColor="transparent"
-                      isBadge={false}
-                    />
-                  ),
-                  header: renderSearchHeader,
+    <PortraitContainer>
+      <SafeAreaProvider>
+        <MenuProvider>
+          <GestureHandlerRootView style={styles.container}>
+            <BottomSheetModalProvider>
+              <StatusBar style={theme.theme_surface} />
+              <Tabs
+                screenOptions={{
+                  sceneStyle: { backgroundColor: theme.surface },
+                  tabBarStyle: {
+                    backgroundColor: theme.surface_container,
+                    borderTopWidth: 0,
+                    elevation: 1,
+                  },
+                  tabBarItemStyle: {
+                    height: 100, // ça ne change pas la height du parent tabBar,
+                    //  mais ça permet de ne pas couper le bas du contenu
+                  },
+                  tabBarActiveTintColor: theme.primary,
+                  tabBarInactiveTintColor: theme.on_surface_variant,
+                  tabBarLabelStyle: {
+                    fontSize: 10,
+                    fontWeight: "500",
+                  },
                 }}
+              >
+                <Tabs.Screen
+                  name="index"
+                  options={{
+                    title: t("buildFinderTabTitle"),
+                    tabBarIcon: ({ color }) => (
+                      <ButtonIconWithBadge
+                        tooltipText=""
+                        iconProps={{ iconKey: "magnify", iconColor: color }}
+                        backgroundColor="transparent"
+                        isBadge={false}
+                      />
+                    ),
+                    header: renderSearchHeader,
+                  }}
+                />
+                <Tabs.Screen
+                  name="DisplayBuildScreen"
+                  options={{
+                    title: t("comparatorTabTitle"),
+                    tabBarIcon: ({ color }) => (
+                      <ButtonIconWithBadge
+                        tooltipText=""
+                        iconProps={{ iconKey: "compare", iconColor: color }}
+                        backgroundColor="transparent"
+                        isBadge={false}
+                      />
+                    ),
+                    header: renderDisplayHeader,
+                  }}
+                />
+                <Tabs.Screen
+                  name="SavedBuildScreen"
+                  options={{
+                    title: t("collectionTabTitle"),
+                    tabBarIcon: ({ color, focused }) => (
+                      <ButtonIconWithBadge
+                        tooltipText=""
+                        iconProps={{ iconKey: focused ? "cards" : "cards-outline", iconColor: color }}
+                        badgeText={numberSavedBuilds}
+                        backgroundColor="transparent"
+                      />
+                    ),
+                    header: renderSavedHeader,
+                  }}
+                />
+                <Tabs.Screen
+                  name="GalleryScreen"
+                  options={{
+                    title: t("galleryTabTitle"),
+                    tabBarIcon: ({ color, focused }) => (
+                      <ButtonIconWithBadge
+                        tooltipText=""
+                        iconProps={{ iconKey: focused ? "image" : "image-outline", iconColor: color }}
+                        backgroundColor="transparent"
+                        isBadge={false}
+                      />
+                    ),
+                    header: renderGalleryHeader,
+                  }}
+                />
+                <Tabs.Screen
+                  name="SettingsScreen"
+                  options={{
+                    title: t("settingsTabTitle"),
+                    tabBarIcon: ({ color, focused }) => (
+                      <ButtonIconWithBadge
+                        tooltipText=""
+                        iconProps={{ iconKey: focused ? "settings" : "settings-outline", iconColor: color }}
+                        backgroundColor="transparent"
+                        isBadge={false}
+                      />
+                    ),
+                    header: renderSettingsHeader,
+                  }}
+                />
+              </Tabs>
+              <EditBuildModal />
+              <LoadBuildModal />
+              <UpdateAvailableModal />
+              <WelcomeModal />
+              <ModalConfirm
+                isModalVisible={isModalQuitVisible}
+                setIsModalVisible={setIsModalQuitVisible}
+                text="quitApp"
+                onPress={BackHandler.exitApp}
               />
-              <Tabs.Screen
-                name="DisplayBuildScreen"
-                options={{
-                  title: t("comparatorTabTitle"),
-                  tabBarIcon: ({ color }) => (
-                    <ButtonIconWithBadge
-                      tooltipText=""
-                      iconProps={{ iconKey: "compare", iconColor: color }}
-                      backgroundColor="transparent"
-                      isBadge={false}
-                    />
-                  ),
-                  header: renderDisplayHeader,
-                }}
-              />
-              <Tabs.Screen
-                name="SavedBuildScreen"
-                options={{
-                  title: t("collectionTabTitle"),
-                  tabBarIcon: ({ color, focused }) => (
-                    <ButtonIconWithBadge
-                      tooltipText=""
-                      iconProps={{ iconKey: focused ? "cards" : "cards-outline", iconColor: color }}
-                      badgeText={numberSavedBuilds}
-                      backgroundColor="transparent"
-                    />
-                  ),
-                  header: renderSavedHeader,
-                }}
-              />
-              <Tabs.Screen
-                name="GalleryScreen"
-                options={{
-                  title: t("galleryTabTitle"),
-                  tabBarIcon: ({ color, focused }) => (
-                    <ButtonIconWithBadge
-                      tooltipText=""
-                      iconProps={{ iconKey: focused ? "image" : "image-outline", iconColor: color }}
-                      backgroundColor="transparent"
-                      isBadge={false}
-                    />
-                  ),
-                  header: renderGalleryHeader,
-                }}
-              />
-              <Tabs.Screen
-                name="SettingsScreen"
-                options={{
-                  title: t("settingsTabTitle"),
-                  tabBarIcon: ({ color, focused }) => (
-                    <ButtonIconWithBadge
-                      tooltipText=""
-                      iconProps={{ iconKey: focused ? "settings" : "settings-outline", iconColor: color }}
-                      backgroundColor="transparent"
-                      isBadge={false}
-                    />
-                  ),
-                  header: renderSettingsHeader,
-                }}
-              />
-            </Tabs>
-            <EditBuildModal />
-            <LoadBuildModal />
-            <UpdateAvailableModal />
-            <WelcomeModal />
-            <ModalConfirm
-              isModalVisible={isModalQuitVisible}
-              setIsModalVisible={setIsModalQuitVisible}
-              text="quitApp"
-              onPress={BackHandler.exitApp}
-            />
-          </BottomSheetModalProvider>
-          <Toast config={toastConfig} bottomOffset={59} swipeable={false} />
-        </GestureHandlerRootView>
-      </MenuProvider>
-    </SafeAreaProvider>
+            </BottomSheetModalProvider>
+            <Toast config={toastConfig} bottomOffset={59} swipeable={false} />
+          </GestureHandlerRootView>
+        </MenuProvider>
+      </SafeAreaProvider>
+    </PortraitContainer>
   );
 }
 

@@ -2,7 +2,7 @@
 import React, { memo, useEffect, useMemo, useRef } from "react";
 import usePressableElementsStore from "@/stores/usePressableElementsStore";
 import useThemeStore from "@/stores/useThemeStore";
-import { ScrollView, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { useElementStyle } from "@/hooks/useElementStyle";
 import { StyleSheet } from "react-native";
 import ElementShort from "./ElementShort";
@@ -24,7 +24,7 @@ const ElementsDeselector: React.FC = () => {
 
   const multiSelectedClassIdsStore = usePressableElementsStore((state) => state.multiSelectedClassIdsByCategory);
   const toggleMultiSelectElementsByClassId = usePressableElementsStore(
-    (state) => state.toggleMultiSelectElementsByClassId
+    (state) => state.toggleMultiSelectElementsByClassId,
   );
 
   const elementsToDisplay = useMemo(() => {
@@ -92,6 +92,7 @@ const ElementsDeselector: React.FC = () => {
           persistentScrollbar
           scrollEnabled={isScrollEnable}
           contentContainerStyle={styles.elementsContainer}
+          showsHorizontalScrollIndicator={Platform.OS !== "web"}
         >
           {elementsToDisplay.map((item) => (
             <ElementShort

@@ -1,15 +1,11 @@
 import { Category } from "@/types";
 import { ElementData } from "@/types";
 import React, { memo } from "react";
-import { View, StyleSheet, Dimensions } from "react-native"; // Removed Dimensions
+import { View, StyleSheet } from "react-native";
 import { useElementStyle } from "@/hooks/useElementStyle";
 import ElementShort from "./ElementShort";
-import {
-  GAP_ELEMENTS_GRID,
-  MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER,
-  PADDING_PANNEL_PAGINATED,
-} from "@/utils/designTokens";
-import { vw } from "../styles/theme";
+import { GAP_ELEMENTS_GRID, PADDING_PANNEL_PAGINATED } from "@/utils/designTokens";
+import { useElementsGridLayout } from "@/hooks/useElementsGridLayout";
 
 interface ElementsSelectorProps {
   elements: ElementData[];
@@ -17,27 +13,19 @@ interface ElementsSelectorProps {
   onSelectElement: (category: Category, classId: number) => void;
 }
 
-const NUM_COLUMNS = 4;
 export const ELEMENTS_PER_PAGE = 12;
-const NUM_LINES = ELEMENTS_PER_PAGE / NUM_COLUMNS;
 
 const PADDING_ELEMENTS_GRID = PADDING_PANNEL_PAGINATED;
-const ELEMENTS_GRID_WIDTH = vw - MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER * 2;
-
-const ITEM_WIDTH =
-  (ELEMENTS_GRID_WIDTH - PADDING_ELEMENTS_GRID * 2 - GAP_ELEMENTS_GRID * (NUM_COLUMNS - 1)) / NUM_COLUMNS;
-const ITEM_HEIGHT = ITEM_WIDTH * 1.1;
-const FILLING_ELEMENT_STYLE = { width: ITEM_WIDTH, height: ITEM_HEIGHT };
-
-export const ELEMENTS_GRID_HEIGHT = ITEM_HEIGHT * NUM_LINES + GAP_ELEMENTS_GRID * (NUM_LINES - 1);
 
 const ElementsSelector: React.FC<ElementsSelectorProps> = ({ elements, selectedClassId, onSelectElement }) => {
+  const { gridWidth, itemWidth, itemHeight } = useElementsGridLayout();
+
   const fillingElements = Array.from({ length: ELEMENTS_PER_PAGE - elements.length });
 
-  const { elementDynamicStyle, activeBorderStyle } = useElementStyle({ size: ITEM_WIDTH }); // Passe la taille commune ici
+  const { elementDynamicStyle, activeBorderStyle } = useElementStyle({ size: itemWidth });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: gridWidth }]}>
       {/* pour capturer le scroll */}
       {elements.map((element) => {
         const isSelected =
@@ -56,7 +44,7 @@ const ElementsSelector: React.FC<ElementsSelectorProps> = ({ elements, selectedC
         );
       })}
       {fillingElements.map((_, i) => (
-        <View key={`empty${i}`} style={FILLING_ELEMENT_STYLE} />
+        <View key={`empty${i}`} style={{ width: itemWidth, height: itemHeight }} />
       ))}
     </View>
   );
@@ -65,7 +53,6 @@ const ElementsSelector: React.FC<ElementsSelectorProps> = ({ elements, selectedC
 // --- StyleSheet definitions ---
 const styles = StyleSheet.create({
   container: {
-    width: ELEMENTS_GRID_WIDTH,
     flexDirection: "row",
     flexWrap: "wrap",
     gap: GAP_ELEMENTS_GRID,

@@ -10,7 +10,6 @@ interface ElementStyleProps {
 
 export const useElementStyle = ({ size }: ElementStyleProps) => {
   const theme = useThemeStore((state) => state.theme);
-
   // Calcule le style de la carte une seule fois
   const elementDynamicStyle = useMemo(() => {
     return StyleSheet.flatten([
@@ -30,7 +29,7 @@ export const useElementStyle = ({ size }: ElementStyleProps) => {
   }, [theme.surface_container]); // Dépendances
 
   // Calcule le style de la bordure active une seule fois
-  const activeBorderStyle = useMemo(() => ({ borderColor: theme.primary } as ViewStyle), [theme.primary]);
+  const activeBorderStyle = useMemo(() => ({ borderColor: theme.primary }) as ViewStyle, [theme.primary]);
 
   return {
     elementDynamicStyle,

@@ -51,16 +51,7 @@ const PagesNavigator: React.FC<PagesNavigatorProps> = ({ currentPage, setCurrent
         color={isLeftButtonDisabled ? theme.on_surface_variant : theme.primary}
       />
 
-      <View style={styles.dotsContainer}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.scrollViewContent}
-          style={styles.scrollView}
-        >
-          {renderDots()}
-        </ScrollView>
-      </View>
+      <View style={styles.dotsContainer}>{renderDots()}</View>
 
       <NavButton
         icon="chevron-right"
@@ -91,7 +82,7 @@ const NavButton = memo(
     >
       <MaterialCommunityIcons name={icon} size={30} color={color} />
     </Pressable>
-  )
+  ),
 );
 
 const styles = StyleSheet.create({
@@ -106,12 +97,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: "100%",
-  },
-  scrollView: {
-    height: "100%",
-  },
-  scrollViewContent: {
-    alignItems: "center",
     gap: GAP_SORT_MODE_SELECTOR,
   },
   navButton: {

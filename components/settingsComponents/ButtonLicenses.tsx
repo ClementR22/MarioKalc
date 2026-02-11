@@ -4,12 +4,14 @@ import ButtonAndModal from "../modal/ButtonAndModal";
 import ButtonSettings from "@/primitiveComponents/ButtonSettings";
 import licenses from "@/assets/licenses.json";
 import { ScrollView } from "react-native-gesture-handler";
-import { vh } from "../styles/theme";
 import Text from "@/primitiveComponents/Text";
 import Separator from "../Separator";
 import { PADDING_BOX_CONTAINER } from "@/utils/designTokens";
+import { useLayout } from "@/contexts/LayoutContext";
 
 const ButtonLicenses = () => {
+  const { appHeight } = useLayout();
+
   return (
     <ButtonAndModal
       modalTitle="licenses"
@@ -21,7 +23,7 @@ const ButtonLicenses = () => {
         />
       }
     >
-      <ScrollView contentContainerStyle={styles.container} style={styles.scrollView}>
+      <ScrollView contentContainerStyle={styles.container} style={{ maxHeight: appHeight * 0.75 }}>
         {Object.entries(licenses).map(([packageName, data]: any) => (
           <View key={packageName} style={styles.licenseContainer}>
             <Text key="packageName" role="label" size="large" namespace="not">
@@ -45,9 +47,6 @@ const styles = StyleSheet.create({
     padding: PADDING_BOX_CONTAINER,
     paddingTop: 20,
     width: "100%",
-  },
-  scrollView: {
-    maxHeight: vh * 0.75,
   },
   licenseContainer: { gap: PADDING_BOX_CONTAINER },
   separatorWrapper: { marginVertical: 10 },

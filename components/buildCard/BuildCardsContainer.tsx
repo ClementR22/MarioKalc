@@ -14,7 +14,7 @@ import useBuildsListStore from "@/stores/useBuildsListStore";
 import ButtonAddBuild from "../managingBuildsButton/ButtonAddBuild";
 import { useScrollClamp } from "@/hooks/useScrollClamp";
 import BuildCardSkeleton from "./skeleton/BuildCardSkeleton";
-import { vw } from "../styles/theme";
+import { useLayout } from "@/contexts/LayoutContext";
 
 interface BuildWithColor extends Build {
   color: string;
@@ -33,6 +33,7 @@ export interface BuildCardsContainerHandles {
 
 const BuildCardsContainer = forwardRef<BuildCardsContainerHandles, BuildCardsContainerProps>(
   ({ builds, isInLoadBuildModal = false, screenNameFromProps }, ref) => {
+    const { appWidth } = useLayout();
     const theme = useThemeStore((state) => state.theme);
     const isScrollEnable = useGeneralStore((state) => state.isScrollEnable);
     const isLoading = useGeneralStore((state) => state.isLoading);
@@ -48,7 +49,6 @@ const BuildCardsContainer = forwardRef<BuildCardsContainerHandles, BuildCardsCon
 
     const noBuildToShow = builds.length === 0;
     const isDisplayScreen = screenName === "display";
-    const shouldBeFullWidth = noBuildToShow && !isDisplayScreen;
 
     // ========== IMPERATIVE HANDLE ==========
     useImperativeHandle(
@@ -67,13 +67,16 @@ const BuildCardsContainer = forwardRef<BuildCardsContainerHandles, BuildCardsCon
       buildCardLayouts.current.set(id, { x, width });
     }, []);
 
-    const scrollToBuildCard = useCallback((id: string) => {
-      const layout = buildCardLayouts.current.get(id);
-      if (scrollViewRef.current && layout) {
-        const scrollX = layout.x - vw / 2 + layout.width / 2;
-        scrollViewRef.current.scrollTo({ x: scrollX, animated: true });
-      }
-    }, []);
+    const scrollToBuildCard = useCallback(
+      (id: string) => {
+        const layout = buildCardLayouts.current.get(id);
+        if (scrollViewRef.current && layout) {
+          const scrollX = layout.x - appWidth / 2 + layout.width / 2;
+          scrollViewRef.current.scrollTo({ x: scrollX, animated: true });
+        }
+      },
+      [appWidth],
+    );
 
     // ========== EFFECTS ==========
     useEffect(() => {
@@ -141,13 +144,15 @@ const BuildCardsContainer = forwardRef<BuildCardsContainerHandles, BuildCardsCon
         scrollEventThrottle={16}
         scrollEnabled={isScrollEnable}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={[styles.contentContainerStyle, shouldBeFullWidth && styles.fullWidth]}
+        contentContainerStyle={[styles.contentContainerStyle]}
       >
         <View
           style={[
             styles.container,
-            { backgroundColor: theme.surface_container },
-            !shouldBeFullWidth && styles.flexContainer,
+            {
+              backgroundColor: theme.surface_container,
+              width: noBuildToShow ? appWidth - MARGIN_CONTAINER_LOWEST * 2 : undefined,
+            },
           ]}
         >
           {isLoading ? buildCardSkeletons : noBuildToShow ? placeholder : buildCards}
@@ -161,10 +166,8 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     minWidth: "100%",
   },
-  fullWidth: {
-    width: "100%",
-  },
   container: {
+    flex: 1,
     marginHorizontal: MARGIN_CONTAINER_LOWEST,
     flexDirection: "row",
     padding: PADDING_STANDARD,
@@ -172,9 +175,6 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS_CONTAINER_LOWEST,
     boxShadow: box_shadow_z1,
     marginBottom: 2, // pour que l'ombre soit visible
-  },
-  flexContainer: {
-    flex: 1,
   },
   addBuildWrapper: {
     justifyContent: "center",

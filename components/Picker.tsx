@@ -46,7 +46,7 @@ const Picker = <T extends string>({ value, setValue, itemList, pickerTitle, name
         <NativePicker
           selectedValue={value}
           onValueChange={setValue}
-          style={[styles.pickerInput, { color: Platform.OS === "web" ? theme.inverse_on_surface : theme.on_surface }]}
+          style={[styles.pickerInput, { color: Platform.OS === "web" ? "black" : theme.on_surface }]}
           itemStyle={Platform.OS === "ios" ? { color: theme.on_surface } : undefined}
           mode="dropdown"
           dropdownIconColor={Platform.OS === "android" ? "transparent" : undefined}

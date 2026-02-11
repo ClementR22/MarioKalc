@@ -1,7 +1,7 @@
 import { getContainerLowestStyle } from "@/utils/getScreenStyle";
 import useGeneralStore from "@/stores/useGeneralStore";
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import { ScrollView } from "react-native";
+import { Platform, ScrollView } from "react-native";
 import { useScrollClamp } from "@/hooks/useScrollClamp";
 
 interface ScrollViewScreenProps {
@@ -47,6 +47,7 @@ const ScrollViewScreen = forwardRef<ScrollViewScreenHandles, ScrollViewScreenPro
         scrollEventThrottle={16}
         scrollEnabled={scrollEnabled}
         contentContainerStyle={[containerLowestStyle]}
+        showsVerticalScrollIndicator={Platform.OS !== "web"}
       >
         {children}
       </ScrollView>
