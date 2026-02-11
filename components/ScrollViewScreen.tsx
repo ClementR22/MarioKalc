@@ -51,7 +51,7 @@ const ScrollViewScreen = forwardRef<ScrollViewScreenHandles, ScrollViewScreenPro
         {children}
       </ScrollView>
     );
-  }
+  },
 );
 
 export default React.memo(ScrollViewScreen);

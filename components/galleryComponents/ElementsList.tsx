@@ -1,6 +1,6 @@
 import useThemeStore from "@/stores/useThemeStore";
 import React, { memo, useEffect, useMemo, useRef } from "react";
-import { FlatList } from "react-native";
+import { FlatList, Platform } from "react-native";
 import ElementLong from "./ElementLong";
 import { ElementData } from "@/types";
 import { LIST_ITEM_SPACING } from "@/utils/designTokens";
@@ -26,7 +26,7 @@ const ElementsList: React.FC<ElementsListProps> = memo(
           containerDynamic: { backgroundColor: theme.surface },
         },
       }),
-      [theme]
+      [theme],
     );
 
     const flatListRef = useRef<FlatList<ElementData>>(null);
@@ -58,9 +58,10 @@ const ElementsList: React.FC<ElementsListProps> = memo(
           );
         }}
         contentContainerStyle={{ paddingHorizontal: LIST_ITEM_SPACING, paddingVertical: LIST_ITEM_SPACING / 2 }}
+        showsVerticalScrollIndicator={Platform.OS !== "web"}
       />
     );
-  }
+  },
 );
 
 ElementsList.displayName = "ElementsList";

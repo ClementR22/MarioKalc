@@ -26,12 +26,12 @@ const ElementLong: React.FC<ElementLongProps> = ({ name, imageUrl, onPress, isCo
 
   return (
     <Pressable
-      style={({ pressed }) => [defaultStyles.container, style.containerDynamic, pressed && buttonPressed]}
+      style={({ pressed }) => [styles.container, style.containerDynamic, pressed && buttonPressed]}
       onPress={onPress}
     >
-      <View style={defaultStyles.imagePlaceholder}>
+      <View style={styles.imagePlaceholder}>
         {/* Placeholder background */}
-        <Image style={defaultStyles.image} source={imageUrl} resizeMode="contain" />
+        <Image style={styles.image} source={imageUrl} resizeMode="contain" />
       </View>
       {!isCollapsed && (
         <Text
@@ -52,7 +52,7 @@ const ElementLong: React.FC<ElementLongProps> = ({ name, imageUrl, onPress, isCo
 
 ElementLong.displayName = "ElementLong";
 
-const defaultStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",

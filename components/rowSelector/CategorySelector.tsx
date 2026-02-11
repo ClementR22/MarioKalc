@@ -4,7 +4,7 @@ import { Category, SelectedClassIdsByCategory } from "@/types";
 import RowSelector from "./RowSelector";
 import useThemeStore from "@/stores/useThemeStore";
 import { StyleSheet } from "react-native";
-import { BORDER_WIDTH_CATEGORY_SELECTOR, BORDER_RADIUS_CATEGORY_SELECTOR } from "@/utils/designTokens";
+import { BORDER_RADIUS_CATEGORY_SELECTOR } from "@/utils/designTokens";
 import { box_shadow_z1 } from "@/components/styles/shadow";
 import { useGameData } from "@/hooks/useGameData";
 import { useBuildImages } from "@/hooks/useBuildImages";
@@ -51,8 +51,8 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({
 const styles = StyleSheet.create({
   containerGallery: { flex: 1 },
   containerPannel: {
-    borderRadius: BORDER_RADIUS_CATEGORY_SELECTOR, // Use a larger, more prominent radius
-    borderWidth: BORDER_WIDTH_CATEGORY_SELECTOR, // Use consistent spacing token
+    borderRadius: BORDER_RADIUS_CATEGORY_SELECTOR,
+    borderWidth: 4,
     borderColor: "transparent",
     boxShadow: box_shadow_z1,
   },

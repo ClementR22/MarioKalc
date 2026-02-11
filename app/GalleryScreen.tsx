@@ -9,7 +9,7 @@ import { getSelectedElementData } from "@/utils/getSelectedElementData";
 import ScreenPressablesContainer from "@/components/screenPressablesContainer/ScreenPressablesContainer";
 import { ScreenProvider } from "@/contexts/ScreenContext";
 import { getContainerLowestStyle } from "@/utils/getScreenStyle";
-import { MARGIN_CONTAINER_LOWEST } from "@/utils/designTokens";
+import { LEFT_PANNEL_WIDTH_COLLAPSED, MARGIN_CONTAINER_LOWEST } from "@/utils/designTokens";
 import PannelElementsSide from "@/components/galleryComponents/PannelElementsSide";
 import Animated, { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
@@ -99,7 +99,7 @@ const GalleryScreen = () => {
             position: "absolute",
             right: MARGIN_CONTAINER_LOWEST,
             bottom: 0,
-            left: 100,
+            left: LEFT_PANNEL_WIDTH_COLLAPSED + MARGIN_CONTAINER_LOWEST,
             top: 156 - 24,
           }}
           contentContainerStyle={{ paddingTop: MARGIN_CONTAINER_LOWEST + 24, paddingBottom: MARGIN_CONTAINER_LOWEST }} // MARGIN_CONTAINER_LOWEST

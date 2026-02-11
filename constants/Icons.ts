@@ -38,6 +38,8 @@ export type IconKey =
   | "coin"
   | "chevron-down"
   | "chevron-up"
+  | "chevron-left"
+  | "chevron-right"
   | "approximately-equal"
   | "greater-than-or-equal"
   | "equal"
@@ -122,6 +124,8 @@ export const APP_ICONS: Record<IconKey, AppIcon> = {
   coin: { name: "coins", type: IconType.FontAwesome5 },
   "chevron-down": { name: "chevron-down", type: IconType.MaterialCommunityIcons },
   "chevron-up": { name: "chevron-up", type: IconType.MaterialCommunityIcons },
+  "chevron-left": { name: "chevron-left", type: IconType.MaterialCommunityIcons },
+  "chevron-right": { name: "chevron-right", type: IconType.MaterialCommunityIcons },
   "approximately-equal": { name: "approximately-equal", type: IconType.MaterialCommunityIcons },
   "greater-than-or-equal": { name: "greater-than-or-equal", type: IconType.MaterialCommunityIcons },
   equal: { name: "equal", type: IconType.MaterialCommunityIcons },
