@@ -16,6 +16,7 @@ import {
   BORDER_RADIUS_STANDARD,
   BUTTON_SIZE,
   GAP_SORT_MODE_SELECTOR,
+  MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER,
   PADDING_PANNEL_PAGINATED,
 } from "@/utils/designTokens";
 import Separator from "../Separator";
@@ -26,6 +27,7 @@ import useGameStore from "@/stores/useGameStore";
 import { elementsNamespaceByGame } from "@/translations/namespaces";
 import { IconKey } from "@/constants/Icons";
 import { useElementsGridLayout } from "@/hooks/useElementsGridLayout";
+import { useLayout } from "@/contexts/LayoutContext";
 
 interface ElementShortSelectorPannelProps {
   selectionMode?: "single" | "multiple";
@@ -41,6 +43,8 @@ const PannelElementsBottom: React.FC<ElementShortSelectorPannelProps> = ({
   children,
 }) => {
   const game = useGameStore((state) => state.game);
+  const { appWidth } = useLayout();
+  const itemWidth = appWidth - 2 * MARGIN_HORIZONTAL_MODAL_CHILDREN_CONTAINER;
 
   const { t } = useTranslation(elementsNamespaceByGame[game]);
   const { elementsDataByCategory } = useGameData();
@@ -184,10 +188,11 @@ const PannelElementsBottom: React.FC<ElementShortSelectorPannelProps> = ({
             horizontal
             pagingEnabled
             getItemLayout={(_, index) => ({
-              length: 300,
-              offset: 300 * index,
+              length: itemWidth,
+              offset: itemWidth * index,
               index,
             })}
+            scrollEnabled={false}
             showsHorizontalScrollIndicator={false}
           />
         ) : (
