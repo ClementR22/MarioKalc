@@ -5,7 +5,7 @@ import { IconKey } from "@/constants/Icons";
 interface ButtonMultiStateToggleProps {
   number: number;
   setNumber: (newNumber: number) => void;
-  tooltipText?: string;
+  tooltipText: string;
 }
 
 const statFilterIconsNames: IconKey[] = ["approximately-equal", "greater-than-or-equal", "equal"];

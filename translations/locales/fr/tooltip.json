@@ -5,6 +5,8 @@
   "reduceSliders": "Reduire les curseurs",
   "developBuilds": "Développer les builds",
   "reduceBuilds": "Réduire les builds",
+  "developElements": "Développer les éléments",
+  "reduceElements": "Réduire les éléments",
 
   "loadStatsOfABuild": "Charger les stats d'un build",
   "loadABuild": "Charger un build",

@@ -5,7 +5,7 @@ import { BUTTON_SIZE } from "@/utils/designTokens";
 
 export interface ButtonIconProps extends IconContainerProps {
   onPress?: (event?: Event) => void;
-  tooltipText?: string;
+  tooltipText: string;
   namespace?: string;
   toolTipPlacement?: "top" | "right" | "bottom" | "left" | "auto";
   disabled?: boolean;

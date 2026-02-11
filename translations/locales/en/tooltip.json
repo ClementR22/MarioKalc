@@ -5,6 +5,8 @@
   "reduceSliders": "Reduce sliders",
   "developBuilds": "Develop builds",
   "reduceBuilds": "Reduce builds",
+  "developElements": "Develop elements",
+  "reduceElements": "Reduce elements",
 
   "loadStatsOfABuild": "Load a build's stats",
   "loadABuild": "Load a build",

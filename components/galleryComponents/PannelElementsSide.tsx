@@ -59,6 +59,7 @@ const PannelElementsSide: React.FC<PannelElementsSideProps> = ({
         <ButtonIcon
           iconProps={{ iconKey: isLeftPannelExpanded ? "chevron-left" : "chevron-right" }}
           onPress={toggleLeftPannelExpanded}
+          tooltipText={isLeftPannelExpanded ? "reduceElements" : "developElements"}
         />
       </View>
     </GestureHandlerRootView>
