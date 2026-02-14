@@ -128,11 +128,11 @@ const SearchBuildScreenPressablesContainer: React.FC<SearchBuildScreenPressables
     setDisableSearch(true);
     scrollviewBuildsCardsRef?.current?.scrollToStart();
 
+    search();
+    setIsLoading(false);
     setTimeout(() => {
-      search();
-      setIsLoading(false);
+      scrollviewMainRef?.current?.scrollToEnd();
     }, 0);
-    scrollviewMainRef?.current?.scrollToEnd();
   }, [search]);
 
   return (

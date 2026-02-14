@@ -35,15 +35,18 @@ const StatSliderContent = ({
   const game = useGameStore((state) => state.game);
   const theme = useThemeStore((state) => state.theme);
   const { MAX_STAT_VALUE_BUILD, STEP } = useGameData();
-
   const setIsScrollEnable = useGeneralStore((state) => state.setIsScrollEnable);
   const updateStatValue = useStatsStore((state) => state.updateStatValue);
   const [tempValue, setTempValue] = useState(value);
+
+  // Flag pour savoir si on est en train d'interagir avec le slider
+  const isInteractingWithSlider = React.useRef(false);
 
   // Mémoïsation stricte des handlers
   const onValueChange = useCallback(([v]: [number]) => setTempValue(Math.round(v * 100) / 100), []);
 
   const onSlidingStart = useCallback(() => {
+    isInteractingWithSlider.current = true;
     setIsScrollEnable(false);
   }, [setIsScrollEnable]);
 
@@ -58,8 +61,12 @@ const StatSliderContent = ({
         }
       }
       setIsScrollEnable(true);
+      // Petit délai pour permettre au flag d'être lu avant le onPress potentiel
+      setTimeout(() => {
+        isInteractingWithSlider.current = false;
+      }, 50);
     },
-    [updateStatValue, name, setIsScrollEnable, value],
+    [updateStatValue, name, setIsScrollEnable, value, setValuePreview],
   );
 
   useEffect(() => {
@@ -68,6 +75,22 @@ const StatSliderContent = ({
     }
   }, [value]);
 
+  // Handler pour empêcher la propagation du clic depuis le slider
+  const handleSliderPressIn = useCallback(() => {
+    isInteractingWithSlider.current = true;
+  }, []);
+
+  const handleSliderPress = useCallback((e: any) => {
+    e.stopPropagation();
+  }, []);
+
+  // Handler pour le Pressable parent qui vérifie le flag
+  const handleParentPress = useCallback(() => {
+    if (!isInteractingWithSlider.current) {
+      onPress();
+    }
+  }, [onPress]);
+
   // Styles dynamiques pour le thumb du slider
   const renderCustomThumb = useCallback(
     () => (
@@ -75,7 +98,7 @@ const StatSliderContent = ({
         <View style={[styles.thumb, { backgroundColor: theme.primary }]} />
       </View>
     ),
-    [styles, theme],
+    [theme],
   );
 
   return (
@@ -87,7 +110,7 @@ const StatSliderContent = ({
           borderColor: getStatSliderBorderColor(statFilterNumber, theme),
         },
       ])}
-      onPress={onPress}
+      onPress={handleParentPress}
     >
       <View style={styles.containerLeft}>
         <View style={styles.textWrapper}>
@@ -104,27 +127,27 @@ const StatSliderContent = ({
             colon
           </Text>
         </View>
-
-        <Slider
-          containerStyle={styles.sliderContainer}
-          value={tempValue}
-          onValueChange={onValueChange}
-          onSlidingStart={onSlidingStart}
-          onSlidingComplete={onSlidingComplete}
-          minimumValue={0}
-          maximumValue={MAX_STAT_VALUE_BUILD}
-          step={STEP}
-          trackStyle={styles.track}
-          renderThumbComponent={renderCustomThumb}
-          minimumTrackStyle={{ backgroundColor: theme.primary }}
-          maximumTrackStyle={{ backgroundColor: theme.surface_variant }}
-        />
+        <Pressable onPress={handleSliderPress} onPressIn={handleSliderPressIn}>
+          <Slider
+            containerStyle={styles.sliderContainer}
+            value={tempValue}
+            onValueChange={onValueChange}
+            onSlidingStart={onSlidingStart}
+            onSlidingComplete={onSlidingComplete}
+            minimumValue={0}
+            maximumValue={MAX_STAT_VALUE_BUILD}
+            step={STEP}
+            trackStyle={styles.track}
+            renderThumbComponent={renderCustomThumb}
+            minimumTrackStyle={{ backgroundColor: theme.primary }}
+            maximumTrackStyle={{ backgroundColor: theme.surface_variant }}
+          />
+        </Pressable>
       </View>
       <View style={styles.containerRight}>
         <Text role="title" size="medium" namespace="not">
           {tempValue}
         </Text>
-
         <ButtonMultiStateToggle
           number={statFilterNumber}
           setNumber={setStatFilterNumber}
