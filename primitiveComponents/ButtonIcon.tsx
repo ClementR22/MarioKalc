@@ -2,6 +2,7 @@ import React from "react";
 import ButtonBase from "./ButtonBase";
 import IconContainer, { IconContainerProps } from "./IconContainer";
 import { BUTTON_SIZE } from "@/utils/designTokens";
+import useThemeStore from "@/stores/useThemeStore";
 
 export interface ButtonIconProps extends IconContainerProps {
   onPress?: (event?: Event) => void;
@@ -22,6 +23,8 @@ const ButtonIcon: React.FC<ButtonIconProps> = ({
   containerSize = BUTTON_SIZE,
   backgroundColor,
 }) => {
+  const theme = useThemeStore((state) => state.theme);
+
   return (
     <ButtonBase
       onPress={onPress}
@@ -31,10 +34,10 @@ const ButtonIcon: React.FC<ButtonIconProps> = ({
       disabled={disabled}
     >
       <IconContainer
-        iconProps={iconProps}
+        iconProps={disabled ? { iconKey: iconProps.iconKey, iconColor: theme.on_disabled } : iconProps}
         shape={shape}
         containerSize={containerSize}
-        backgroundColor={disabled ? "grey" : backgroundColor}
+        backgroundColor={disabled ? theme.disabled : backgroundColor}
       />
     </ButtonBase>
   );

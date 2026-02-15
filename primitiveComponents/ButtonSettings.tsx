@@ -36,9 +36,9 @@ const ButtonSettings: React.FC<ButtonSettingsProps> = ({
       <IconContainer
         iconProps={{
           iconKey: iconProps.iconKey,
-          iconColor: disabled ? theme.surface_container : iconProps.iconColor || theme.on_primary,
+          iconColor: disabled ? theme.on_disabled : iconProps.iconColor || theme.on_primary,
         }}
-        backgroundColor={disabled ? "grey" : backgroundColor || theme.primary}
+        backgroundColor={disabled ? theme.disabled : backgroundColor || theme.primary}
         shape="square"
         containerSize={30}
       />

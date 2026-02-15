@@ -37,7 +37,7 @@ const Button: React.FC<ButtonProps> = ({
 
   let backgroundColor: string, contentColor: string;
   if (disabled) {
-    backgroundColor = "grey";
+    backgroundColor = theme.disabled;
     contentColor = theme.surface_variant;
   } else if (isErrorStyle) {
     backgroundColor = theme.error;
