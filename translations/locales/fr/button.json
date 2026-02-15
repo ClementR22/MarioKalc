@@ -1,4 +1,8 @@
 {
+  "fullScreen": "Plein écran",
+  "reset": "Réinitialiser",
+  "mobileFormat": "Format mobile",
+
   "search": "Chercher",
   "statsToCompare": "Stats à comparer",
   "addABuild": "Ajouter un build",

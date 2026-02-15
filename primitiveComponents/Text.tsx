@@ -14,6 +14,7 @@ interface TextProps {
   flexShrink?: number;
   color?: string;
   inverse?: boolean;
+  fontFamily?: TextStyle["fontFamily"];
   numberOfLines?: number;
   ellipsizeMode?: "clip" | "head" | "middle" | "tail";
   namespace: string | string[] | "not";
@@ -30,6 +31,7 @@ const Text: React.FC<TextProps> = ({
   flexShrink,
   color,
   inverse = false,
+  fontFamily,
   numberOfLines,
   ellipsizeMode,
   namespace,
@@ -53,6 +55,7 @@ const Text: React.FC<TextProps> = ({
       fontStyle: fontStyle,
       textAlign: textAlign,
       flexShrink: flexShrink,
+      fontFamily: fontFamily,
     },
     weight && { fontWeight: fontWeights[weight] },
     style,

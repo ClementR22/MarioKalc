@@ -27,7 +27,7 @@ export const label = {
 export const body = {
   large: { fontSize: 16, fontWeight: "400", lineHeight: 20, letterSpacing: 0.5 },
   medium: { fontSize: 14, fontWeight: "400", lineHeight: 20, letterSpacing: 0.25 },
-  // small: { fontSize: 12, fontWeight: "400", lineHeight: 16, letterSpacing: 0.4 },
+  small: { fontSize: 12, fontWeight: "400", lineHeight: 16, letterSpacing: 0.4 },
 };
 
 // Poids de fonts disponibles

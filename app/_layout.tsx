@@ -34,7 +34,7 @@ import { runMigrations } from "@/utils/migrations";
 import { loadThingFromMemory, saveThingInMemory } from "@/utils/asyncStorageOperations";
 import { useSettingsMap } from "@/hooks/useSettingsMap";
 import ModalConfirm from "@/components/modal/ModalConfirm";
-import PortraitContainer from "@/components/PortraitContainer";
+import DeviceSimulator from "@/components/DeviceSimulator";
 
 export default function TabLayout() {
   const { t } = useTranslation("screens");
@@ -156,9 +156,9 @@ export default function TabLayout() {
   }
 
   return (
-    <PortraitContainer>
-      <SafeAreaProvider>
-        <MenuProvider>
+    <SafeAreaProvider>
+      <MenuProvider>
+        <DeviceSimulator>
           <GestureHandlerRootView style={styles.container}>
             <BottomSheetModalProvider>
               <StatusBar style={theme.theme_surface} />
@@ -171,7 +171,7 @@ export default function TabLayout() {
                     elevation: 1,
                   },
                   tabBarItemStyle: {
-                    height: 100, // ça ne change pas la height du parent tabBar,
+                    height: 60, // ça ne change pas la height du parent tabBar,
                     //  mais ça permet de ne pas couper le bas du contenu
                   },
                   tabBarActiveTintColor: theme.primary,
@@ -271,9 +271,9 @@ export default function TabLayout() {
             </BottomSheetModalProvider>
             <Toast config={toastConfig} bottomOffset={59} swipeable={false} />
           </GestureHandlerRootView>
-        </MenuProvider>
-      </SafeAreaProvider>
-    </PortraitContainer>
+        </DeviceSimulator>
+      </MenuProvider>
+    </SafeAreaProvider>
   );
 }
 

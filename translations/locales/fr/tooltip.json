@@ -1,4 +1,8 @@
 {
+  "switchToFullScreen": "Passer en plein écran",
+  "resetDimensions": "Réinitialiser les dimensions",
+  "mobileFormat": "Passer au format mobile",
+
   "help": "Aide",
 
   "developSliders": "Développer les curseurs",

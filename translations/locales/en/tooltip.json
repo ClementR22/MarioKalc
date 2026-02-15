@@ -1,4 +1,8 @@
 {
+  "switchToFullScreen": "Switch to full screen",
+  "resetDimensions": "Reset dimensions",
+  "mobileFormat": "Switch to mobile format",
+
   "help": "Help",
 
   "developSliders": "Develop sliders",
